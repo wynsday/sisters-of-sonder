@@ -2,18 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { isConfigured } from "@/lib/supabase/env";
-import { houseRoles } from "@/lib/auth";
+import { requireAdmin } from "@/lib/auth";
 import { addIndicator } from "../actions";
 
 export const metadata: Metadata = { title: "Trigger indicators" };
 // Personal to whoever is signed in; never cached.
 export const dynamic = "force-dynamic";
 
-export default async function IndicatorsPage({ searchParams }: PageProps<"/house/nisaba/indicators">) {
+export default async function IndicatorsPage({ searchParams }: PageProps<"/admin/indicators">) {
   if (!isConfigured) redirect("/join");
-  const { supabase, user, hasAuthority } = await houseRoles("nisaba");
-  if (!user) redirect("/join?mode=signin&next=/house/nisaba/indicators");
-  if (!hasAuthority) redirect("/account");
+  const { supabase } = await requireAdmin("/admin/indicators");
   const error = (await searchParams).error;
   const { data: indicators } = await supabase.from("indicators").select("slug, label").order("label");
 
@@ -21,7 +19,7 @@ export default async function IndicatorsPage({ searchParams }: PageProps<"/house
     <section>
       <div className="wrap read">
         <p>
-          <Link href="/house/nisaba">&larr; House of Nisaba</Link>
+          <Link href="/admin">&larr; Keepers&rsquo; Desk</Link>
         </p>
         <h1>Trigger indicators</h1>
         <p>These mark what a Trigger contains, so readers can choose whether to open it.</p>

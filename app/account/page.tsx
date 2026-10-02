@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { isConfigured } from "@/lib/supabase/env";
-import { houseRoles } from "@/lib/auth";
+import { getRoles } from "@/lib/auth";
 import { signOut } from "../join/actions";
 
 export const metadata: Metadata = { title: "Your account" };
@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AccountPage() {
   if (!isConfigured) redirect("/join");
-  const { supabase, user, isWisdom, hasAuthority } = await houseRoles("nisaba");
+  const { supabase, user, isAdmin, chairs } = await getRoles();
   if (!user) redirect("/join?mode=signin&next=/account");
 
   const [{ data: profile }, { data: mine }] = await Promise.all([
@@ -36,16 +36,16 @@ export default async function AccountPage() {
             <Link className="btn btn-moss btn-small" href="/contribute">
               Offer a Consideration
             </Link>
-            {hasAuthority && (
-              <Link className="btn btn-gold btn-small" href="/house/nisaba">
-                House of Nisaba
+            {isAdmin && (
+              <Link className="btn btn-gold btn-small" href="/admin">
+                Keepers&rsquo; Desk
               </Link>
             )}
-            {isWisdom && (
-              <Link className="btn btn-gold btn-small" href="/house/nisaba/staff">
-                Chair of Nisaba: appointments
+            {chairs.map((c) => (
+              <Link key={c.house} className="btn btn-gold btn-small" href={`/chair/${c.house}`}>
+                Chair of {c.name}: appointments
               </Link>
-            )}
+            ))}
             <form action={signOut}>
               <button className="btn btn-ghost btn-small" style={{ color: "var(--ink-soft)", borderColor: "var(--line)" }}>
                 Sign out

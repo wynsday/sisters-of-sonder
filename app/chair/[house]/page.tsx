@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { isConfigured } from "@/lib/supabase/env";
-import { houseRoles } from "@/lib/auth";
-import { appoint, endAppointment } from "../actions";
+import { getRoles } from "@/lib/auth";
+import { appoint, endAppointment } from "./actions";
 
-export const metadata: Metadata = { title: "Chair of Nisaba" };
+export const metadata: Metadata = { title: "Appointments" };
 // Personal to whoever is signed in; never cached.
 export const dynamic = "force-dynamic";
 
@@ -23,11 +23,13 @@ function splitAppointments(all: Appointment[]) {
   return { active, past: all.filter((a) => !active.includes(a)) };
 }
 
-export default async function StaffPage({ searchParams }: PageProps<"/house/nisaba/staff">) {
+export default async function ChairPage({ params, searchParams }: PageProps<"/chair/[house]">) {
   if (!isConfigured) redirect("/join");
-  const { supabase, user, isWisdom } = await houseRoles("nisaba");
-  if (!user) redirect("/join?mode=signin&next=/house/nisaba/staff");
-  if (!isWisdom) redirect("/account");
+  const { house } = await params;
+  const { supabase, user, chairs } = await getRoles();
+  if (!user) redirect(`/join?mode=signin&next=/chair/${house}`);
+  const chair = chairs.find((c) => c.house === house);
+  if (!chair) redirect("/account");
   const sp = await searchParams;
   const q = String(sp.q ?? "").trim();
   const error = sp.error ? String(sp.error) : null;
@@ -35,7 +37,7 @@ export default async function StaffPage({ searchParams }: PageProps<"/house/nisa
   const { data } = await supabase
     .from("appointments")
     .select("id, starts_at, ends_at, revoked_at, note, member:profiles!appointments_member_fkey(display_name)")
-    .eq("house", "nisaba")
+    .eq("house", house)
     .order("starts_at", { ascending: false });
   const appointments = (data ?? []) as unknown as Appointment[];
   const { active, past } = splitAppointments(appointments);
@@ -55,10 +57,10 @@ export default async function StaffPage({ searchParams }: PageProps<"/house/nisa
     <>
       <div className="page-hero">
         <div className="wrap">
-          <h1>The Chair of Nisaba</h1>
+          <h1>The Chair of {chair.name}</h1>
           <p>
-            You appoint the members of the House of Nisaba, for a stated time. You cannot hold the
-            authority you grant.
+            You appoint admins of the {chair.name}, each for a stated time. Admins of every House
+            hold equal access. You cannot hold the authority you grant.
           </p>
         </div>
       </div>
@@ -84,6 +86,7 @@ export default async function StaffPage({ searchParams }: PageProps<"/house/nisa
                     <td style={{ textAlign: "right" }}>
                       <form action={endAppointment}>
                         <input type="hidden" name="id" value={a.id} />
+                        <input type="hidden" name="house" value={house} />
                         <button className="btn btn-rose btn-small">End now</button>
                       </form>
                     </td>
@@ -106,6 +109,7 @@ export default async function StaffPage({ searchParams }: PageProps<"/house/nisa
           {(found ?? []).map((p) => (
             <form key={p.id} action={appoint} className="review">
               <input type="hidden" name="member" value={p.id} />
+              <input type="hidden" name="house" value={house} />
               <h3>{p.display_name}</h3>
               <div className="hint">Member since {fmt(p.created_at)}</div>
               <div className="row" style={{ marginTop: 12 }}>
@@ -118,7 +122,7 @@ export default async function StaffPage({ searchParams }: PageProps<"/house/nisa
                   <input id={`note-${p.id}`} name="note" type="text" placeholder="e.g. Review the Tenet books" />
                 </div>
               </div>
-              <button className="btn btn-gold btn-small">Appoint to the House of Nisaba</button>
+              <button className="btn btn-gold btn-small">Appoint as admin</button>
             </form>
           ))}
 

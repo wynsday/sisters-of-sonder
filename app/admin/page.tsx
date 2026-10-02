@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { isConfigured } from "@/lib/supabase/env";
-import { houseRoles } from "@/lib/auth";
+import { requireAdmin } from "@/lib/auth";
 import type { Book } from "@/lib/books";
 import { review, unpublish } from "./actions";
 
-export const metadata: Metadata = { title: "House of Nisaba" };
+export const metadata: Metadata = { title: "Admin" };
 // Personal to whoever is signed in; never cached.
 export const dynamic = "force-dynamic";
 
@@ -20,11 +20,9 @@ type Pending = {
   profiles: { display_name: string } | null;
 };
 
-export default async function NisabaPage({ searchParams }: PageProps<"/house/nisaba">) {
+export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
   if (!isConfigured) redirect("/join");
-  const { supabase, user, hasAuthority } = await houseRoles("nisaba");
-  if (!user) redirect("/join?mode=signin&next=/house/nisaba");
-  if (!hasAuthority) redirect("/account");
+  const { supabase } = await requireAdmin("/admin");
   const error = (await searchParams).error;
 
   const [{ data: pending }, { data: books }, { data: indicators }, { data: recent }] =
@@ -50,14 +48,14 @@ export default async function NisabaPage({ searchParams }: PageProps<"/house/nis
     <>
       <div className="page-hero">
         <div className="wrap">
-          <h1>House of Nisaba</h1>
-          <p>Keepers of the sacred books</p>
+          <h1>Keepers&rsquo; Desk</h1>
+          <p>For admins of the House of Nisaba and the Oracle of the Hallowed Tree</p>
         </div>
       </div>
       <section>
         <div className="wrap read">
           <div className="subnav">
-            <Link className="btn btn-moss btn-small" href="/house/nisaba/indicators">
+            <Link className="btn btn-moss btn-small" href="/admin/indicators">
               Trigger indicators
             </Link>
           </div>

@@ -26,9 +26,15 @@ export default function Council() {
         <p style={{marginTop: "28px"}}><em>What cannot be done by these means is not done here.</em></p>
         <h2 style={{marginTop: "48px"}}>The Houses</h2>
         <p>Each House is headed by a Wisdom, who appoints the members that compose the House to assist its tasks. Because the House supports the seat, the Wisdom grants this authority directly, without a vote of the Council, and for a stated time. The Wisdom cannot hold the authority she grants.</p>
-        <div className="card">
-          <h3>The House of Nisaba</h3>
-          <p>Keepers of the sacred books. Headed by the Wisdom sitting in the chair of Nisaba, the House cares for this site, reviews each Consideration offered by members, and places it in its book.</p>
+        <div className="cards">
+          <div className="card">
+            <h3>The House of Nisaba</h3>
+            <p>Keepers of the sacred books. The House reviews each Consideration offered by members and places it in its book.</p>
+          </div>
+          <div className="card">
+            <h3>The Oracle of the Hallowed Tree</h3>
+            <p>The House of the wood element. The Oracle hosts this site and cares for it.</p>
+          </div>
         </div>
       </div>
     </section>

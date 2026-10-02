@@ -12,17 +12,41 @@ export async function getSession() {
 /** Redirects to sign-in when nobody is signed in. */
 export async function requireUser(next: string) {
   const { supabase, user } = await getSession();
-  if (!user) redirect(`/join?next=${encodeURIComponent(next)}`);
+  if (!user) redirect(`/join?mode=signin&next=${encodeURIComponent(next)}`);
   return { supabase, user };
 }
 
-/** Roles the signed-in member holds in a House right now. */
-export async function houseRoles(house: string) {
+export type Chair = { house: string; name: string };
+
+/**
+ * What the signed-in member may do right now.
+ * isAdmin: appointed admin of any House that grants admin (equal access).
+ * chairs: Houses whose chair she sits in as Wisdom.
+ */
+export async function getRoles() {
   const { supabase, user } = await getSession();
-  if (!user) return { supabase, user, isWisdom: false, hasAuthority: false };
-  const [w, a] = await Promise.all([
-    supabase.rpc("is_wisdom", { h: house }),
-    supabase.rpc("has_authority", { h: house }),
+  if (!user) return { supabase, user, isAdmin: false, chairs: [] as Chair[] };
+  const [admin, seats] = await Promise.all([
+    supabase.rpc("is_admin"),
+    supabase
+      .from("chairs")
+      .select("house, seat_ends, houses(name)")
+      .eq("wisdom", user.id),
   ]);
-  return { supabase, user, isWisdom: w.data === true, hasAuthority: a.data === true };
+  const now = new Date();
+  const chairs = (seats.data ?? [])
+    .filter((c) => !c.seat_ends || new Date(c.seat_ends) > now)
+    .map((c) => ({
+      house: c.house as string,
+      name: (c.houses as unknown as { name: string } | null)?.name ?? c.house,
+    }));
+  return { supabase, user, isAdmin: admin.data === true, chairs };
+}
+
+/** For admin pages: redirects anyone who is not an admin. */
+export async function requireAdmin(next: string) {
+  const roles = await getRoles();
+  if (!roles.user) redirect(`/join?mode=signin&next=${encodeURIComponent(next)}`);
+  if (!roles.isAdmin) redirect("/account");
+  return roles;
 }

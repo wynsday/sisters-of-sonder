@@ -5,8 +5,10 @@
 --   * Each House is headed by a Wisdom who sits in that House's chair.
 --   * The Wisdom appoints House staff directly, for a stated time.
 --   * The Wisdom cannot hold the authority she grants.
---   * The House of Nisaba keeps the sacred books: it reviews, approves,
---     and sorts Considerations, and maintains trigger indicators.
+--   * The House of Nisaba keeps the sacred books. The Oracle of the
+--     Hallowed Tree (House of the wood element) hosts this site.
+--   * For now, admins appointed by either House have equal access:
+--     reviewing, placing, and sorting Considerations, and indicators.
 --   * Who sits in a chair is set by the Council (outside this site);
 --     record it by editing `chairs` in the Supabase dashboard.
 -- =====================================================================
@@ -34,7 +36,8 @@ create trigger on_auth_user_created
 create table public.houses (
   slug text primary key,
   name text not null,
-  charge text not null
+  charge text not null,
+  grants_admin boolean not null default false
 );
 
 create table public.chairs (
@@ -79,12 +82,35 @@ language sql stable security definer set search_path = '' as $$
   );
 $$;
 
+-- Is this person seated as Wisdom of any House that grants admin?
+create function public.is_admin_wisdom(uid uuid default auth.uid()) returns boolean
+language sql stable security definer set search_path = '' as $$
+  select exists (
+    select 1 from public.chairs c join public.houses h on h.slug = c.house
+    where h.grants_admin and c.wisdom = uid
+      and (c.seat_ends is null or c.seat_ends > now())
+  );
+$$;
+
+-- Admin access is equal across Houses that grant it. A Wisdom of any
+-- such House never holds it, since admin is the authority she grants.
+create function public.is_admin(uid uuid default auth.uid()) returns boolean
+language sql stable security definer set search_path = '' as $$
+  select not public.is_admin_wisdom(uid) and exists (
+    select 1 from public.appointments a join public.houses h on h.slug = a.house
+    where h.grants_admin and a.member = uid
+      and a.revoked_at is null
+      and a.starts_at <= now() and a.ends_at > now()
+  );
+$$;
+
 -- A Wisdom cannot appoint herself, and an appointment may only be made
 -- by the Wisdom seated in that house's chair.
 create function public.check_appointment() returns trigger
 language plpgsql security definer set search_path = '' as $$
 begin
-  if tg_op = 'INSERT' and public.is_wisdom(new.house, new.member) then
+  if tg_op = 'INSERT' and (public.is_wisdom(new.house, new.member)
+      or public.is_admin_wisdom(new.member)) then
     raise exception 'A Wisdom cannot hold the authority she grants.';
   end if;
   if tg_op = 'INSERT' and not public.is_wisdom(new.house, new.granted_by) then
@@ -130,7 +156,7 @@ create table public.considerations (
   concept text not null check (char_length(concept) <= 10000),
   stories text not null check (char_length(stories) <= 50000),
   suggested_book text references public.books(slug),
-  -- set by the House of Nisaba on review:
+  -- set by an admin on review:
   status public.consideration_status not null default 'pending',
   book text references public.books(slug),
   part public.consideration_part,
@@ -143,7 +169,7 @@ create table public.considerations (
 create index on public.considerations (book, status, part);
 create index on public.considerations (status, created_at);
 
--- Cross-listing in additional books (set by the House of Nisaba)
+-- Cross-listing in additional books (set by an admin)
 create table public.consideration_books (
   consideration bigint references public.considerations(id) on delete cascade,
   book text references public.books(slug),
@@ -160,7 +186,7 @@ create table public.consideration_indicators (
 create function public.guard_submission() returns trigger
 language plpgsql security definer set search_path = '' as $$
 begin
-  if public.has_authority('nisaba') then
+  if public.is_admin() then
     if tg_op = 'UPDATE' then
       new.reviewed_by := auth.uid();
       new.reviewed_at := now();
@@ -177,7 +203,7 @@ begin
     new.review_note := null;
     return new;
   end if;
-  raise exception 'Only the House of Nisaba may change a Consideration after it is offered.';
+  raise exception 'Only an admin may change a Consideration after it is offered.';
 end $$;
 
 create trigger considerations_guard
@@ -203,8 +229,8 @@ create policy "chairs readable" on public.chairs for select using (true);
 create policy "books readable" on public.books for select using (true);
 create policy "indicators readable" on public.indicators for select using (true);
 
-create policy "nisaba adds indicators" on public.indicators for insert
-  with check (public.has_authority('nisaba'));
+create policy "admins add indicators" on public.indicators for insert
+  with check (public.is_admin());
 
 create policy "appointments visible to house and wisdom" on public.appointments for select
   using (member = auth.uid() or public.is_wisdom(house) or public.has_authority(house));
@@ -214,26 +240,27 @@ create policy "wisdom ends appointments" on public.appointments for update
   using (public.is_wisdom(house));
 
 create policy "published readable" on public.considerations for select
-  using (status = 'published' or author = auth.uid() or public.has_authority('nisaba'));
+  using (status = 'published' or author = auth.uid() or public.is_admin());
 create policy "members offer" on public.considerations for insert
   to authenticated with check (author = auth.uid());
-create policy "nisaba reviews" on public.considerations for update
-  using (public.has_authority('nisaba'));
-create policy "nisaba removes" on public.considerations for delete
-  using (public.has_authority('nisaba'));
+create policy "admins review" on public.considerations for update
+  using (public.is_admin());
+create policy "admins remove" on public.considerations for delete
+  using (public.is_admin());
 
 create policy "cross-listings readable" on public.consideration_books for select using (true);
-create policy "nisaba cross-lists" on public.consideration_books for all
-  using (public.has_authority('nisaba')) with check (public.has_authority('nisaba'));
+create policy "admins cross-list" on public.consideration_books for all
+  using (public.is_admin()) with check (public.is_admin());
 
 create policy "indicator tags readable" on public.consideration_indicators for select using (true);
-create policy "nisaba tags" on public.consideration_indicators for all
-  using (public.has_authority('nisaba')) with check (public.has_authority('nisaba'));
+create policy "admins tag" on public.consideration_indicators for all
+  using (public.is_admin()) with check (public.is_admin());
 
 -- ---------- Seed ----------
-insert into public.houses (slug, name, charge) values
-  ('nisaba', 'House of Nisaba', 'Keepers of the sacred books');
-insert into public.chairs (house) values ('nisaba');
+insert into public.houses (slug, name, charge, grants_admin) values
+  ('nisaba', 'House of Nisaba', 'Keepers of the sacred books', true),
+  ('oht', 'Oracle of the Hallowed Tree', 'House of the wood element; hosts this site', true);
+insert into public.chairs (house) values ('nisaba'), ('oht');
 
 insert into public.books (slug, kind, ordinal, subject, title, canon) values
   ('less-suffering', 'aspiration', 1, 'Less Suffering', 'The First Aspiration: Considerations of Less Suffering',

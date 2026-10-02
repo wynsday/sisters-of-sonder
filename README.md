@@ -16,8 +16,8 @@ Each Aspiration and each Tenet has its own book, and the Quilt of the Considerat
 |---|---|
 | Visitor | Read every book |
 | Member | Offer Considerations, see their own status |
-| House of Nisaba (appointed) | Review, place, and sort Considerations; add trigger indicators |
-| Wisdom in the chair of Nisaba | Appoint and end House of Nisaba appointments, each with an end date. Cannot hold that authority herself. |
+| Admin (appointed by the House of Nisaba or the Oracle of the Hallowed Tree) | Equal access for now: review, place, and sort Considerations; add trigger indicators. Tools at `/admin`. |
+| Wisdom seated in a House's chair | Appoint and end that House's admins, each with an end date (`/chair/<house>`). A seated Wisdom of any admin House cannot be an admin. |
 
 The database enforces these rules (`supabase/schema.sql`), not just the pages.
 
@@ -39,18 +39,18 @@ npm run dev
 
 Open http://localhost:3000.
 
-### 3. Seat the first Wisdom of Nisaba
-After she creates an account, run in the SQL Editor (use her display name):
+### 3. Seat the Wisdoms
+There are two chairs: `nisaba` (House of Nisaba) and `oht` (Oracle of the Hallowed Tree). After a Wisdom creates an account, run in the SQL Editor (use her display name and the house):
 
 ```sql
 update public.chairs
 set wisdom = (select id from public.profiles where display_name = 'HER NAME'),
     seated_at = now(),
     seat_ends = now() + interval '1 year'
-where house = 'nisaba';
+where house = 'nisaba';  -- or 'oht'
 ```
 
-She then appoints House members from **Account → Chair of Nisaba**. Seats are changed only this way, because the Council decides who sits in a chair.
+She then appoints her House's admins from **Account → Chair of …**. Seats are changed only this way, because the Council decides who sits in a chair.
 
 ### 4. Deploy
 1. Push this folder to a new GitHub repository.
