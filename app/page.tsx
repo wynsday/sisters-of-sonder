@@ -1,69 +1,82 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { SITE } from "@/lib/config";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <>
+    <div className="hero">
+      <div className="wrap">
+        <img className="emblem" src="emblem.svg" alt="" />
+        <div className="eyebrow">A quilt of the world&rsquo;s mysteries</div>
+        <h1>{SITE.name}</h1>
+        <p className="lede">We do not found yet another patriarchal religion. We consolidate the voices of the people into a quilt of solidarity to reveal the belief structure within us all.</p>
+        <Link className="btn btn-gold" href="/aspirations">Read the Sacred Aspirations</Link>
+        <Link className="btn btn-ghost" href="/join">Join and contribute</Link>
+      </div>
     </div>
+
+    <section>
+      <div className="wrap read">
+        <div className="kicker">Why we exist</div>
+        <h2>The sacred in aspiration</h2>
+        <p>When we look at history and the religions therein, we find belief structures full of aspirations and religions full of controlling methodologies for shaping human behavior, leveraging the aspirations of the many to guide the masses.</p>
+        <p>We acknowledge and condemn the social and individual violences caused by religion. We do, however, recognize the sacred in aspirations. This religion is spiritual, it is thoughtful, and it holds its condemnations in writing to remember why we have our Foundational Understanding, the Three Sacred Aspirations, and to temper our Nine Tenets of Agreement.</p>
+        <p>Our sacred aspirations are grounded in reduction and consideration. They should augment your life, not overtake it.</p>
+      </div>
+    </section>
+
+    <section className="alt">
+      <div className="wrap">
+        <div className="center">
+          <div className="kicker">The Three Sacred Aspirations</div>
+          <h2>A purpose, a path, and the desire to walk it</h2>
+        </div>
+        <div className="cards">
+          <div className="card">
+            <div className="num">I</div>
+            <h3>Less Suffering</h3>
+            <p>To cause less suffering, to enable less suffering, to endure less suffering, to stand up and actively prevent suffering.</p>
+          </div>
+          <div className="card">
+            <div className="num">II</div>
+            <h3>Wonder</h3>
+            <p>To delight in the mysteries you encounter, and to encounter more than you have.</p>
+          </div>
+          <div className="card">
+            <div className="num">III</div>
+            <h3>Grace</h3>
+            <p>To be kind to yourself, be kind to others, and be kind to life wherever you encounter it.</p>
+          </div>
+        </div>
+        <p className="center" style={{marginTop: "28px"}}><Link href="/aspirations">Read the Foundational Understanding and the Nine Tenets &rarr;</Link></p>
+      </div>
+    </section>
+
+    <section>
+      <div className="wrap">
+        <div className="two-col">
+          <div>
+            <div className="kicker">A crowd-sourced faith</div>
+            <h2>The Books of Considerations</h2>
+            <p>We may be the first religion written by its people from stories that already exist. Each Aspiration and each Tenet has its own Book of Considerations, and the Quilt of the Considerate holds all the rest. Together they gather myths and folklore from around the world, looking for the ideas that more than one culture arrived at on its own.</p>
+            <p>When the same truth shows up in different tongues, on different continents, in different ages, we take notice. Members offer these stories, and the House of Nisaba, keepers of the sacred books, places them in their books.</p>
+            <Link className="btn btn-moss" href="/books">Explore the Considerations</Link>
+          </div>
+          <div className="consider">
+            The number of molecules in a single breath is larger than the number of breaths in the atmosphere, which means you have shared a breath with every deity and every ancestor to have breathed upon this earth. We are the ancients, for every atom in us is older than the sun.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section className="alt">
+      <div className="wrap read center">
+        <div className="kicker">Myth is a language for thinking</div>
+        <h2>Not an explanation</h2>
+        <p>We embrace mythology and folklore as a way to practice and appreciate wonder. It is not a literal belief in monsters and deities (or is it?), but a consideration of the patterns in meaning found in the quilt of mysteries.</p>
+        <Link className="btn btn-gold" href="/join">Create an account</Link>
+      </div>
+    </section>
+    </>
   );
 }
