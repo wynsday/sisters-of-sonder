@@ -1,6 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-107.00 -107.00 214.00 214.00" role="img" aria-label="Sisters of Sonder">
 <defs>
   <clipPath id="drop"><circle r="32.000"/></clipPath>
+  <!-- a prism throw: the spectrum, softly blended -->
+  <linearGradient id="prism" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#e5484d" stop-opacity="0"/>
+    <stop offset=".12" stop-color="#e5484d"/>
+    <stop offset=".3" stop-color="#f5a524"/>
+    <stop offset=".45" stop-color="#f2dc4a"/>
+    <stop offset=".6" stop-color="#46b97a"/>
+    <stop offset=".75" stop-color="#3b8fe0"/>
+    <stop offset=".9" stop-color="#8a5cd6"/>
+    <stop offset="1" stop-color="#8a5cd6" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+    <stop offset=".3" stop-color="#fff"/>
+    <stop offset=".7" stop-color="#fff"/>
+    <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient>
+  <filter id="soft" x="-20%" y="-50%" width="140%" height="200%">
+    <feGaussianBlur stdDeviation="1.600"/>
+  </filter>
+  <mask id="prism-fade" maskContentUnits="objectBoundingBox">
+    <rect width="1" height="1" fill="url(#fade)"/>
+  </mask>
   <!-- clear water: shaded at the top, light gathered at the bottom -->
   <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
     <stop offset="0" stop-color="#cfc8ba"/>
@@ -18,14 +41,7 @@
 <polygon points="0.000,-48.314 45.950,-14.930 28.398,39.087 -28.398,39.087 -45.950,-14.930" fill="none" stroke="#1c1a2e" stroke-width="2.174" stroke-linejoin="miter"/>
 <polygon points="28.398,-39.087 45.950,14.930 0.000,48.314 -45.950,14.930 -28.398,-39.087" fill="none" stroke="#1c1a2e" stroke-width="2.174" stroke-linejoin="miter"/>
 <circle r="32.000" fill="url(#water)"/>
-<g clip-path="url(#drop)">
-<circle cy="17.600" r="30.400" fill="none" stroke="#e86a6a" stroke-width="2.240" stroke-opacity=".28"/>
-<circle cy="17.600" r="28.160" fill="none" stroke="#f0a35a" stroke-width="2.240" stroke-opacity=".28"/>
-<circle cy="17.600" r="25.920" fill="none" stroke="#ecd36a" stroke-width="2.240" stroke-opacity=".28"/>
-<circle cy="17.600" r="23.680" fill="none" stroke="#7fc48a" stroke-width="2.240" stroke-opacity=".28"/>
-<circle cy="17.600" r="21.440" fill="none" stroke="#6aa6dc" stroke-width="2.240" stroke-opacity=".28"/>
-<circle cy="17.600" r="19.200" fill="none" stroke="#9b85d0" stroke-width="2.240" stroke-opacity=".28"/>
-</g>
+<g clip-path="url(#drop)"><rect x="-35.200" y="3.840" width="70.400" height="16.000" fill="url(#prism)" mask="url(#prism-fade)" filter="url(#soft)" transform="rotate(-14)" opacity=".6"/></g>
 <circle r="35.000" fill="none" stroke="#1c1a2e" stroke-width="6.000"/>
 <circle cx="0.000" cy="-16.000" r="3.200" fill="#ffffff"/>
 </svg>

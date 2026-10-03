@@ -10,8 +10,8 @@ Angles are clockwise from the top; the outer wreath radius is R.
            the Foundational Understanding.
   Dew drop disc of radius RHO with rim T; RHO + T/2 < s^2 g^2 R.
            The glint sits on the THETA axis so the mirror symmetry holds.
-  Ring and banner: banner width = ring diameter / phi^2 (<= half the ring),
-           length = width * phi.
+  Banner   hangs from the flat base of the outer upright pentagon, as wide
+           as that base; length = width * phi.
 
 Writes public/logo.svg (ring and banner) and public/emblem.svg (ring only).
 """
@@ -42,9 +42,11 @@ RING_W = 0.07 * R                        # ring width
 RING_R = R - RING_W / 2                  # ring's outer edge lands just under the outer points
 PHI = (1 + 5 ** 0.5) / 2
 RING_D = 2 * (RING_R + RING_W / 2)
-BANNER_W = RING_D / PHI ** 2             # 0.382 of the ring's width
+# The banner hangs from the flat base of the outer wreath's upright pentagon
+# P(R, 0), whose bottom side runs between its 144 and 216 degree vertices.
+BANNER_TOP = S * R                       # that base sits at S*R below centre
+BANNER_W = 2 * R * math.sin(math.radians(36))   # as wide as that base
 BANNER_L = BANNER_W * PHI                # hangs long: a golden rectangle
-assert BANNER_W <= RING_D / 2
 
 INK, FIELD = "#1c1a2e", "#fbf6ea"
 GOLD, GOLD_DARK, ROSE = "#e8cf98", "#b8893a", "#8a4b55"
@@ -67,26 +69,19 @@ def wreath(r):
 
 
 def dew_drop():
-    """Clear water with a gentle rainbow where the light gathers, and a
-    small round glint on the symmetry axis."""
+    """Clear water holding a soft prism throw of colour, and a small round
+    glint on the symmetry axis."""
     gx, gy = pt(RHO * 0.5, THETA)
-    bands = ["#e86a6a", "#f0a35a", "#ecd36a", "#7fc48a", "#6aa6dc", "#9b85d0"]
-    arc_r, step = RHO * 0.95, RHO * 0.07
-    cy = RHO * 0.55                      # arc centre below the middle of the drop
-    rainbow = [
-        f'<circle cy="{cy:.3f}" r="{arc_r - k * step:.3f}" fill="none" stroke="{c}" '
-        f'stroke-width="{step:.3f}" stroke-opacity=".28"/>'
-        for k, c in enumerate(bands)
+    band_h = RHO * 0.5
+    return [
+        f'<circle r="{RHO:.3f}" fill="url(#water)"/>',
+        # spectrum band, faded at both ends, low in the drop where light gathers
+        f'<g clip-path="url(#drop)"><rect x="{-RHO * 1.1:.3f}" y="{RHO * 0.12:.3f}" width="{2.2 * RHO:.3f}" '
+        f'height="{band_h:.3f}" fill="url(#prism)" mask="url(#prism-fade)" filter="url(#soft)" '
+        f'transform="rotate(-14)" opacity=".6"/></g>',
+        f'<circle r="{RHO + T / 2:.3f}" fill="none" stroke="{INK}" stroke-width="{T:.3f}"/>',
+        f'<circle cx="{gx:.3f}" cy="{gy:.3f}" r="{RHO * 0.1:.3f}" fill="#ffffff"/>',
     ]
-    return (
-        [f'<circle r="{RHO:.3f}" fill="url(#water)"/>', '<g clip-path="url(#drop)">']
-        + rainbow
-        + [
-            "</g>",
-            f'<circle r="{RHO + T / 2:.3f}" fill="none" stroke="{INK}" stroke-width="{T:.3f}"/>',
-            f'<circle cx="{gx:.3f}" cy="{gy:.3f}" r="{RHO * 0.1:.3f}" fill="#ffffff"/>',
-        ]
-    )
 
 
 def ring():
@@ -98,18 +93,42 @@ def ring():
 
 
 def banner():
-    top = RING_R                          # hangs from the ring's outer edge
+    top = BANNER_TOP                      # attached to the pentagon's base
     x0 = -BANNER_W / 2
-    inset = BANNER_W * 0.08
+    inset = BANNER_W * 0.07
+    edge = LINE * R                       # border matches the outer wreath line
     return [
-        f'<rect x="{x0:.3f}" y="{top:.3f}" width="{BANNER_W:.3f}" height="{BANNER_L:.3f}" fill="{ROSE}" stroke="{GOLD_DARK}" stroke-width="{RING_W * 0.5:.3f}"/>',
-        f'<rect x="{x0 + inset:.3f}" y="{top + inset + RING_W / 2:.3f}" width="{BANNER_W - 2 * inset:.3f}" '
-        f'height="{BANNER_L - 2 * inset - RING_W / 2:.3f}" fill="none" stroke="{GOLD}" stroke-width="{RING_W * 0.18:.3f}"/>',
+        f'<rect x="{x0:.3f}" y="{top:.3f}" width="{BANNER_W:.3f}" height="{BANNER_L:.3f}" fill="{ROSE}" stroke="{GOLD_DARK}" stroke-width="{edge:.3f}"/>',
+        f'<rect x="{x0 + inset:.3f}" y="{top + inset + edge:.3f}" width="{BANNER_W - 2 * inset:.3f}" '
+        f'height="{BANNER_L - 2 * inset - edge:.3f}" fill="none" stroke="{GOLD}" stroke-width="{RING_W * 0.18:.3f}"/>',
     ]
 
 
 DEFS = f"""<defs>
   <clipPath id="drop"><circle r="{RHO:.3f}"/></clipPath>
+  <!-- a prism throw: the spectrum, softly blended -->
+  <linearGradient id="prism" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#e5484d" stop-opacity="0"/>
+    <stop offset=".12" stop-color="#e5484d"/>
+    <stop offset=".3" stop-color="#f5a524"/>
+    <stop offset=".45" stop-color="#f2dc4a"/>
+    <stop offset=".6" stop-color="#46b97a"/>
+    <stop offset=".75" stop-color="#3b8fe0"/>
+    <stop offset=".9" stop-color="#8a5cd6"/>
+    <stop offset="1" stop-color="#8a5cd6" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+    <stop offset=".3" stop-color="#fff"/>
+    <stop offset=".7" stop-color="#fff"/>
+    <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient>
+  <filter id="soft" x="-20%" y="-50%" width="140%" height="200%">
+    <feGaussianBlur stdDeviation="{RHO * 0.05:.3f}"/>
+  </filter>
+  <mask id="prism-fade" maskContentUnits="objectBoundingBox">
+    <rect width="1" height="1" fill="url(#fade)"/>
+  </mask>
   <!-- clear water: shaded at the top, light gathered at the bottom -->
   <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
     <stop offset="0" stop-color="#cfc8ba"/>
@@ -121,16 +140,16 @@ DEFS = f"""<defs>
 
 def symbol(with_banner):
     body = []
+    body += ring()
     if with_banner:
         body += banner()
-    body += ring()
     for r in WREATHS:
         lines, width = wreath(r)
         body += lines
     body += dew_drop()
     pad = RING_W
     half = RING_R + RING_W / 2 + pad
-    height = (RING_R + BANNER_L + pad if with_banner else half) + half
+    height = (BANNER_TOP + BANNER_L + pad if with_banner else half) + half
     view = f"{-half:.2f} {-half:.2f} {2 * half:.2f} {height:.2f}"
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{view}" role="img" aria-label="Sisters of Sonder">\n'
