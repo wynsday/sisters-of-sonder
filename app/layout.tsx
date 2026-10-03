@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Cormorant_Garamond, EB_Garamond } from "next/font/google";
-import { ORG, SITE } from "@/lib/config";
+import { ORG } from "@/lib/config";
 import Nav from "@/components/Nav";
 import "./globals.css";
 
@@ -18,7 +18,7 @@ const body = EB_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: { default: SITE.name, template: `%s · ${SITE.name}` },
+  title: { default: ORG.name, template: `%s · ${ORG.name}` },
   description:
     "A crowd-sourced, spiritual community built from the shared wisdom of the world's mythologies.",
   icons: { icon: "/emblem.svg" },
@@ -31,8 +31,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <header className="site-header">
           <div className="wrap">
             <Link className="brand" href="/">
-              <img src="/emblem.svg" alt="" width={34} height={34} />
-              <span>{SITE.name}</span>
+              <img src="/emblem.svg" alt="" width={40} height={40} />
+              <span>{ORG.name}</span>
             </Link>
             <Nav />
           </div>
@@ -41,9 +41,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <footer className="site-footer">
           <div className="wrap">
             <div>
-              <strong>{SITE.name}</strong>
+              <strong>{ORG.name}</strong>
               <br />
-              {ORG.name}
+              {ORG.tagline}
             </div>
             <div>
               <Link href="/aspirations">Sacred Aspirations</Link> &middot;{" "}

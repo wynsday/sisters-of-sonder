@@ -465,3 +465,4 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 .pick > summary { cursor: pointer; font-weight: 600; }
 .pick .checks { margin-top: 10px; }
 .prompt { font-family: var(--serif-display); font-size: 1.35rem; font-weight: 600; margin-bottom: 4px; display: block; }
+.hero .logo { width: 170px; height: auto; margin-bottom: 18px; }

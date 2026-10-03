@@ -1,13 +1,12 @@
 import Link from "next/link";
-import { ORG, SITE } from "@/lib/config";
+import { ORG } from "@/lib/config";
 
 export default function Home() {
   return (
     <>
     <div className="hero">
       <div className="wrap">
-        <img className="emblem" src="/emblem.svg" alt="" />
-        <div className="eyebrow">{SITE.name}</div>
+        <img className="logo" src="/logo.svg" alt="The Sisters of Sonder emblem" />
         <h1>{ORG.name}</h1>
         <p className="lede"><em>{ORG.motto}</em></p>
         <Link className="btn btn-gold" href="/aspirations">Read the Sacred Aspirations</Link>

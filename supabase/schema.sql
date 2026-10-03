@@ -301,7 +301,7 @@ insert into public.indicators (slug, label) values
 
 -- =====================================================================
 -- Hear My Voice: anonymous stories, indexed by what they speak to.
--- The author is stored only so a member can see and withdraw her own
+-- The author is stored only so a member can see and withdraw their own
 -- stories. Readers and reviewers are never granted the author column.
 -- =====================================================================
 create table public.index_items (
@@ -390,7 +390,7 @@ language sql stable security definer set search_path = '' as $$
   order by s.created_at desc;
 $$;
 
--- Autonomy: a member may withdraw her story at any time.
+-- Autonomy: a member may withdraw their story at any time.
 create function public.withdraw_story(story_id bigint) returns void
 language sql security definer set search_path = '' as $$
   delete from public.stories where id = story_id and author = auth.uid() and auth.uid() is not null;

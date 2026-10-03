@@ -49,7 +49,6 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
       <div className="page-hero">
         <div className="wrap">
           <h1>Keepers&rsquo; Desk</h1>
-          <p>For admins of the House of Nisaba and the Oracle of the Hallowed Tree</p>
         </div>
       </div>
       <section>

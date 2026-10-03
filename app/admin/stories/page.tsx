@@ -96,7 +96,7 @@ export default async function StoriesReviewPage({ searchParams }: PageProps<"/ad
               </div>
 
               <div className="field">
-                <label htmlFor={`note-${s.id}`}>Note to the member (optional; she sees it in her account)</label>
+                <label htmlFor={`note-${s.id}`}>Note to the member (optional; shown only in their account)</label>
                 <input id={`note-${s.id}`} name="note" type="text" />
               </div>
 
