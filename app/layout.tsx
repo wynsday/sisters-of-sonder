@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Cormorant_Garamond, EB_Garamond } from "next/font/google";
+import localFont from "next/font/local";
 import { ORG } from "@/lib/config";
 import Nav from "@/components/Nav";
 import "./globals.css";
 
-const display = Cormorant_Garamond({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const body = EB_Garamond({
-  variable: "--font-body",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
+// Liberation Serif, SIL Open Font License (see app/fonts/LiberationSerif-LICENSE.txt).
+const liberation = localFont({
+  variable: "--font-liberation",
+  src: [
+    { path: "./fonts/LiberationSerif-Regular.ttf", weight: "400", style: "normal" },
+    { path: "./fonts/LiberationSerif-Italic.ttf", weight: "400", style: "italic" },
+    { path: "./fonts/LiberationSerif-Bold.ttf", weight: "700", style: "normal" },
+    { path: "./fonts/LiberationSerif-BoldItalic.ttf", weight: "700", style: "italic" },
+  ],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
+    <html lang="en" className={liberation.variable}>
       <body>
         <header className="site-header">
           <div className="wrap">
