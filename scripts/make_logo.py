@@ -78,6 +78,28 @@ STREAKS = [
 ]
 STREAK_HALF_ANGLE = 4.5                   # degrees either side of the ray
 STREAK_OPACITY = 0.45
+FILL_OPACITY = 0.30                       # ombre between streaks: almost as strong
+FILL_STEP = 2                             # degrees per blended slice
+
+
+def mix(c1, c2, t):
+    a = [int(c1[i:i + 2], 16) for i in (1, 3, 5)]
+    b = [int(c2[i:i + 2], 16) for i in (1, 3, 5)]
+    return "#" + "".join(f"{round(x + (y - x) * t):02x}" for x, y in zip(a, b))
+
+
+def ombre():
+    """Fill the gaps: each 36 degree span blends from one streak's colour
+    to the next, so the whole drop is coloured."""
+    out = []
+    for k, (_, c1) in enumerate(STREAKS):
+        c2 = STREAKS[(k + 1) % len(STREAKS)][1]
+        for d in range(0, 36, FILL_STEP):
+            a0, a1 = 36 * k + d, 36 * k + d + FILL_STEP
+            x1, y1 = pt(RHO * 1.05, a0 - 0.3)
+            x2, y2 = pt(RHO * 1.05, a1 + 0.3)
+            out.append(f'<path d="M0,0 L{x1:.3f},{y1:.3f} L{x2:.3f},{y2:.3f} Z" fill="{mix(c1, c2, (d + FILL_STEP / 2) / 36)}"/>')
+    return out
 
 
 def streaks():
@@ -91,13 +113,19 @@ def streaks():
 
 
 def dew_drop():
-    """Clear water. Faint coloured streaks follow where the illusory rays
+    """Clear water tinted all over with an ombre between ten coloured streaks.
+    The streaks follow where the illusory rays
     cross it, fading toward the centre; a small round glint sits on the
     symmetry axis."""
     gx, gy = pt(RHO * 0.5, THETA)
     return (
         [
             f'<circle r="{RHO:.3f}" fill="url(#water)"/>',
+            f'<g clip-path="url(#drop)" mask="url(#streak-fade)" filter="url(#soft)" opacity="{FILL_OPACITY}">',
+        ]
+        + ombre()
+        + [
+            "</g>",
             f'<g clip-path="url(#drop)" mask="url(#streak-fade)" filter="url(#soft)" opacity="{STREAK_OPACITY}">',
         ]
         + streaks()
@@ -136,8 +164,8 @@ DEFS = f"""<defs>
   </filter>
   <!-- streaks fade in from the centre toward the rim -->
   <radialGradient id="streak-ramp" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="{RHO:.3f}">
-    <stop offset=".15" stop-color="#fff" stop-opacity="0"/>
-    <stop offset=".75" stop-color="#fff" stop-opacity=".9"/>
+    <stop offset="0" stop-color="#fff" stop-opacity=".35"/>
+    <stop offset=".7" stop-color="#fff" stop-opacity=".9"/>
     <stop offset="1" stop-color="#fff"/>
   </radialGradient>
   <mask id="streak-fade" maskUnits="userSpaceOnUse" x="{-RHO:.3f}" y="{-RHO:.3f}" width="{2 * RHO:.3f}" height="{2 * RHO:.3f}">
