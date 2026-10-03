@@ -1,6 +1,6 @@
 export type Book = {
   slug: string;
-  kind: "aspiration" | "tenet" | "quilt";
+  kind: "foundation" | "aspiration" | "tenet" | "quilt";
   ordinal: number;
   subject: string;
   title: string;
@@ -27,4 +27,14 @@ export function indicatorLabels(c: Consideration) {
   return (c.consideration_indicators ?? [])
     .map((ci) => ci.indicators?.label)
     .filter((l): l is string => Boolean(l));
+}
+
+/** Where a book's Aspiration, Tenet, or Understanding is written on the site. */
+export function sourceHref(book: Book) {
+  if (book.kind === "aspiration") {
+    return `/#${book.slug === "less-suffering" ? "suffering" : book.slug}`;
+  }
+  if (book.kind === "tenet") return `/tenets#${book.slug}`;
+  if (book.kind === "foundation") return "/foundation#foundation";
+  return null;
 }

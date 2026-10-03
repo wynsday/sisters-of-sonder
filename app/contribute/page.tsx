@@ -14,7 +14,7 @@ export default async function ContributePage({ searchParams }: PageProps<"/contr
   const sp = await searchParams;
   const { supabase } = await requireUser("/contribute");
   const { data } = await supabase.from("books").select("*").order("ordinal");
-  const shelfOrder = { aspiration: 0, tenet: 1, quilt: 2 };
+  const shelfOrder = { foundation: 0, aspiration: 1, tenet: 2, quilt: 3 };
   const books = ((data ?? []) as Book[]).sort((a, b) => shelfOrder[a.kind] - shelfOrder[b.kind]);
   const chosen = String(sp.book ?? "");
   const error = sp.error ? String(sp.error) : null;

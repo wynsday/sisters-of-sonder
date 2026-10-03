@@ -131,7 +131,7 @@ create trigger appointments_check
 -- ---------- Books ----------
 create table public.books (
   slug text primary key,
-  kind text not null check (kind in ('aspiration', 'tenet', 'quilt')),
+  kind text not null check (kind in ('foundation', 'aspiration', 'tenet', 'quilt')),
   ordinal int not null,
   subject text not null,
   title text not null,
@@ -263,6 +263,7 @@ insert into public.houses (slug, name, charge, grants_admin) values
 insert into public.chairs (house) values ('nisaba'), ('oht');
 
 insert into public.books (slug, kind, ordinal, subject, title, canon) values
+  ('foundation', 'foundation', 1, 'The Foundational Understanding', 'Considerations of the Foundational Understanding', null),
   ('less-suffering', 'aspiration', 1, 'Less Suffering', 'The First Aspiration: Considerations of Less Suffering',
    'To cause less suffering, to enable less suffering, to endure less suffering, to stand up and actively prevent suffering.'),
   ('wonder', 'aspiration', 2, 'Wonder', 'The Second Aspiration: Considerations of Wonder',
@@ -425,6 +426,7 @@ create policy "admins tag stories" on public.story_indicators for all
 
 insert into public.index_items (slug, kind, ordinal, label) values
   ('foundation', 'foundation', 1, 'The Foundational Understanding'),
+  ('foundation', 'foundation', 1, 'The Foundational Understanding', 'Considerations of the Foundational Understanding', null),
   ('less-suffering', 'aspiration', 1, 'Less Suffering'),
   ('wonder', 'aspiration', 2, 'Wonder'),
   ('grace', 'aspiration', 3, 'Grace'),

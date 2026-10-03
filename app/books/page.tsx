@@ -56,15 +56,15 @@ export default async function BooksPage() {
       <section>
         <div className="wrap read">
           <p>
-            Each Aspiration and each Tenet has its own Book of Considerations. The Quilt of the
+            The Foundational Understanding, each Aspiration, and each Tenet has its own Book of
+            Considerations. The Quilt of the
             Considerate holds all the rest. Members bring myths, folklore, and sacred texts from
             every tradition they can find, and look for the concept underneath: an idea that more
             than one culture arrived at and adopted.
           </p>
           <p>
-            Considerations can be held as both true and not true; they are able to fall into
-            place, provide inspiration, be dismissed, or spark wonder. Each individual can make
-            their own decisions or non-decisions about considerations.
+            How a Consideration may be held is part of{" "}
+            <Link href="/foundation#foundation">the Foundational Understanding</Link>.
           </p>
           <p>
             Every book has three parts. The first is unlabeled. <strong>Glimmers</strong> are
@@ -81,7 +81,9 @@ export default async function BooksPage() {
         <div className="wrap">
           {shelf ? (
             <>
-              <h2>The Aspirations</h2>
+              <h2>The Foundational Understanding</h2>
+              <Shelf books={shelf.books.filter((b) => b.kind === "foundation")} counts={shelf.counts} />
+              <h2 style={{ marginTop: 48 }}>The Aspirations</h2>
               <Shelf books={shelf.books.filter((b) => b.kind === "aspiration")} counts={shelf.counts} />
               <h2 style={{ marginTop: 48 }}>The Tenets</h2>
               <Shelf books={shelf.books.filter((b) => b.kind === "tenet")} counts={shelf.counts} />

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { type Book, type Consideration, CONSIDERATION_FIELDS } from "@/lib/books";
+import { type Book, type Consideration, CONSIDERATION_FIELDS, sourceHref } from "@/lib/books";
 import { createPublicClient } from "@/lib/supabase/server";
 import { isConfigured } from "@/lib/supabase/env";
 import ConsiderationEntry from "@/components/ConsiderationEntry";
@@ -75,10 +75,12 @@ export default async function BookPage({ params }: PageProps<"/books/[slug]">) {
       </div>
       <section>
         <div className="wrap read">
-          {book.canon && <div className="canon">{book.canon}</div>}
-          <p>
-            <Link href="/books">&larr; All books</Link> &middot;{" "}
-            <Link href={`/contribute?book=${book.slug}`}>Offer a Consideration for this book</Link>
+          <p className="book-links">
+            <Link href="/books">&larr; All books</Link>
+            {sourceHref(book) && <Link href={sourceHref(book)!}>Read {book.subject}</Link>}
+            <Link className="add-consideration" href={`/contribute?book=${book.slug}`}>
+              + Add a Consideration <span className="hint">(members)</span>
+            </Link>
           </p>
 
           <div className="book-part">

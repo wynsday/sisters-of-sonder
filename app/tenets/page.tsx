@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ORG } from "@/lib/config";
+import BookLinks from "@/components/BookLinks";
 
 export const metadata: Metadata = {
   title: "The Nine Tenets of Agreement",
@@ -19,14 +19,6 @@ const TENETS = [
   { id: "testimony", ord: "Ninth", name: "Attestation and Testimony", book: "testimony" },
 ];
 
-function BookLink({ slug, title }: { slug: string; title: string }) {
-  return (
-    <p className="book-link">
-      <Link href={`/books/${slug}`}>Read {title} &rarr;</Link>
-    </p>
-  );
-}
-
 function Tenet({ id, children }: { id: string; children: React.ReactNode }) {
   const t = TENETS.find((x) => x.id === id)!;
   return (
@@ -35,7 +27,7 @@ function Tenet({ id, children }: { id: string; children: React.ReactNode }) {
         The {t.ord} Tenet: {t.name}
       </h2>
       {children}
-      <BookLink slug={t.book} title={`The ${t.ord} Tenet: Considerations of ${t.name}`} />
+      <BookLinks slug={t.book} title={`The ${t.ord} Tenet: Considerations of ${t.name}`} />
     </div>
   );
 }

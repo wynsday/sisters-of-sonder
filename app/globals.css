@@ -502,3 +502,7 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
   .symbol { grid-template-columns: 1fr; }
   .symbol-mark { width: 160px; margin: 0 auto; }
 }
+.book-links { display: flex; flex-wrap: wrap; gap: 6px 24px; font-size: 1rem; }
+.add-consideration { font-weight: 700; }
+.card-link { text-decoration: none; color: var(--ink); font-family: var(--serif-display); font-weight: 700; font-size: 1.15rem; }
+.card-link:hover { border-color: var(--gold); color: var(--moss); }

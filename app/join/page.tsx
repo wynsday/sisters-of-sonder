@@ -33,16 +33,15 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
                 from the world&rsquo;s mythologies and the concepts they share. Each one is
                 reviewed before it is placed in its book.
               </p>
-              <h3>What we ask</h3>
+              <h3>Your autonomy</h3>
               <p>
-                Nothing you have to announce, justify, or publish. Your beliefs are yours. We offer
-                thoughts for consideration and encourage you to make your own decisions.
+                An account asks nothing of your beliefs, and you may leave whenever you choose.
+                See <Link href="/tenets#autonomy">the First Tenet</Link>.
               </p>
-              <h3>What we promise</h3>
+              <h3>Giving and receiving</h3>
               <p>
-                Members may choose to leave the group without reprisal or harassment. No one is in
-                arrears and no ledger is kept for activities outside of accepted roles and
-                responsibilities.
+                How giving and receiving work among members is set out in{" "}
+                <Link href="/tenets#reciprocity">the Fourth Tenet</Link>.
               </p>
             </div>
 

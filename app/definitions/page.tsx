@@ -55,6 +55,10 @@ const DEFINITIONS: [string, React.ReactNode][] = [
   ],
 ];
 
+function anchor(term: string) {
+  return term.toLowerCase().replace(/\(.*?\)/g, "").trim().replace(/[^a-z]+/g, "-");
+}
+
 export default function Definitions() {
   return (
     <>
@@ -70,7 +74,7 @@ export default function Definitions() {
           <div className="part" id="definitions">
                         <dl className="definitions">
               {DEFINITIONS.map(([term, def]) => (
-                <div key={term}>
+                <div key={term} id={anchor(term)}>
                   <dt>{term}</dt>
                   <dd>{def}</dd>
                 </div>
