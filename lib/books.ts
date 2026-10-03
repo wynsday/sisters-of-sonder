@@ -7,9 +7,22 @@ export type Book = {
   canon: string | null;
 };
 
+export type ConsiderationForm = "premise" | "parable" | "stories";
+
+export const FORMS: { value: ConsiderationForm; label: string; describe: string }[] = [
+  { value: "premise", label: "A premise", describe: "A premise with an affirmation, a condemnation, or both." },
+  { value: "parable", label: "A parable", describe: "A parable." },
+  {
+    value: "stories",
+    label: "Stories from different cultures",
+    describe: "Two or more stories from different cultures that share a pertinent opinion.",
+  },
+];
+
 export type Consideration = {
   id: number;
   title: string;
+  form: ConsiderationForm;
   concept: string;
   stories: string;
   part: "neutral" | "glimmer" | "trigger" | null;
@@ -21,7 +34,7 @@ export type Consideration = {
 };
 
 export const CONSIDERATION_FIELDS =
-  "id, title, concept, stories, part, book, status, created_at, profiles!considerations_author_fkey(display_name), consideration_indicators(indicators(slug, label))";
+  "id, title, form, concept, stories, part, book, status, created_at, profiles!considerations_author_fkey(display_name), consideration_indicators(indicators(slug, label))";
 
 export function indicatorLabels(c: Consideration) {
   return (c.consideration_indicators ?? [])

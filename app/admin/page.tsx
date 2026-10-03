@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { isConfigured } from "@/lib/supabase/env";
 import { requireAdmin } from "@/lib/auth";
-import type { Book } from "@/lib/books";
+import { type Book, FORMS } from "@/lib/books";
 import { review, unpublish } from "./actions";
 
 export const metadata: Metadata = { title: "Admin" };
@@ -13,6 +13,7 @@ export const dynamic = "force-dynamic";
 type Pending = {
   id: number;
   title: string;
+  form: string;
   concept: string;
   stories: string;
   suggested_book: string | null;
@@ -29,7 +30,7 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
     await Promise.all([
       supabase
         .from("considerations")
-        .select("id, title, concept, stories, suggested_book, created_at, profiles!considerations_author_fkey(display_name)")
+        .select("id, title, form, concept, stories, suggested_book, created_at, profiles!considerations_author_fkey(display_name)")
         .eq("status", "pending")
         .order("created_at"),
       supabase.from("books").select("*").order("kind").order("ordinal"),
@@ -73,10 +74,19 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
                 Offered by {c.profiles?.display_name ?? "a member"} on{" "}
                 {new Date(c.created_at).toLocaleDateString()}
               </div>
-              <h4>Concept</h4>
+              <p>
+                <span className="tag">{FORMS.find((f) => f.value === c.form)?.label}</span>
+              </p>
               <p className="body">{c.concept}</p>
-              <h4>Stories</h4>
-              <p className="body">{c.stories}</p>
+              {c.stories && (
+                <>
+                  <h4>Sources</h4>
+                  <p className="body">{c.stories}</p>
+                </>
+              )}
+              <p className="hint">
+                Post it if it does not violate the spirit of the Aspirations or Tenets.
+              </p>
 
               <div className="row">
                 <div className="field">

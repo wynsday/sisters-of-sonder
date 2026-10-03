@@ -58,9 +58,8 @@ export default async function BooksPage() {
           <p>
             The Foundational Understanding, each Aspiration, and each Tenet has its own Book of
             Considerations. The Quilt of the
-            Considerate holds all the rest. Members bring myths, folklore, and sacred texts from
-            every tradition they can find, and look for the concept underneath: an idea that more
-            than one culture arrived at and adopted.
+            Considerate holds all the rest. Members offer premises, parables, and stories from
+            different cultures; see <Link href="/contribute">what a Consideration should contain</Link>.
           </p>
           <p>
             How a Consideration may be held is part of{" "}

@@ -1,14 +1,18 @@
 import Link from "next/link";
-import { type Consideration, indicatorLabels } from "@/lib/books";
+import { type Consideration, FORMS, indicatorLabels } from "@/lib/books";
 
 function Body({ c }: { c: Consideration }) {
   return (
     <>
       <p className="body">{c.concept}</p>
-      <h4>The stories</h4>
-      <p className="body">{c.stories}</p>
+      {c.stories && (
+        <>
+          <h4>Sources</h4>
+          <p className="body">{c.stories}</p>
+        </>
+      )}
       <div className="meta">
-        Offered by {c.profiles?.display_name ?? "a member"} &middot;{" "}
+        {FORMS.find((f) => f.value === c.form)?.label} &middot; Offered by {c.profiles?.display_name ?? "a member"} &middot;{" "}
         <Link href={`/c/${c.id}`}>Permanent link</Link>
       </div>
     </>

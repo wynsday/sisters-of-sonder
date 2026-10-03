@@ -153,8 +153,11 @@ create table public.considerations (
   id bigint generated always as identity primary key,
   author uuid not null references public.profiles(id) on delete cascade,
   title text not null check (char_length(title) between 1 and 200),
-  concept text not null check (char_length(concept) <= 10000),
-  stories text not null check (char_length(stories) <= 50000),
+  -- premise (affirmation and/or condemnation), parable, or stories from two or more cultures
+  form text not null default 'stories' check (form in ('premise', 'parable', 'stories')),
+  concept text not null check (char_length(concept) between 1 and 20000),   -- the Consideration itself
+  stories text not null default '' check (char_length(stories) <= 50000),   -- sources
+  check (form <> 'stories' or char_length(stories) > 0),
   suggested_book text references public.books(slug),
   -- set by an admin on review:
   status public.consideration_status not null default 'pending',
