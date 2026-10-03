@@ -1,35 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-107.00 -107.00 214.00 214.00" role="img" aria-label="Sisters of Sonder">
 <defs>
   <clipPath id="drop"><circle r="32.000"/></clipPath>
-  <!-- a prism throw: the spectrum, softly blended -->
-  <linearGradient id="prism" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#e5484d" stop-opacity="0"/>
-    <stop offset=".12" stop-color="#e5484d"/>
-    <stop offset=".3" stop-color="#f5a524"/>
-    <stop offset=".45" stop-color="#f2dc4a"/>
-    <stop offset=".6" stop-color="#46b97a"/>
-    <stop offset=".75" stop-color="#3b8fe0"/>
-    <stop offset=".9" stop-color="#8a5cd6"/>
-    <stop offset="1" stop-color="#8a5cd6" stop-opacity="0"/>
-  </linearGradient>
-  <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0" stop-color="#fff" stop-opacity="0"/>
-    <stop offset=".3" stop-color="#fff"/>
-    <stop offset=".7" stop-color="#fff"/>
-    <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-  </linearGradient>
-  <filter id="soft" x="-20%" y="-50%" width="140%" height="200%">
-    <feGaussianBlur stdDeviation="1.600"/>
+  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="1.120"/>
   </filter>
-  <mask id="prism-fade" maskContentUnits="objectBoundingBox">
-    <rect width="1" height="1" fill="url(#fade)"/>
+  <!-- streaks fade in from the centre toward the rim -->
+  <radialGradient id="streak-ramp" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="32.000">
+    <stop offset=".15" stop-color="#fff" stop-opacity="0"/>
+    <stop offset=".75" stop-color="#fff" stop-opacity=".9"/>
+    <stop offset="1" stop-color="#fff"/>
+  </radialGradient>
+  <mask id="streak-fade" maskUnits="userSpaceOnUse" x="-32.000" y="-32.000" width="64.000" height="64.000">
+    <circle r="32.000" fill="url(#streak-ramp)"/>
   </mask>
-  <!-- clear water: shaded at the top, light gathered at the bottom -->
-  <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#cfc8ba"/>
-    <stop offset=".55" stop-color="#efebe2"/>
-    <stop offset="1" stop-color="#ffffff"/>
-  </linearGradient>
 </defs>
 <circle r="96.500" fill="#fbf6ea"/>
 <circle r="96.500" fill="none" stroke="#b8893a" stroke-width="7.000"/>
@@ -41,7 +24,18 @@
 <polygon points="0.000,-48.314 45.950,-14.930 28.398,39.087 -28.398,39.087 -45.950,-14.930" fill="none" stroke="#1c1a2e" stroke-width="2.174" stroke-linejoin="miter"/>
 <polygon points="28.398,-39.087 45.950,14.930 0.000,48.314 -45.950,14.930 -28.398,-39.087" fill="none" stroke="#1c1a2e" stroke-width="2.174" stroke-linejoin="miter"/>
 <circle r="32.000" fill="url(#water)"/>
-<g clip-path="url(#drop)"><rect x="-35.200" y="3.840" width="70.400" height="16.000" fill="url(#prism)" mask="url(#prism-fade)" filter="url(#soft)" transform="rotate(-14)" opacity=".6"/></g>
+<g clip-path="url(#drop)" mask="url(#streak-fade)" filter="url(#soft)" opacity="0.45">
+<path d="M0,0 L-2.636,-33.496 L2.636,-33.496 Z" fill="#e5484d"/>
+<path d="M0,0 L17.556,-28.649 L21.821,-25.550 Z" fill="#f07a2a"/>
+<path d="M0,0 L31.042,-12.858 L32.672,-7.844 Z" fill="#f5a524"/>
+<path d="M0,0 L32.672,7.844 L31.042,12.858 Z" fill="#efd23f"/>
+<path d="M0,0 L21.821,25.550 L17.556,28.649 Z" fill="#46b97a"/>
+<path d="M0,0 L2.636,33.496 L-2.636,33.496 Z" fill="#24a8a0"/>
+<path d="M0,0 L-17.556,28.649 L-21.821,25.550 Z" fill="#3b8fe0"/>
+<path d="M0,0 L-31.042,12.858 L-32.672,7.844 Z" fill="#4a4fc2"/>
+<path d="M0,0 L-32.672,-7.844 L-31.042,-12.858 Z" fill="#8048bf"/>
+<path d="M0,0 L-21.821,-25.550 L-17.556,-28.649 Z" fill="#b35ad6"/>
+</g>
 <circle r="35.000" fill="none" stroke="#1c1a2e" stroke-width="6.000"/>
 <circle cx="0.000" cy="-16.000" r="3.200" fill="#ffffff"/>
 </svg>

@@ -68,20 +68,45 @@ def wreath(r):
     return out, width
 
 
+# One streak per illusory ray (the ten point directions, 0 + 36k), each a
+# single colour, clockwise from the top.
+STREAKS = [
+    ("red", "#e5484d"), ("orange", "#f07a2a"), ("orange yellow", "#f5a524"),
+    ("yellow", "#efd23f"), ("green", "#46b97a"), ("teal", "#24a8a0"),
+    ("blue", "#3b8fe0"), ("indigo", "#4a4fc2"), ("purple", "#8048bf"),
+    ("violet", "#b35ad6"),
+]
+STREAK_HALF_ANGLE = 4.5                   # degrees either side of the ray
+STREAK_OPACITY = 0.45
+
+
+def streaks():
+    out = []
+    for k, (_, colour) in enumerate(STREAKS):
+        a = 36 * k
+        x1, y1 = pt(RHO * 1.05, a - STREAK_HALF_ANGLE)
+        x2, y2 = pt(RHO * 1.05, a + STREAK_HALF_ANGLE)
+        out.append(f'<path d="M0,0 L{x1:.3f},{y1:.3f} L{x2:.3f},{y2:.3f} Z" fill="{colour}"/>')
+    return out
+
+
 def dew_drop():
-    """Clear water holding a soft prism throw of colour, and a small round
-    glint on the symmetry axis."""
+    """Clear water. Faint coloured streaks follow where the illusory rays
+    cross it, fading toward the centre; a small round glint sits on the
+    symmetry axis."""
     gx, gy = pt(RHO * 0.5, THETA)
-    band_h = RHO * 0.5
-    return [
-        f'<circle r="{RHO:.3f}" fill="url(#water)"/>',
-        # spectrum band, faded at both ends, low in the drop where light gathers
-        f'<g clip-path="url(#drop)"><rect x="{-RHO * 1.1:.3f}" y="{RHO * 0.12:.3f}" width="{2.2 * RHO:.3f}" '
-        f'height="{band_h:.3f}" fill="url(#prism)" mask="url(#prism-fade)" filter="url(#soft)" '
-        f'transform="rotate(-14)" opacity=".6"/></g>',
-        f'<circle r="{RHO + T / 2:.3f}" fill="none" stroke="{INK}" stroke-width="{T:.3f}"/>',
-        f'<circle cx="{gx:.3f}" cy="{gy:.3f}" r="{RHO * 0.1:.3f}" fill="#ffffff"/>',
-    ]
+    return (
+        [
+            f'<circle r="{RHO:.3f}" fill="url(#water)"/>',
+            f'<g clip-path="url(#drop)" mask="url(#streak-fade)" filter="url(#soft)" opacity="{STREAK_OPACITY}">',
+        ]
+        + streaks()
+        + [
+            "</g>",
+            f'<circle r="{RHO + T / 2:.3f}" fill="none" stroke="{INK}" stroke-width="{T:.3f}"/>',
+            f'<circle cx="{gx:.3f}" cy="{gy:.3f}" r="{RHO * 0.1:.3f}" fill="#ffffff"/>',
+        ]
+    )
 
 
 def ring():
@@ -106,35 +131,18 @@ def banner():
 
 DEFS = f"""<defs>
   <clipPath id="drop"><circle r="{RHO:.3f}"/></clipPath>
-  <!-- a prism throw: the spectrum, softly blended -->
-  <linearGradient id="prism" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#e5484d" stop-opacity="0"/>
-    <stop offset=".12" stop-color="#e5484d"/>
-    <stop offset=".3" stop-color="#f5a524"/>
-    <stop offset=".45" stop-color="#f2dc4a"/>
-    <stop offset=".6" stop-color="#46b97a"/>
-    <stop offset=".75" stop-color="#3b8fe0"/>
-    <stop offset=".9" stop-color="#8a5cd6"/>
-    <stop offset="1" stop-color="#8a5cd6" stop-opacity="0"/>
-  </linearGradient>
-  <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0" stop-color="#fff" stop-opacity="0"/>
-    <stop offset=".3" stop-color="#fff"/>
-    <stop offset=".7" stop-color="#fff"/>
-    <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-  </linearGradient>
-  <filter id="soft" x="-20%" y="-50%" width="140%" height="200%">
-    <feGaussianBlur stdDeviation="{RHO * 0.05:.3f}"/>
+  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="{RHO * 0.035:.3f}"/>
   </filter>
-  <mask id="prism-fade" maskContentUnits="objectBoundingBox">
-    <rect width="1" height="1" fill="url(#fade)"/>
+  <!-- streaks fade in from the centre toward the rim -->
+  <radialGradient id="streak-ramp" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="{RHO:.3f}">
+    <stop offset=".15" stop-color="#fff" stop-opacity="0"/>
+    <stop offset=".75" stop-color="#fff" stop-opacity=".9"/>
+    <stop offset="1" stop-color="#fff"/>
+  </radialGradient>
+  <mask id="streak-fade" maskUnits="userSpaceOnUse" x="{-RHO:.3f}" y="{-RHO:.3f}" width="{2 * RHO:.3f}" height="{2 * RHO:.3f}">
+    <circle r="{RHO:.3f}" fill="url(#streak-ramp)"/>
   </mask>
-  <!-- clear water: shaded at the top, light gathered at the bottom -->
-  <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#cfc8ba"/>
-    <stop offset=".55" stop-color="#efebe2"/>
-    <stop offset="1" stop-color="#ffffff"/>
-  </linearGradient>
 </defs>"""
 
 
