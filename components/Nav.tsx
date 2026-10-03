@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/", label: "Home" },
   { href: "/aspirations", label: "Sacred Aspirations" },
   { href: "/books", label: "Considerations" },
+  { href: "/hear-my-voice", label: "Hear My Voice" },
   { href: "/council", label: "Council of Wisdoms" },
   { href: "/account", label: "Account" },
 ];

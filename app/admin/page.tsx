@@ -55,6 +55,9 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
       <section>
         <div className="wrap read">
           <div className="subnav">
+            <Link className="btn btn-moss btn-small" href="/admin/stories">
+              Hear My Voice stories
+            </Link>
             <Link className="btn btn-moss btn-small" href="/admin/indicators">
               Trigger indicators
             </Link>

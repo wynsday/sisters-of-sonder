@@ -453,3 +453,15 @@ table.list th, table.list td { text-align: left; padding: 10px 8px; border-botto
 .definitions dt { font-family: var(--serif-display); font-weight: 700; font-size: 1.2rem; }
 .definitions dd { margin: 2px 0 0; }
 .definitions ul { margin: 8px 0 0; padding-left: 1.2em; }
+
+/* ---------- Hear My Voice ---------- */
+.index-picker { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 20px; margin-bottom: 28px; }
+.index-picker > summary { cursor: pointer; font-weight: 600; }
+.index-group { margin-top: 14px; }
+.index-group h4 { font-size: 1.05rem; margin-bottom: 6px; }
+a.tag { text-decoration: none; }
+a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
+.pick { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 16px; margin-bottom: 10px; background: #fff; }
+.pick > summary { cursor: pointer; font-weight: 600; }
+.pick .checks { margin-top: 10px; }
+.prompt { font-family: var(--serif-display); font-size: 1.35rem; font-weight: 600; margin-bottom: 4px; display: block; }

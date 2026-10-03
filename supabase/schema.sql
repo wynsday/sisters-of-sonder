@@ -298,3 +298,185 @@ insert into public.indicators (slug, label) values
   ('religious-trauma', 'Religious trauma'),
   ('medical', 'Medical or body'),
   ('war', 'War');
+
+-- =====================================================================
+-- Hear My Voice: anonymous stories, indexed by what they speak to.
+-- The author is stored only so a member can see and withdraw her own
+-- stories. Readers and reviewers are never granted the author column.
+-- =====================================================================
+create table public.index_items (
+  slug text primary key,
+  kind text not null check (kind in ('foundation', 'aspiration', 'tenet', 'condemnation', 'definition')),
+  ordinal int not null,
+  label text not null
+);
+
+create table public.stories (
+  id bigint generated always as identity primary key,
+  author uuid references public.profiles(id) on delete set null,
+  happened text not null check (char_length(happened) between 1 and 20000),
+  could_help text not null check (char_length(could_help) between 1 and 20000),
+  no_names boolean not null check (no_names),
+  status public.consideration_status not null default 'pending',
+  reviewed_by uuid references public.profiles(id),
+  reviewed_at timestamptz,
+  review_note text,
+  created_at timestamptz not null default now()
+);
+create index on public.stories (status, reviewed_at);
+
+create table public.story_index (
+  story bigint references public.stories(id) on delete cascade,
+  item text references public.index_items(slug),
+  primary key (story, item)
+);
+
+create table public.story_indicators (
+  story bigint references public.stories(id) on delete cascade,
+  indicator text references public.indicators(slug) on delete cascade,
+  primary key (story, indicator)
+);
+
+create function public.guard_story() returns trigger
+language plpgsql security definer set search_path = '' as $$
+begin
+  if tg_op = 'INSERT' then
+    new.author := auth.uid();
+    new.status := 'pending';
+    new.reviewed_by := null;
+    new.reviewed_at := null;
+    new.review_note := null;
+    return new;
+  end if;
+  if not public.is_admin() then
+    raise exception 'Only an admin may review a story.';
+  end if;
+  new.author := old.author;
+  new.happened := old.happened;
+  new.could_help := old.could_help;
+  new.reviewed_by := auth.uid();
+  new.reviewed_at := now();
+  return new;
+end $$;
+
+create trigger stories_guard
+  before insert or update on public.stories
+  for each row execute function public.guard_story();
+
+-- Share a story and its index tags in one step. At least one tag is required.
+create function public.share_story(happened text, could_help text, no_names boolean, items text[])
+returns bigint
+language plpgsql security definer set search_path = '' as $$
+declare new_id bigint;
+begin
+  if auth.uid() is null then raise exception 'Please sign in to share.'; end if;
+  if coalesce(array_length(items, 1), 0) = 0 then
+    raise exception 'Choose at least one item your story speaks to.';
+  end if;
+  insert into public.stories (happened, could_help, no_names)
+    values (share_story.happened, share_story.could_help, share_story.no_names)
+    returning id into new_id;
+  insert into public.story_index (story, item)
+    select new_id, unnest(items);
+  return new_id;
+end $$;
+
+-- A member's own stories (the only way author is ever read).
+create function public.my_stories()
+returns table (id bigint, happened text, status public.consideration_status, review_note text, created_at timestamptz)
+language sql stable security definer set search_path = '' as $$
+  select s.id, s.happened, s.status, s.review_note, s.created_at
+  from public.stories s where s.author = auth.uid() and auth.uid() is not null
+  order by s.created_at desc;
+$$;
+
+-- Autonomy: a member may withdraw her story at any time.
+create function public.withdraw_story(story_id bigint) returns void
+language sql security definer set search_path = '' as $$
+  delete from public.stories where id = story_id and author = auth.uid() and auth.uid() is not null;
+$$;
+
+alter table public.index_items enable row level security;
+alter table public.stories enable row level security;
+alter table public.story_index enable row level security;
+alter table public.story_indicators enable row level security;
+
+create policy "index readable" on public.index_items for select using (true);
+
+create policy "published stories readable" on public.stories for select
+  using (status = 'published' or public.is_admin());
+create policy "admins review stories" on public.stories for update
+  using (public.is_admin());
+create policy "admins remove stories" on public.stories for delete
+  using (public.is_admin());
+
+-- Hide the author column from everyone reading through the API.
+revoke select on public.stories from anon, authenticated;
+grant select (id, happened, could_help, status, reviewed_at, review_note, created_at)
+  on public.stories to anon, authenticated;
+revoke insert on public.stories from anon, authenticated;
+
+create policy "story tags readable" on public.story_index for select using (true);
+create policy "admins retag" on public.story_index for all
+  using (public.is_admin()) with check (public.is_admin());
+create policy "story indicators readable" on public.story_indicators for select using (true);
+create policy "admins tag stories" on public.story_indicators for all
+  using (public.is_admin()) with check (public.is_admin());
+
+insert into public.index_items (slug, kind, ordinal, label) values
+  ('foundation', 'foundation', 1, 'The Foundational Understanding'),
+  ('less-suffering', 'aspiration', 1, 'Less Suffering'),
+  ('wonder', 'aspiration', 2, 'Wonder'),
+  ('grace', 'aspiration', 3, 'Grace'),
+  ('autonomy', 'tenet', 1, 'Autonomy'),
+  ('xenia', 'tenet', 2, 'Xenia'),
+  ('repair', 'tenet', 3, 'Repair and Our Path Forward'),
+  ('reciprocity', 'tenet', 4, 'Reciprocity'),
+  ('rocking-chair', 'tenet', 5, 'The Rocking Chair'),
+  ('trauma-informed', 'tenet', 6, 'Trauma Informed Behavior'),
+  ('power', 'tenet', 7, 'Power and Authority'),
+  ('education', 'tenet', 8, 'Education'),
+  ('testimony', 'tenet', 9, 'Attestation and Testimony'),
+  ('c-crusades', 'condemnation', 1, 'Crusades'),
+  ('c-oppression', 'condemnation', 2, 'Oppression'),
+  ('c-slavery', 'condemnation', 3, 'Slavery'),
+  ('c-exploitation', 'condemnation', 4, 'Exploitation'),
+  ('c-erasure', 'condemnation', 5, 'Erasure'),
+  ('c-torture', 'condemnation', 6, 'Torture'),
+  ('c-knowledge-prevention', 'condemnation', 7, 'Knowledge Prevention'),
+  ('c-central-charismatic-cult-leadership', 'condemnation', 8, 'Central Charismatic Cult Leadership'),
+  ('c-denial-of-autonomy', 'condemnation', 9, 'Denial of Autonomy'),
+  ('c-religion-as-ruling-divinity-or-government-system', 'condemnation', 10, 'Religion as Ruling Divinity or Government System'),
+  ('d-accusation', 'definition', 1, 'Accusation'),
+  ('d-attestation', 'definition', 2, 'Attestation'),
+  ('d-autonomy', 'definition', 3, 'Autonomy'),
+  ('d-bylaws', 'definition', 4, 'Bylaws'),
+  ('d-canon', 'definition', 5, 'Canon'),
+  ('d-complaint', 'definition', 6, 'Complaint'),
+  ('d-conclave', 'definition', 7, 'Conclave'),
+  ('d-consideration', 'definition', 8, 'Consideration'),
+  ('d-considerate', 'definition', 9, 'Considerate'),
+  ('d-council-of-wisdoms', 'definition', 10, 'Council of Wisdoms'),
+  ('d-disinterested-party', 'definition', 11, 'Disinterested party'),
+  ('d-fourth-space', 'definition', 12, 'Fourth space'),
+  ('d-guest', 'definition', 13, 'Guest'),
+  ('d-harm', 'definition', 14, 'Harm'),
+  ('d-host', 'definition', 15, 'Host'),
+  ('d-kindly-crone', 'definition', 16, 'Kindly Crone'),
+  ('d-ledger', 'definition', 17, 'Ledger'),
+  ('d-left-and-found', 'definition', 18, 'Left and Found'),
+  ('d-matron-saint', 'definition', 19, 'Matron Saint'),
+  ('d-member', 'definition', 20, 'Member'),
+  ('d-mutual-aid', 'definition', 21, 'Mutual aid'),
+  ('d-node', 'definition', 22, 'Node'),
+  ('d-nyxalon', 'definition', 23, 'Nyxalon'),
+  ('d-remedy', 'definition', 24, 'Remedy'),
+  ('d-repair', 'definition', 25, 'Repair'),
+  ('d-role', 'definition', 26, 'Role'),
+  ('d-sisters-of-sonder', 'definition', 27, 'Sisters of Sonder'),
+  ('d-sonder', 'definition', 28, 'Sonder'),
+  ('d-spoon-theory', 'definition', 29, 'Spoon theory'),
+  ('d-suffering', 'definition', 30, 'Suffering'),
+  ('d-testimony', 'definition', 31, 'Testimony'),
+  ('d-trauma-informed-behavior', 'definition', 32, 'Trauma informed behavior'),
+  ('d-wisdom', 'definition', 33, 'Wisdom');

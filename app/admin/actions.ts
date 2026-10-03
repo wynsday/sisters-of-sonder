@@ -91,3 +91,46 @@ export async function addIndicator(formData: FormData) {
   revalidatePath("/admin/indicators");
   revalidatePath("/admin");
 }
+
+// ---------- Hear My Voice ----------
+export async function reviewStory(formData: FormData) {
+  const supabase = await staff();
+  const id = Number(formData.get("id"));
+  const note = String(formData.get("note") ?? "").trim() || null;
+  const back = "/admin/stories";
+
+  if (formData.get("decision") === "decline") {
+    const { error } = await supabase
+      .from("stories")
+      .update({ status: "declined", review_note: note })
+      .eq("id", id);
+    if (error) fail(back, error.message);
+    revalidatePath(back);
+    return;
+  }
+
+  const items = formData.getAll("items").map(String);
+  const indicators = formData.getAll("indicators").map(String);
+  if (!items.length) fail(back, "A story needs at least one item it speaks to.");
+  if (!formData.get("checked_names")) fail(back, "Confirm no one is named or identifiable before publishing.");
+
+  // Tags and indicators first, so a story never appears without its indicators.
+  await supabase.from("story_index").delete().eq("story", id);
+  const tagged = await supabase.from("story_index").insert(items.map((item) => ({ story: id, item })));
+  if (tagged.error) fail(back, tagged.error.message);
+  await supabase.from("story_indicators").delete().eq("story", id);
+  if (indicators.length) {
+    const marked = await supabase
+      .from("story_indicators")
+      .insert(indicators.map((indicator) => ({ story: id, indicator })));
+    if (marked.error) fail(back, marked.error.message);
+  }
+
+  const { error } = await supabase
+    .from("stories")
+    .update({ status: "published", review_note: note })
+    .eq("id", id);
+  if (error) fail(back, error.message);
+  revalidatePath("/hear-my-voice");
+  revalidatePath(back);
+}

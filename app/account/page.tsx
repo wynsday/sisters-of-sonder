@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { isConfigured } from "@/lib/supabase/env";
 import { getRoles } from "@/lib/auth";
 import { signOut } from "../join/actions";
+import { withdrawStory } from "./actions";
 
 export const metadata: Metadata = { title: "Your account" };
 // Personal to whoever is signed in; never cached.
@@ -14,14 +15,22 @@ export default async function AccountPage() {
   const { supabase, user, isAdmin, chairs } = await getRoles();
   if (!user) redirect("/join?mode=signin&next=/account");
 
-  const [{ data: profile }, { data: mine }] = await Promise.all([
+  const [{ data: profile }, { data: mine }, { data: stories }] = await Promise.all([
     supabase.from("profiles").select("display_name").eq("id", user.id).single(),
     supabase
       .from("considerations")
       .select("id, title, status, book, created_at, review_note")
       .eq("author", user.id)
       .order("created_at", { ascending: false }),
+    supabase.rpc("my_stories"),
   ]);
+  const myStories = (stories ?? []) as {
+    id: number;
+    happened: string;
+    status: string;
+    review_note: string | null;
+    created_at: string;
+  }[];
 
   return (
     <>
@@ -35,6 +44,9 @@ export default async function AccountPage() {
           <div className="subnav">
             <Link className="btn btn-moss btn-small" href="/contribute">
               Offer a Consideration
+            </Link>
+            <Link className="btn btn-moss btn-small" href="/hear-my-voice/share">
+              Share your story
             </Link>
             {isAdmin && (
               <Link className="btn btn-gold btn-small" href="/admin">
@@ -80,6 +92,38 @@ export default async function AccountPage() {
                       </span>
                     </td>
                     <td>{new Date(c.created_at).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+
+          <h2 style={{ marginTop: 48 }}>Your stories</h2>
+          <p className="hint">Only you can see this list. Your name is never shown with a story.</p>
+          {!myStories.length ? (
+            <p className="empty">Nothing yet.</p>
+          ) : (
+            <table className="list">
+              <tbody>
+                {myStories.map((s) => (
+                  <tr key={s.id}>
+                    <td>
+                      {s.happened.length > 140 ? `${s.happened.slice(0, 140)}…` : s.happened}
+                      {s.review_note && <div className="hint">Note from review: {s.review_note}</div>}
+                    </td>
+                    <td>
+                      <span className={`status ${s.status}`}>
+                        {s.status === "pending" ? "awaiting review" : s.status}
+                      </span>
+                    </td>
+                    <td style={{ textAlign: "right" }}>
+                      <form action={withdrawStory}>
+                        <input type="hidden" name="id" value={s.id} />
+                        <button className="btn btn-small" style={{ border: "1px solid var(--line)" }}>
+                          Withdraw
+                        </button>
+                      </form>
+                    </td>
                   </tr>
                 ))}
               </tbody>
