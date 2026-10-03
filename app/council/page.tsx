@@ -40,7 +40,7 @@ export default function Council() {
             Having a women only council does not erase or filter out men&rsquo;s voices or deeds since men can be granted authority as board members and clergy, which is an authority Wisdoms cannot have.
           </p>
           <p className="book-link">
-            <Link href="/aspirations#power">Read the Seventh Tenet in full &rarr;</Link>
+            <Link href="/tenets#power">Read the Seventh Tenet in full &rarr;</Link>
           </p>
         </div>
       </section>

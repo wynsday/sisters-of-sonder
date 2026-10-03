@@ -45,7 +45,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               {ORG.tagline}
             </div>
             <div>
-              <Link href="/aspirations">Sacred Aspirations</Link> &middot;{" "}
+              <Link href="/foundation">Foundational Understanding</Link> &middot;{" "}
+              <Link href="/tenets">Tenets</Link> &middot;{" "}
+              <Link href="/definitions">Definitions</Link> &middot;{" "}
               <Link href="/books">Books of Considerations</Link> &middot;{" "}
               <Link href="/hear-my-voice">Hear My Voice</Link> &middot;{" "}
               <Link href="/council">Council</Link> &middot; <Link href="/account">Account</Link>

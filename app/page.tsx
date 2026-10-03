@@ -1,6 +1,14 @@
 import Link from "next/link";
 import { ORG } from "@/lib/config";
 
+function BookLink({ slug, title }: { slug: string; title: string }) {
+  return (
+    <p className="book-link">
+      <Link href={`/books/${slug}`}>Read {title} &rarr;</Link>
+    </p>
+  );
+}
+
 export default function Home() {
   return (
     <>
@@ -16,14 +24,14 @@ export default function Home() {
             into a quilt of solidarity to reveal the belief structures within us all.
           </p>
           <div className="choices">
-            <Link className="choice" href="/aspirations#foundation">
+            <Link className="choice" href="/foundation">
               Foundational Understanding
             </Link>
             <Link className="choice choice-main" href="/join">
               <span>Join</span>
               <span>and contribute</span>
             </Link>
-            <Link className="choice" href="/aspirations#tenets">
+            <Link className="choice" href="/tenets">
               Nine Tenets of Agreement
             </Link>
           </div>
@@ -31,31 +39,31 @@ export default function Home() {
       </div>
 
       <section>
-        <div className="wrap">
+        <div className="wrap read">
           <div className="center">
-            <div className="kicker">The Three Sacred Aspirations</div>
-            <h2>A purpose, a path, and the desire to walk it</h2>
+            <h2>The Three Sacred Aspirations</h2>
+            <p><em>Aspirations require a purpose, a path, and the desire to walk it.</em></p>
           </div>
-          <div className="cards">
-            <div className="card">
-              <div className="num">I</div>
-              <h3>Less Suffering</h3>
-              <p>To cause less suffering, to enable less suffering, to endure less suffering, to stand up and actively prevent suffering.</p>
-            </div>
-            <div className="card">
-              <div className="num">II</div>
-              <h3>Wonder</h3>
-              <p>To delight in the mysteries you encounter, and to encounter more than you have.</p>
-            </div>
-            <div className="card">
-              <div className="num">III</div>
-              <h3>Grace</h3>
-              <p>To be kind to yourself, be kind to others, and be kind to life wherever you encounter it.</p>
-            </div>
+          <div className="part" id="suffering">
+            <h2>The First Aspiration: Less Suffering</h2>
+            <div className="aspire">To cause less suffering, to enable less suffering, to endure less suffering, to stand up and actively prevent suffering. Harm is not suffering but all suffering is harm.</div>
+            <div className="consider">The natural world is violent, yet peaceful. It is kind, yet harsh. Violence is a continuum and a cycle. When violence is necessary to reduce suffering, it should be sharp, definitive, controlled; a precision instrument to prevent unnecessary suffering, such as setting a bone. We do not condemn the dragon for killing a sheep in order to sustain itself, as we would not condemn the sheep for assaulting greens, nor condemn the greens for draining the earth. We do condemn the horrors associated with these actions when done with cruel intentions or as byproducts of negligence.</div>
+            <BookLink slug="less-suffering" title="The First Aspiration: Considerations of Less Suffering" />
           </div>
-          <p className="center" style={{ marginTop: 28 }}>
-            <Link href="/aspirations">Read the Sacred Aspirations &rarr;</Link>
-          </p>
+
+          <div className="part" id="wonder">
+            <h2>The Second Aspiration: Wonder</h2>
+            <div className="aspire">To delight in the mysteries you encounter, and to encounter more than you have.</div>
+            <div className="consider">The number of molecules in a single breath is larger than the number of breaths in the atmosphere, which means you have shared a breath with every deity and every ancestor to have breathed upon this earth. A mammoth, an enemy, a friend, a person no one remembers, and a unicorn, if one ever walked the earth, have all shared a breath with you. We are the ancients, for every atom in us is older than the sun. Yet we see the world first with the eyes of a child, delight in the prism rainbows dancing on the wall, and find mystery in the mundane.</div>
+            <BookLink slug="wonder" title="The Second Aspiration: Considerations of Wonder" />
+          </div>
+
+          <div className="part" id="grace">
+            <h2>The Third Aspiration: Grace</h2>
+            <div className="aspire">To be kind to yourself, be kind to others, and be kind to life wherever you encounter it.</div>
+            <div className="consider">Grace overflows; it is there for anyone who would have it, to hold or share from abundance, as water from a spring can be drawn by whoever comes. Grace contains neither forgiveness nor debt, yet for it we can hold gratitude. No one should demand grace or gratitude; both are elegant kindnesses extended and held freely, never to be earned or repaid. &ldquo;A debt of gratitude&rdquo; is not grace; it is self-imposed or becomes unkind leverage.</div>
+            <BookLink slug="grace" title="The Third Aspiration: Considerations of Grace" />
+          </div>
         </div>
       </section>
 

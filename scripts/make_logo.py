@@ -54,7 +54,7 @@ BANNER_TOP = S * R                       # that base sits at S*R below centre
 BANNER_W = 2 * R * math.sin(math.radians(36))   # as wide as that base
 BANNER_L = BANNER_W * PHI                # hangs long: a golden rectangle
 
-INK, FIELD = "#1c1a2e", "#fbf6ea"
+INK, FIELD, RING = "#1c1a2e", "#fbf6ea", "#ffffff"
 GOLD, GOLD_DARK, ROSE = "#e8cf98", "#b8893a", "#8a4b55"
 
 
@@ -145,8 +145,7 @@ def dew_drop():
 def ring():
     return [
         f'<circle r="{RING_R:.3f}" fill="{FIELD}"/>',
-        f'<circle r="{RING_R:.3f}" fill="none" stroke="{GOLD_DARK}" stroke-width="{RING_W:.3f}"/>',
-        f'<circle r="{RING_R - RING_W / 2:.3f}" fill="none" stroke="{GOLD}" stroke-width="{RING_W * 0.18:.3f}"/>',
+        f'<circle r="{RING_R:.3f}" fill="none" stroke="{RING}" stroke-width="{RING_W:.3f}"/>',
     ]
 
 
@@ -181,9 +180,9 @@ DEFS = f"""<defs>
 
 def symbol(with_banner):
     body = []
-    body += ring()
     if with_banner:
-        body += banner()
+        body += banner()                  # the banner hangs behind everything
+    body += ring()
     for r, w in WREATHS:
         lines, width = wreath(r, w)
         body += lines

@@ -6,10 +6,11 @@ import { useState } from "react";
 
 const LINKS = [
   { href: "/", label: "Home" },
-  { href: "/aspirations", label: "Sacred Aspirations" },
+  { href: "/foundation", label: "Foundation" },
+  { href: "/tenets", label: "Tenets" },
   { href: "/books", label: "Considerations" },
   { href: "/hear-my-voice", label: "Hear My Voice" },
-  { href: "/council", label: "Council of Wisdoms" },
+  { href: "/council", label: "Council" },
   { href: "/account", label: "Account" },
 ];
 

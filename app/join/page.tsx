@@ -106,7 +106,7 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
                     <div className="field">
                       <label className="check">
                         <input type="checkbox" name="read" required /> I have read the{" "}
-                        <Link href="/aspirations">Sacred Aspirations</Link> and the Condemnations.
+                        <Link href="/foundation">Foundational Understanding and the Condemnations</Link>, and the <Link href="/tenets">Tenets</Link>.
                       </label>
                     </div>
                     <button className="btn btn-gold" type="submit" disabled={!isConfigured}>
