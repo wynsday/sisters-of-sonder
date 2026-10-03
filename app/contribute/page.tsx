@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { isConfigured } from "@/lib/supabase/env";
 import { getSession } from "@/lib/auth";
 import Link from "next/link";
@@ -11,10 +10,10 @@ export const metadata: Metadata = { title: "Offer a Consideration" };
 export const dynamic = "force-dynamic";
 
 export default async function ContributePage({ searchParams }: PageProps<"/contribute">) {
-  if (!isConfigured) redirect("/join");
   const sp = await searchParams;
-  const { supabase, user } = await getSession();
-  const { data } = user ? await supabase.from("books").select("*").order("ordinal") : { data: [] };
+  const { supabase, user } = isConfigured ? await getSession() : { supabase: null, user: null };
+  const { data } =
+    supabase && user ? await supabase.from("books").select("*").order("ordinal") : { data: [] };
   const shelfOrder = { foundation: 0, aspiration: 1, tenet: 2, quilt: 3 };
   const books = ((data ?? []) as Book[]).sort((a, b) => shelfOrder[a.kind] - shelfOrder[b.kind]);
   const chosen = String(sp.book ?? "");
