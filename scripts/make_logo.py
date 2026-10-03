@@ -4,10 +4,10 @@ Angles are clockwise from the top; the outer wreath radius is R.
 
   Strand   P(r, a): regular pentagon, vertices at radius r, angles a + 72k.
   Braid    B(r) = P(r, 0) + P(r, 36): the {10/2} star.
-  Wreath   W(r) = B(r) + B(s*r), s = cos 36 (inner points touch outer edge midpoints).
-  Wreaths  at R, gR, g^2 R (the three aspirations). Line width ~ wreath radius.
-  Rays     not drawn. Ink dots on every crossing/touch point along THETA
-           suppress one of the ten rays, leaving nine.
+  Wreath   W(r) = B(r): two braided pentagons. There are three wreaths,
+           at R, gR, g^2 R (the three aspirations). Line width ~ wreath radius.
+  Rays     not drawn; the ten point directions carry the nine tenets and
+           the Foundational Understanding.
   Dew drop disc of radius RHO with rim T; RHO + T/2 < s^2 g^2 R.
            The glint sits on the THETA axis so the mirror symmetry holds.
   Ring and banner: banner width = ring diameter / phi^2 (<= half the ring),
@@ -18,14 +18,13 @@ Writes public/logo.svg (ring and banner) and public/emblem.svg (ring only).
 import math
 
 R = 100.0
-S = math.cos(math.radians(36))           # 0.809
+S = math.cos(math.radians(36))           # 0.809: a braid's flat sides sit at S*r
 G = 0.66                                 # wreath spacing (clears 0.654 limit)
-THETA = 0.0                              # suppressed direction: 0 = up (a touch direction)
+THETA = 0.0                              # symmetry axis for the glint: 0 = up
 LINE = 0.022                             # line width as a fraction of wreath radius
-DOT = 1.7                                # ink dot radius as a multiple of line width
 
 RHO, T = 0.20 * R, 0.07 * R              # dew drop radius and rim width
-assert RHO + T / 2 < S * S * G * G * R, "dew drop would touch the inner wreath"
+assert RHO + T / 2 < S * G * G * R, "dew drop would touch the inner wreath"
 
 RING_R, RING_W = 1.10 * R, 0.07 * R      # ring radius (centre of stroke) and width
 PHI = (1 + 5 ** 0.5) / 2
@@ -50,24 +49,8 @@ def pentagon(r, alpha, width):
 
 def wreath(r):
     width = LINE * r
-    out = [pentagon(rad, a, width) for rad in (r, S * r) for a in (0, 36)]
+    out = [pentagon(r, a, width) for a in (0, 36)]
     return out, width
-
-
-def suppression_dots(r, width):
-    """Ink dots on every crossing or touch point that lies along THETA."""
-    rel = THETA % 36
-    if abs(rel) < 1e-9:      # touch direction: inner braid point on outer braid edge
-        radii = [S * r]
-    elif abs(rel - 18) < 1e-9:   # crossing direction: one crossing per braid
-        radii = [r * S / math.cos(math.radians(18)), S * r * S / math.cos(math.radians(18))]
-    else:
-        raise ValueError("THETA must be a touch (0 + 36k) or crossing (18 + 36k) direction")
-    out = []
-    for rad in radii:
-        x, y = pt(rad, THETA)
-        out.append(f'<circle cx="{x:.3f}" cy="{y:.3f}" r="{DOT * width:.3f}" fill="{INK}"/>')
-    return out
 
 
 def dew_drop():
@@ -116,7 +99,6 @@ def symbol(with_banner):
     for r in (R, G * R, G * G * R):
         lines, width = wreath(r)
         body += lines
-        body += suppression_dots(r, width)
     body += dew_drop()
     pad = RING_W
     half = RING_R + RING_W / 2 + pad

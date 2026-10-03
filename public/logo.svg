@@ -13,19 +13,10 @@
 <circle r="106.500" fill="none" stroke="#e8cf98" stroke-width="1.260"/>
 <polygon points="0.000,-100.000 95.106,-30.902 58.779,80.902 -58.779,80.902 -95.106,-30.902" fill="none" stroke="#1c1a2e" stroke-width="2.200" stroke-linejoin="miter"/>
 <polygon points="58.779,-80.902 95.106,30.902 0.000,100.000 -95.106,30.902 -58.779,-80.902" fill="none" stroke="#1c1a2e" stroke-width="2.200" stroke-linejoin="miter"/>
-<polygon points="0.000,-80.902 76.942,-25.000 47.553,65.451 -47.553,65.451 -76.942,-25.000" fill="none" stroke="#1c1a2e" stroke-width="2.200" stroke-linejoin="miter"/>
-<polygon points="47.553,-65.451 76.942,25.000 0.000,80.902 -76.942,25.000 -47.553,-65.451" fill="none" stroke="#1c1a2e" stroke-width="2.200" stroke-linejoin="miter"/>
-<circle cx="0.000" cy="-80.902" r="3.740" fill="#1c1a2e"/>
 <polygon points="0.000,-66.000 62.770,-20.395 38.794,53.395 -38.794,53.395 -62.770,-20.395" fill="none" stroke="#1c1a2e" stroke-width="1.452" stroke-linejoin="miter"/>
 <polygon points="38.794,-53.395 62.770,20.395 0.000,66.000 -62.770,20.395 -38.794,-53.395" fill="none" stroke="#1c1a2e" stroke-width="1.452" stroke-linejoin="miter"/>
-<polygon points="0.000,-53.395 50.782,-16.500 31.385,43.198 -31.385,43.198 -50.782,-16.500" fill="none" stroke="#1c1a2e" stroke-width="1.452" stroke-linejoin="miter"/>
-<polygon points="31.385,-43.198 50.782,16.500 0.000,53.395 -50.782,16.500 -31.385,-43.198" fill="none" stroke="#1c1a2e" stroke-width="1.452" stroke-linejoin="miter"/>
-<circle cx="0.000" cy="-53.395" r="2.468" fill="#1c1a2e"/>
 <polygon points="0.000,-43.560 41.428,-13.461 25.604,35.241 -25.604,35.241 -41.428,-13.461" fill="none" stroke="#1c1a2e" stroke-width="0.958" stroke-linejoin="miter"/>
 <polygon points="25.604,-35.241 41.428,13.461 0.000,43.560 -41.428,13.461 -25.604,-35.241" fill="none" stroke="#1c1a2e" stroke-width="0.958" stroke-linejoin="miter"/>
-<polygon points="0.000,-35.241 33.516,-10.890 20.714,28.510 -20.714,28.510 -33.516,-10.890" fill="none" stroke="#1c1a2e" stroke-width="0.958" stroke-linejoin="miter"/>
-<polygon points="20.714,-28.510 33.516,10.890 0.000,35.241 -33.516,10.890 -20.714,-28.510" fill="none" stroke="#1c1a2e" stroke-width="0.958" stroke-linejoin="miter"/>
-<circle cx="0.000" cy="-35.241" r="1.629" fill="#1c1a2e"/>
 <circle r="23.500" fill="none" stroke="#b8893a" stroke-width="7.000"/>
 <circle r="20.000" fill="url(#water)"/>
 <ellipse cx="0.000" cy="-9.000" rx="8.400" ry="4.400" transform="rotate(0.0 0.000 -9.000)" fill="#ffffff" fill-opacity=".7"/>
