@@ -21,10 +21,10 @@
 <rect x="-50.550" y="93.631" width="101.099" height="169.253" fill="none" stroke="#e8cf98" stroke-width="1.260"/>
 <polygon points="0.000,-100.000 95.106,-30.902 58.779,80.902 -58.779,80.902 -95.106,-30.902" fill="none" stroke="#1c1a2e" stroke-width="4.500" stroke-linejoin="miter"/>
 <polygon points="58.779,-80.902 95.106,30.902 0.000,100.000 -95.106,30.902 -58.779,-80.902" fill="none" stroke="#1c1a2e" stroke-width="4.500" stroke-linejoin="miter"/>
-<polygon points="0.000,-66.000 62.770,-20.395 38.794,53.395 -38.794,53.395 -62.770,-20.395" fill="none" stroke="#1c1a2e" stroke-width="2.970" stroke-linejoin="miter"/>
-<polygon points="38.794,-53.395 62.770,20.395 0.000,66.000 -62.770,20.395 -38.794,-53.395" fill="none" stroke="#1c1a2e" stroke-width="2.970" stroke-linejoin="miter"/>
-<polygon points="0.000,-48.314 45.950,-14.930 28.398,39.087 -28.398,39.087 -45.950,-14.930" fill="none" stroke="#1c1a2e" stroke-width="2.174" stroke-linejoin="miter"/>
-<polygon points="28.398,-39.087 45.950,14.930 0.000,48.314 -45.950,14.930 -28.398,-39.087" fill="none" stroke="#1c1a2e" stroke-width="2.174" stroke-linejoin="miter"/>
+<polygon points="0.000,-70.000 66.574,-21.631 41.145,56.631 -41.145,56.631 -66.574,-21.631" fill="none" stroke="#1c1a2e" stroke-width="4.000" stroke-linejoin="miter"/>
+<polygon points="41.145,-56.631 66.574,21.631 0.000,70.000 -66.574,21.631 -41.145,-56.631" fill="none" stroke="#1c1a2e" stroke-width="4.000" stroke-linejoin="miter"/>
+<polygon points="0.000,-49.196 46.788,-15.202 28.916,39.800 -28.916,39.800 -46.788,-15.202" fill="none" stroke="#1c1a2e" stroke-width="3.600" stroke-linejoin="miter"/>
+<polygon points="28.916,-39.800 46.788,15.202 0.000,49.196 -46.788,15.202 -28.916,-39.800" fill="none" stroke="#1c1a2e" stroke-width="3.600" stroke-linejoin="miter"/>
 <circle r="32.000" fill="url(#water)"/>
 <g clip-path="url(#drop)" mask="url(#streak-fade)" filter="url(#soft)" opacity="0.3">
 <path d="M0,0 L-0.176,-33.600 L1.348,-33.573 Z" fill="#e5494c"/>

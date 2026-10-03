@@ -19,9 +19,12 @@ import math
 
 R = 100.0
 S = math.cos(math.radians(36))           # 0.809: a braid's flat sides sit at S*r
-G = 0.66                                 # wreath spacing (clears 0.654 limit)
+G = 0.70                                 # middle wreath radius, as a fraction of R
 THETA = 0.0                              # symmetry axis for the glint: 0 = up
-LINE = 0.045                             # line width as a fraction of wreath radius
+LINE = 0.045                             # outer wreath line width, as a fraction of R
+# Line widths (in R = 100 units): outer, middle, inner. The inner two are
+# heavier than strict proportion so they hold their own beside the outer.
+WIDTHS = (LINE * R, 4.0, 3.6)
 
 DROP_OUT = 0.38 * R                      # dew drop's outer edge (rim included)
 T = 0.06 * R                             # dew drop rim width
@@ -29,13 +32,16 @@ RHO = DROP_OUT - T                       # clear water inside the rim
 
 # The inner wreath is fitted around the drop: the inner edge of its lines
 # (flat sides at S*r, less half the line width) just touches the rim.
-R_INNER = DROP_OUT / (S - LINE / 2)
-WREATHS = (R, G * R, R_INNER)
+R_INNER = (DROP_OUT + WIDTHS[2] / 2) / S
+WREATHS = tuple(zip((R, G * R, R_INNER), WIDTHS))
 
 # Keep the wreaths from crossing: the inner wreath's points (with their
 # mitred tips) must stay inside the middle wreath's flat sides.
-_tip = R_INNER + 0.62 * LINE * R_INNER
-_mid_side = S * G * R - LINE * G * R / 2
+_tip = R_INNER + 0.62 * WIDTHS[2]
+_mid_side = S * G * R - WIDTHS[1] / 2
+_mid_tip = G * R + 0.62 * WIDTHS[1]
+_outer_side = S * R - WIDTHS[0] / 2
+assert _mid_tip < _outer_side, f"middle wreath points {_mid_tip:.1f} reach outer wreath {_outer_side:.1f}"
 assert _tip < _mid_side, f"inner wreath points {_tip:.1f} reach middle wreath {_mid_side:.1f}"
 
 RING_W = 0.07 * R                        # ring width
@@ -62,8 +68,7 @@ def pentagon(r, alpha, width):
     return f'<polygon points="{pts}" fill="none" stroke="{INK}" stroke-width="{width:.3f}" stroke-linejoin="miter"/>'
 
 
-def wreath(r):
-    width = LINE * r
+def wreath(r, width):
     out = [pentagon(r, a, width) for a in (0, 36)]
     return out, width
 
@@ -179,8 +184,8 @@ def symbol(with_banner):
     body += ring()
     if with_banner:
         body += banner()
-    for r in WREATHS:
-        lines, width = wreath(r)
+    for r, w in WREATHS:
+        lines, width = wreath(r, w)
         body += lines
     body += dew_drop()
     pad = RING_W
