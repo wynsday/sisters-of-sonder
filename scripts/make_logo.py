@@ -1,102 +1,135 @@
-"""Draws the Sisters of Sonder emblem: a ring of five sets of two braids
-(crossings marked with light dots for a scintillating effect), a round
-water drop with a thick border filling the inner space, and a heraldic
-banner hanging from the outer ring. Writes public/logo.svg (with banner)
-and public/emblem.svg (ring and drop only, for small sizes)."""
+"""Draws the Sisters of Sonder symbol from its construction.
+
+Angles are clockwise from the top; the outer wreath radius is R.
+
+  Strand   P(r, a): regular pentagon, vertices at radius r, angles a + 72k.
+  Braid    B(r) = P(r, 0) + P(r, 36): the {10/2} star.
+  Wreath   W(r) = B(r) + B(s*r), s = cos 36 (inner points touch outer edge midpoints).
+  Wreaths  at R, gR, g^2 R (the three aspirations). Line width ~ wreath radius.
+  Rays     not drawn. Ink dots on every crossing/touch point along THETA
+           suppress one of the ten rays, leaving nine.
+  Dew drop disc of radius RHO with rim T; RHO + T/2 < s^2 g^2 R.
+           The glint sits on the THETA axis so the mirror symmetry holds.
+  Ring and banner: banner width = ring diameter / phi^2 (<= half the ring),
+           length = width * phi.
+
+Writes public/logo.svg (ring and banner) and public/emblem.svg (ring only).
+"""
 import math
 
-CX, CY = 120, 120
-R_IN, R_OUT = 78, 112          # dark band holding the braids
-BRAIDS = (87, 103)             # centre radius of each braid in a set
-AMP = 5.5                      # braid strand amplitude
-SETS, GAP = 5, 7               # five sets, gap in degrees between sets
-TWISTS = 6                     # full twists per braid per set
-DROP_R = 44                    # water drop radius; border fills to R_IN
+R = 100.0
+S = math.cos(math.radians(36))           # 0.809
+G = 0.66                                 # wreath spacing (clears 0.654 limit)
+THETA = 0.0                              # suppressed direction: 0 = up (a touch direction)
+LINE = 0.022                             # line width as a fraction of wreath radius
+DOT = 1.7                                # ink dot radius as a multiple of line width
 
-NIGHT, GOLD, GOLD_DARK = "#1c1a2e", "#e8cf98", "#b8893a"
-STRAND, DOT = "#8f8aa6", "#ffffff"
-ROSE = "#8a4b55"
+RHO, T = 0.20 * R, 0.07 * R              # dew drop radius and rim width
+assert RHO + T / 2 < S * S * G * G * R, "dew drop would touch the inner wreath"
+
+RING_R, RING_W = 1.10 * R, 0.07 * R      # ring radius (centre of stroke) and width
+PHI = (1 + 5 ** 0.5) / 2
+RING_D = 2 * (RING_R + RING_W / 2)
+BANNER_W = RING_D / PHI ** 2             # 0.382 of the ring's width
+BANNER_L = BANNER_W * PHI                # hangs long: a golden rectangle
+assert BANNER_W <= RING_D / 2
+
+INK, FIELD = "#1c1a2e", "#fbf6ea"
+GOLD, GOLD_DARK, ROSE = "#e8cf98", "#b8893a", "#8a4b55"
 
 
 def pt(r, deg):
-    a = math.radians(deg - 90)
-    return CX + r * math.cos(a), CY + r * math.sin(a)
+    a = math.radians(deg)
+    return r * math.sin(a), -r * math.cos(a)
 
 
-def strand(r0, sign, start, span):
-    pts = []
-    steps = 160
-    for i in range(steps + 1):
-        t = i / steps
-        deg = start + span * t
-        r = r0 + sign * AMP * math.sin(2 * math.pi * TWISTS * t)
-        pts.append(pt(r, deg))
-    return "M" + " L".join(f"{x:.2f},{y:.2f}" for x, y in pts)
+def pentagon(r, alpha, width):
+    pts = " ".join(f"{x:.3f},{y:.3f}" for x, y in (pt(r, alpha + 72 * k) for k in range(5)))
+    return f'<polygon points="{pts}" fill="none" stroke="{INK}" stroke-width="{width:.3f}" stroke-linejoin="miter"/>'
 
 
-def ring():
-    out = [
-        f'<circle cx="{CX}" cy="{CY}" r="{(R_IN + R_OUT) / 2}" fill="none" stroke="{NIGHT}" stroke-width="{R_OUT - R_IN}"/>'
-    ]
-    span = 360 / SETS - GAP
-    for s in range(SETS):
-        start = s * 360 / SETS + GAP / 2
-        for r0 in BRAIDS:
-            for sign in (1, -1):
-                out.append(f'<path d="{strand(r0, sign, start, span)}" fill="none" stroke="{STRAND}" stroke-width="2.6" stroke-linecap="round"/>')
-            # light dots where the two strands cross
-            for k in range(2 * TWISTS + 1):
-                x, y = pt(r0, start + span * k / (2 * TWISTS))
-                out.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="2.3" fill="{DOT}"/>')
-        # a gold bead marks the gap between sets
-        bx, by = pt((R_IN + R_OUT) / 2, s * 360 / SETS)
-        out.append(f'<circle cx="{bx:.2f}" cy="{by:.2f}" r="4.5" fill="{GOLD}"/>')
-    out.append(f'<circle cx="{CX}" cy="{CY}" r="{R_OUT}" fill="none" stroke="{GOLD_DARK}" stroke-width="3"/>')
-    out.append(f'<circle cx="{CX}" cy="{CY}" r="{R_IN}" fill="none" stroke="{GOLD_DARK}" stroke-width="2"/>')
+def wreath(r):
+    width = LINE * r
+    out = [pentagon(rad, a, width) for rad in (r, S * r) for a in (0, 36)]
+    return out, width
+
+
+def suppression_dots(r, width):
+    """Ink dots on every crossing or touch point that lies along THETA."""
+    rel = THETA % 36
+    if abs(rel) < 1e-9:      # touch direction: inner braid point on outer braid edge
+        radii = [S * r]
+    elif abs(rel - 18) < 1e-9:   # crossing direction: one crossing per braid
+        radii = [r * S / math.cos(math.radians(18)), S * r * S / math.cos(math.radians(18))]
+    else:
+        raise ValueError("THETA must be a touch (0 + 36k) or crossing (18 + 36k) direction")
+    out = []
+    for rad in radii:
+        x, y = pt(rad, THETA)
+        out.append(f'<circle cx="{x:.3f}" cy="{y:.3f}" r="{DOT * width:.3f}" fill="{INK}"/>')
     return out
 
 
-def drop():
-    border = R_IN - 1 - DROP_R
+def dew_drop():
+    gx, gy = pt(RHO * 0.45, THETA)
     return [
-        f'<circle cx="{CX}" cy="{CY}" r="{DROP_R + border / 2}" fill="none" stroke="{GOLD}" stroke-width="{border}"/>',
-        f'<circle cx="{CX}" cy="{CY}" r="{DROP_R}" fill="url(#water)"/>',
-        f'<circle cx="{CX}" cy="{CY}" r="{DROP_R}" fill="none" stroke="{GOLD_DARK}" stroke-width="2"/>',
-        f'<ellipse cx="{CX - 15}" cy="{CY - 17}" rx="11" ry="7" transform="rotate(-35 {CX - 15} {CY - 17})" fill="#ffffff" fill-opacity=".55"/>',
-        f'<circle cx="{CX + 18}" cy="{CY + 20}" r="3" fill="#ffffff" fill-opacity=".35"/>',
+        f'<circle r="{RHO + T / 2:.3f}" fill="none" stroke="{GOLD_DARK}" stroke-width="{T:.3f}"/>',
+        f'<circle r="{RHO:.3f}" fill="url(#water)"/>',
+        f'<ellipse cx="{gx:.3f}" cy="{gy:.3f}" rx="{RHO * 0.42:.3f}" ry="{RHO * 0.22:.3f}" '
+        f'transform="rotate({THETA:.1f} {gx:.3f} {gy:.3f})" fill="#ffffff" fill-opacity=".7"/>',
     ]
 
 
-DEFS = """<defs>
-  <radialGradient id="water" cx="38%" cy="35%" r="70%">
-    <stop offset="0" stop-color="#a9d6ee"/>
+def ring():
+    return [
+        f'<circle r="{RING_R:.3f}" fill="{FIELD}"/>',
+        f'<circle r="{RING_R:.3f}" fill="none" stroke="{GOLD_DARK}" stroke-width="{RING_W:.3f}"/>',
+        f'<circle r="{RING_R - RING_W / 2:.3f}" fill="none" stroke="{GOLD}" stroke-width="{RING_W * 0.18:.3f}"/>',
+    ]
+
+
+def banner():
+    top = RING_R                          # hangs from the ring's outer edge
+    x0 = -BANNER_W / 2
+    inset = BANNER_W * 0.08
+    return [
+        f'<rect x="{x0:.3f}" y="{top:.3f}" width="{BANNER_W:.3f}" height="{BANNER_L:.3f}" fill="{ROSE}" stroke="{GOLD_DARK}" stroke-width="{RING_W * 0.5:.3f}"/>',
+        f'<rect x="{x0 + inset:.3f}" y="{top + inset + RING_W / 2:.3f}" width="{BANNER_W - 2 * inset:.3f}" '
+        f'height="{BANNER_L - 2 * inset - RING_W / 2:.3f}" fill="none" stroke="{GOLD}" stroke-width="{RING_W * 0.18:.3f}"/>',
+    ]
+
+
+DEFS = f"""<defs>
+  <radialGradient id="water" cx="50%" cy="38%" r="68%">
+    <stop offset="0" stop-color="#c3e4f4"/>
     <stop offset=".55" stop-color="#3f86b5"/>
     <stop offset="1" stop-color="#1f4f78"/>
   </radialGradient>
 </defs>"""
 
 
-def banner():
-    top, bottom, half = CY + R_OUT - 14, 318, 46
-    x0, x1 = CX - half, CX + half
-    return [
-        # hanging cords from the ring
-        f'<path d="M{x0 + 12},{top} V{top + 14} M{x1 - 12},{top} V{top + 14}" stroke="{GOLD_DARK}" stroke-width="3"/>',
-        f'<rect x="{x0}" y="{top + 12}" width="{2 * half}" height="{bottom - top - 12}" fill="{ROSE}" stroke="{GOLD_DARK}" stroke-width="3"/>',
-        f'<rect x="{x0 + 7}" y="{top + 19}" width="{2 * half - 14}" height="{bottom - top - 26}" fill="none" stroke="{GOLD}" stroke-width="1.2"/>',
-        f'<rect x="{x0 - 6}" y="{top + 8}" width="{2 * half + 12}" height="7" rx="3.5" fill="{GOLD_DARK}"/>',
-    ]
-
-
-def svg(width, height, body):
+def symbol(with_banner):
+    body = []
+    if with_banner:
+        body += banner()
+    body += ring()
+    for r in (R, G * R, G * G * R):
+        lines, width = wreath(r)
+        body += lines
+        body += suppression_dots(r, width)
+    body += dew_drop()
+    pad = RING_W
+    half = RING_R + RING_W / 2 + pad
+    height = (RING_R + BANNER_L + pad if with_banner else half) + half
+    view = f"{-half:.2f} {-half:.2f} {2 * half:.2f} {height:.2f}"
     return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" role="img" aria-label="Sisters of Sonder">\n'
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{view}" role="img" aria-label="Sisters of Sonder">\n'
         + DEFS + "\n" + "\n".join(body) + "\n</svg>\n"
     )
 
 
 with open("public/logo.svg", "w", encoding="utf8") as f:
-    f.write(svg(240, 324, banner() + ring() + drop()))
+    f.write(symbol(with_banner=True))
 with open("public/emblem.svg", "w", encoding="utf8") as f:
-    f.write(svg(240, 240, ring() + drop()))
-print("wrote public/logo.svg and public/emblem.svg")
+    f.write(symbol(with_banner=False))
+print(f"banner {BANNER_W:.1f} x {BANNER_L:.1f}, ring diameter {RING_D:.1f}")

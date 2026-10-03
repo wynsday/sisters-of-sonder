@@ -77,6 +77,19 @@ export default function Home() {
           <Link className="btn btn-gold" href="/join">Create an account</Link>
         </div>
       </section>
+
+      <section className="alt">
+        <div className="wrap symbol">
+          <img src="/logo.svg" alt="" className="symbol-mark" />
+          <div>
+            <div className="kicker">Our symbol</div>
+            <h2>The ring, the banner, and the dew drop</h2>
+            <p>The symbol of the {ORG.name} is a banner and ring with a dew drop held inside three wreaths of double pentagons. The pentagons represent the five elements, and each wreath is one of our aspirations, braided with the nine tenets and the foundational Understanding. If you see rays, we didn&rsquo;t draw them; you did.</p>
+            <p>The dew drop is water that doesn&rsquo;t belong to anyone. Water cycles, it rises, falls, gathers, and rises again.</p>
+            <div className="consider">The far side of a dew drop holds the world upside down. The light within holds the same world in a different perspective, just like each of us, and with a tiny movement, a rainbow is thrown across a wall, beautiful and undeniable. Imagine, how many potential rainbows exist inside of you?</div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

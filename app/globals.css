@@ -506,3 +506,10 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
   .choices { grid-template-columns: 1fr; max-width: 340px; }
   .choice-main { order: -1; }
 }
+
+.symbol { display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: start; }
+.symbol-mark { width: 100%; height: auto; }
+@media (max-width: 700px) {
+  .symbol { grid-template-columns: 1fr; }
+  .symbol-mark { width: 160px; margin: 0 auto; }
+}
