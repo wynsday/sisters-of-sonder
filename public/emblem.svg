@@ -1,21 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-120.50 -120.50 241.00 241.00" role="img" aria-label="Sisters of Sonder">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-107.00 -107.00 214.00 214.00" role="img" aria-label="Sisters of Sonder">
 <defs>
-  <radialGradient id="water" cx="50%" cy="38%" r="68%">
-    <stop offset="0" stop-color="#c3e4f4"/>
-    <stop offset=".55" stop-color="#3f86b5"/>
-    <stop offset="1" stop-color="#1f4f78"/>
-  </radialGradient>
+  <!-- clear water: shaded at the top, light gathered at the bottom -->
+  <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#cfc8ba"/>
+    <stop offset=".55" stop-color="#efebe2"/>
+    <stop offset="1" stop-color="#ffffff"/>
+  </linearGradient>
 </defs>
-<circle r="110.000" fill="#fbf6ea"/>
-<circle r="110.000" fill="none" stroke="#b8893a" stroke-width="7.000"/>
-<circle r="106.500" fill="none" stroke="#e8cf98" stroke-width="1.260"/>
-<polygon points="0.000,-100.000 95.106,-30.902 58.779,80.902 -58.779,80.902 -95.106,-30.902" fill="none" stroke="#1c1a2e" stroke-width="2.200" stroke-linejoin="miter"/>
-<polygon points="58.779,-80.902 95.106,30.902 0.000,100.000 -95.106,30.902 -58.779,-80.902" fill="none" stroke="#1c1a2e" stroke-width="2.200" stroke-linejoin="miter"/>
-<polygon points="0.000,-66.000 62.770,-20.395 38.794,53.395 -38.794,53.395 -62.770,-20.395" fill="none" stroke="#1c1a2e" stroke-width="1.452" stroke-linejoin="miter"/>
-<polygon points="38.794,-53.395 62.770,20.395 0.000,66.000 -62.770,20.395 -38.794,-53.395" fill="none" stroke="#1c1a2e" stroke-width="1.452" stroke-linejoin="miter"/>
-<polygon points="0.000,-43.560 41.428,-13.461 25.604,35.241 -25.604,35.241 -41.428,-13.461" fill="none" stroke="#1c1a2e" stroke-width="0.958" stroke-linejoin="miter"/>
-<polygon points="25.604,-35.241 41.428,13.461 0.000,43.560 -41.428,13.461 -25.604,-35.241" fill="none" stroke="#1c1a2e" stroke-width="0.958" stroke-linejoin="miter"/>
-<circle r="23.500" fill="none" stroke="#b8893a" stroke-width="7.000"/>
+<circle r="96.500" fill="#fbf6ea"/>
+<circle r="96.500" fill="none" stroke="#b8893a" stroke-width="7.000"/>
+<circle r="93.000" fill="none" stroke="#e8cf98" stroke-width="1.260"/>
+<polygon points="0.000,-100.000 95.106,-30.902 58.779,80.902 -58.779,80.902 -95.106,-30.902" fill="none" stroke="#1c1a2e" stroke-width="4.500" stroke-linejoin="miter"/>
+<polygon points="58.779,-80.902 95.106,30.902 0.000,100.000 -95.106,30.902 -58.779,-80.902" fill="none" stroke="#1c1a2e" stroke-width="4.500" stroke-linejoin="miter"/>
+<polygon points="0.000,-66.000 62.770,-20.395 38.794,53.395 -38.794,53.395 -62.770,-20.395" fill="none" stroke="#1c1a2e" stroke-width="2.970" stroke-linejoin="miter"/>
+<polygon points="38.794,-53.395 62.770,20.395 0.000,66.000 -62.770,20.395 -38.794,-53.395" fill="none" stroke="#1c1a2e" stroke-width="2.970" stroke-linejoin="miter"/>
+<polygon points="0.000,-43.560 41.428,-13.461 25.604,35.241 -25.604,35.241 -41.428,-13.461" fill="none" stroke="#1c1a2e" stroke-width="1.960" stroke-linejoin="miter"/>
+<polygon points="25.604,-35.241 41.428,13.461 0.000,43.560 -41.428,13.461 -25.604,-35.241" fill="none" stroke="#1c1a2e" stroke-width="1.960" stroke-linejoin="miter"/>
 <circle r="20.000" fill="url(#water)"/>
-<ellipse cx="0.000" cy="-9.000" rx="8.400" ry="4.400" transform="rotate(0.0 0.000 -9.000)" fill="#ffffff" fill-opacity=".7"/>
+<circle r="21.250" fill="none" stroke="#1c1a2e" stroke-width="2.500"/>
+<ellipse cx="0.000" cy="-9.000" rx="8.400" ry="4.400" transform="rotate(0.0 0.000 -9.000)" fill="#ffffff"/>
 </svg>

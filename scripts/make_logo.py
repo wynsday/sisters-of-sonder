@@ -21,12 +21,13 @@ R = 100.0
 S = math.cos(math.radians(36))           # 0.809: a braid's flat sides sit at S*r
 G = 0.66                                 # wreath spacing (clears 0.654 limit)
 THETA = 0.0                              # symmetry axis for the glint: 0 = up
-LINE = 0.022                             # line width as a fraction of wreath radius
+LINE = 0.045                             # line width as a fraction of wreath radius
 
-RHO, T = 0.20 * R, 0.07 * R              # dew drop radius and rim width
+RHO, T = 0.20 * R, 0.025 * R             # dew drop radius and rim width
 assert RHO + T / 2 < S * G * G * R, "dew drop would touch the inner wreath"
 
-RING_R, RING_W = 1.10 * R, 0.07 * R      # ring radius (centre of stroke) and width
+RING_W = 0.07 * R                        # ring width
+RING_R = R - RING_W / 2                  # ring's outer edge lands just under the outer points
 PHI = (1 + 5 ** 0.5) / 2
 RING_D = 2 * (RING_R + RING_W / 2)
 BANNER_W = RING_D / PHI ** 2             # 0.382 of the ring's width
@@ -56,10 +57,10 @@ def wreath(r):
 def dew_drop():
     gx, gy = pt(RHO * 0.45, THETA)
     return [
-        f'<circle r="{RHO + T / 2:.3f}" fill="none" stroke="{GOLD_DARK}" stroke-width="{T:.3f}"/>',
         f'<circle r="{RHO:.3f}" fill="url(#water)"/>',
+        f'<circle r="{RHO + T / 2:.3f}" fill="none" stroke="{INK}" stroke-width="{T:.3f}"/>',
         f'<ellipse cx="{gx:.3f}" cy="{gy:.3f}" rx="{RHO * 0.42:.3f}" ry="{RHO * 0.22:.3f}" '
-        f'transform="rotate({THETA:.1f} {gx:.3f} {gy:.3f})" fill="#ffffff" fill-opacity=".7"/>',
+        f'transform="rotate({THETA:.1f} {gx:.3f} {gy:.3f})" fill="#ffffff"/>',
     ]
 
 
@@ -83,11 +84,12 @@ def banner():
 
 
 DEFS = f"""<defs>
-  <radialGradient id="water" cx="50%" cy="38%" r="68%">
-    <stop offset="0" stop-color="#c3e4f4"/>
-    <stop offset=".55" stop-color="#3f86b5"/>
-    <stop offset="1" stop-color="#1f4f78"/>
-  </radialGradient>
+  <!-- clear water: shaded at the top, light gathered at the bottom -->
+  <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#cfc8ba"/>
+    <stop offset=".55" stop-color="#efebe2"/>
+    <stop offset="1" stop-color="#ffffff"/>
+  </linearGradient>
 </defs>"""
 
 
