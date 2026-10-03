@@ -23,8 +23,20 @@ G = 0.66                                 # wreath spacing (clears 0.654 limit)
 THETA = 0.0                              # symmetry axis for the glint: 0 = up
 LINE = 0.045                             # line width as a fraction of wreath radius
 
-RHO, T = 0.20 * R, 0.025 * R             # dew drop radius and rim width
-assert RHO + T / 2 < S * G * G * R, "dew drop would touch the inner wreath"
+DROP_OUT = 0.38 * R                      # dew drop's outer edge (rim included)
+T = 0.06 * R                             # dew drop rim width
+RHO = DROP_OUT - T                       # clear water inside the rim
+
+# The inner wreath is fitted around the drop: the inner edge of its lines
+# (flat sides at S*r, less half the line width) just touches the rim.
+R_INNER = DROP_OUT / (S - LINE / 2)
+WREATHS = (R, G * R, R_INNER)
+
+# Keep the wreaths from crossing: the inner wreath's points (with their
+# mitred tips) must stay inside the middle wreath's flat sides.
+_tip = R_INNER + 0.62 * LINE * R_INNER
+_mid_side = S * G * R - LINE * G * R / 2
+assert _tip < _mid_side, f"inner wreath points {_tip:.1f} reach middle wreath {_mid_side:.1f}"
 
 RING_W = 0.07 * R                        # ring width
 RING_R = R - RING_W / 2                  # ring's outer edge lands just under the outer points
@@ -55,13 +67,26 @@ def wreath(r):
 
 
 def dew_drop():
-    gx, gy = pt(RHO * 0.45, THETA)
-    return [
-        f'<circle r="{RHO:.3f}" fill="url(#water)"/>',
-        f'<circle r="{RHO + T / 2:.3f}" fill="none" stroke="{INK}" stroke-width="{T:.3f}"/>',
-        f'<ellipse cx="{gx:.3f}" cy="{gy:.3f}" rx="{RHO * 0.42:.3f}" ry="{RHO * 0.22:.3f}" '
-        f'transform="rotate({THETA:.1f} {gx:.3f} {gy:.3f})" fill="#ffffff"/>',
+    """Clear water with a gentle rainbow where the light gathers, and a
+    small round glint on the symmetry axis."""
+    gx, gy = pt(RHO * 0.5, THETA)
+    bands = ["#e86a6a", "#f0a35a", "#ecd36a", "#7fc48a", "#6aa6dc", "#9b85d0"]
+    arc_r, step = RHO * 0.95, RHO * 0.07
+    cy = RHO * 0.55                      # arc centre below the middle of the drop
+    rainbow = [
+        f'<circle cy="{cy:.3f}" r="{arc_r - k * step:.3f}" fill="none" stroke="{c}" '
+        f'stroke-width="{step:.3f}" stroke-opacity=".28"/>'
+        for k, c in enumerate(bands)
     ]
+    return (
+        [f'<circle r="{RHO:.3f}" fill="url(#water)"/>', '<g clip-path="url(#drop)">']
+        + rainbow
+        + [
+            "</g>",
+            f'<circle r="{RHO + T / 2:.3f}" fill="none" stroke="{INK}" stroke-width="{T:.3f}"/>',
+            f'<circle cx="{gx:.3f}" cy="{gy:.3f}" r="{RHO * 0.1:.3f}" fill="#ffffff"/>',
+        ]
+    )
 
 
 def ring():
@@ -84,6 +109,7 @@ def banner():
 
 
 DEFS = f"""<defs>
+  <clipPath id="drop"><circle r="{RHO:.3f}"/></clipPath>
   <!-- clear water: shaded at the top, light gathered at the bottom -->
   <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
     <stop offset="0" stop-color="#cfc8ba"/>
@@ -98,7 +124,7 @@ def symbol(with_banner):
     if with_banner:
         body += banner()
     body += ring()
-    for r in (R, G * R, G * G * R):
+    for r in WREATHS:
         lines, width = wreath(r)
         body += lines
     body += dew_drop()
