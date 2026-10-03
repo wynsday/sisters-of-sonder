@@ -24,7 +24,7 @@ export default async function ContributePage({ searchParams }: PageProps<"/contr
       <div className="page-hero">
         <div className="wrap">
           <h1>Offer a Consideration</h1>
-          <p>The House of Nisaba will review it and place it in its book.</p>
+          <p>Each Consideration is reviewed before it is placed in its book.</p>
         </div>
       </div>
 
@@ -67,8 +67,8 @@ export default async function ContributePage({ searchParams }: PageProps<"/contr
                 ))}
               </select>
               <div className="hint">
-                The House of Nisaba makes the final placement, including whether it belongs with
-                the Glimmers or the Triggers.
+                The final placement is made on review, including whether it belongs with the
+                Glimmers or the Triggers.
               </div>
             </div>
             <button className="btn btn-moss" type="submit">

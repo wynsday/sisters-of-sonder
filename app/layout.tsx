@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Cormorant_Garamond, EB_Garamond } from "next/font/google";
-import { SITE } from "@/lib/config";
+import { ORG, SITE } from "@/lib/config";
 import Nav from "@/components/Nav";
 import "./globals.css";
 
@@ -43,7 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <div>
               <strong>{SITE.name}</strong>
               <br />
-              {SITE.tagline}
+              {ORG.name}
             </div>
             <div>
               <Link href="/aspirations">Sacred Aspirations</Link> &middot;{" "}

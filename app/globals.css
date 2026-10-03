@@ -448,3 +448,8 @@ table.list th, table.list td { text-align: left; padding: 10px 8px; border-botto
 .error { background: #f3dfe2; border: 1px solid #e6c9ce; color: #6e2f39; border-radius: var(--radius); padding: 12px 16px; }
 .subnav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
 .book-link { font-size: 1rem; margin-top: -.3em; }
+.definitions { margin: 0; }
+.definitions > div { padding: 12px 0; border-bottom: 1px dashed var(--line); }
+.definitions dt { font-family: var(--serif-display); font-weight: 700; font-size: 1.2rem; }
+.definitions dd { margin: 2px 0 0; }
+.definitions ul { margin: 8px 0 0; padding-left: 1.2em; }

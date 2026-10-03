@@ -1,15 +1,15 @@
 import Link from "next/link";
-import { SITE } from "@/lib/config";
+import { ORG, SITE } from "@/lib/config";
 
 export default function Home() {
   return (
     <>
     <div className="hero">
       <div className="wrap">
-        <img className="emblem" src="emblem.svg" alt="" />
-        <div className="eyebrow">A quilt of the world&rsquo;s mysteries</div>
-        <h1>{SITE.name}</h1>
-        <p className="lede">We do not found yet another patriarchal religion. We consolidate the voices of the people into a quilt of solidarity to reveal the belief structure within us all.</p>
+        <img className="emblem" src="/emblem.svg" alt="" />
+        <div className="eyebrow">{SITE.name}</div>
+        <h1>{ORG.name}</h1>
+        <p className="lede"><em>{ORG.motto}</em></p>
         <Link className="btn btn-gold" href="/aspirations">Read the Sacred Aspirations</Link>
         <Link className="btn btn-ghost" href="/join">Join and contribute</Link>
       </div>
@@ -18,10 +18,10 @@ export default function Home() {
     <section>
       <div className="wrap read">
         <div className="kicker">Why we exist</div>
-        <h2>The sacred in aspiration</h2>
-        <p>When we look at history and the religions therein, we find belief structures full of aspirations and religions full of controlling methodologies for shaping human behavior, leveraging the aspirations of the many to guide the masses.</p>
-        <p>We acknowledge and condemn the social and individual violences caused by religion. We do, however, recognize the sacred in aspirations. This religion is spiritual, it is thoughtful, and it holds its condemnations in writing to remember why we have our Foundational Understanding, the Three Sacred Aspirations, and to temper our Nine Tenets of Agreement.</p>
-        <p>Our sacred aspirations are grounded in reduction and consideration. They should augment your life, not overtake it.</p>
+        <h2>A safe fourth space</h2>
+        <p>When we look at history, we find mythologies full of stories, belief structures full of aspirations, and religions full of controlling methodologies for shaping human behavior. The United States Constitution protects a religion&rsquo;s right to govern itself: to choose ministers, set discipline, and order itself. Within that protection, is where people&mdash; especially women&mdash; can find the most harm. The {ORG.name} hold our religious freedom as a trust and shield for the benefit of our members, not our leaders. Everyone deserves a safe space to learn about themselves and the world at large so they can live their own full, complex life.</p>
+        <p>We acknowledge and condemn the social and individual violences caused by religion. We do, however, recognize the sacred in aspirations. We do not found yet another patriarchal religion, rather we consolidate the voices of the people into a quilt of solidarity to reveal the belief structure within us all.</p>
+        <p>Our Sacred Aspirations are grounded in reduction and consideration; Tenets provide rights and dictate the expected behavior of members. They should augment your life, not overtake it.</p>
       </div>
     </section>
 
@@ -59,7 +59,7 @@ export default function Home() {
             <div className="kicker">A crowd-sourced faith</div>
             <h2>The Books of Considerations</h2>
             <p>We may be the first religion written by its people from stories that already exist. Each Aspiration and each Tenet has its own Book of Considerations, and the Quilt of the Considerate holds all the rest. Together they gather myths and folklore from around the world, looking for the ideas that more than one culture arrived at on its own.</p>
-            <p>When the same truth shows up in different tongues, on different continents, in different ages, we take notice. Members offer these stories, and the House of Nisaba, keepers of the sacred books, places them in their books.</p>
+            <p>When the same truth shows up in different tongues, on different continents, in different ages, we take notice. Members offer these stories, and each is reviewed before it is placed in its book.</p>
             <Link className="btn btn-moss" href="/books">Explore the Considerations</Link>
           </div>
           <div className="consider">

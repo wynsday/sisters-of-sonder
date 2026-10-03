@@ -30,8 +30,8 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
               <h2>What an account is for</h2>
               <p>
                 With an account you can contribute to the Books of Considerations: offer stories
-                from the world&rsquo;s mythologies and the concepts they share. The House of
-                Nisaba, keepers of the sacred books, reviews each one and places it in its book.
+                from the world&rsquo;s mythologies and the concepts they share. Each one is
+                reviewed before it is placed in its book.
               </p>
               <h3>What we ask</h3>
               <p>
@@ -40,8 +40,9 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
               </p>
               <h3>What we promise</h3>
               <p>
-                Members may choose to leave without reprisal or harassment. No ledger is kept, no
-                tithe is demanded, and no one is in arrears.
+                Members may choose to leave the group without reprisal or harassment. No one is in
+                arrears and no ledger is kept for activities outside of accepted roles and
+                responsibilities.
               </p>
             </div>
 

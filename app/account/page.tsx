@@ -71,7 +71,7 @@ export default async function AccountPage() {
                     <td>
                       {c.status === "published" ? <Link href={`/c/${c.id}`}>{c.title}</Link> : c.title}
                       {c.status === "declined" && c.review_note && (
-                        <div className="hint">Note from the House: {c.review_note}</div>
+                        <div className="hint">Note from review: {c.review_note}</div>
                       )}
                     </td>
                     <td>
