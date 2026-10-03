@@ -6,6 +6,7 @@ import { createPublicClient } from "@/lib/supabase/server";
 import { isConfigured } from "@/lib/supabase/env";
 import ConsiderationEntry from "@/components/ConsiderationEntry";
 import NotConnected from "@/components/NotConnected";
+import { FOUNDING } from "@/lib/founding";
 
 export const revalidate = 300;
 
@@ -39,8 +40,9 @@ async function loadBook(slug: string) {
 }
 
 export async function generateMetadata({ params }: PageProps<"/books/[slug]">): Promise<Metadata> {
-  if (!isConfigured) return { title: "Book of Considerations" };
-  const loaded = await loadBook((await params).slug);
+  const { slug } = await params;
+  if (!isConfigured) return { title: FOUNDING[slug]?.title ?? "Book of Considerations" };
+  const loaded = await loadBook(slug);
   return { title: loaded?.book.title ?? "Book of Considerations" };
 }
 
@@ -50,7 +52,11 @@ function Part({ entries }: { entries: Consideration[] }) {
 }
 
 export default async function BookPage({ params }: PageProps<"/books/[slug]">) {
-  if (!isConfigured) {
+  const { slug } = await params;
+  const founding = FOUNDING[slug];
+  const loaded = isConfigured ? await loadBook(slug) : null;
+  if (!loaded && (isConfigured || !founding)) {
+    if (isConfigured) notFound();
     return (
       <section>
         <div className="wrap read">
@@ -59,29 +65,42 @@ export default async function BookPage({ params }: PageProps<"/books/[slug]">) {
       </section>
     );
   }
-  const loaded = await loadBook((await params).slug);
-  if (!loaded) notFound();
-  const { book, entries } = loaded;
+  const title = loaded?.book.title ?? founding.title;
+  const subject = loaded?.book.subject ?? founding.subject;
+  const source = loaded ? sourceHref(loaded.book) : `/#${slug === "less-suffering" ? "suffering" : slug}`;
+  const entries = loaded?.entries ?? [];
   const neutral = entries.filter((c) => c.part === "neutral");
   const glimmers = entries.filter((c) => c.part === "glimmer");
   const triggers = entries.filter((c) => c.part === "trigger");
+  const addLink = (
+    <Link className="add-consideration" href={`/contribute?book=${slug}`}>
+      + Add a Consideration <span className="hint">(members)</span>
+    </Link>
+  );
 
   return (
     <>
       <div className="page-hero">
         <div className="wrap">
-          <h1>{book.title}</h1>
+          <h1>{title}</h1>
         </div>
       </div>
       <section>
         <div className="wrap read">
           <p className="book-links">
             <Link href="/books">&larr; All books</Link>
-            {sourceHref(book) && <Link href={sourceHref(book)!}>Read {book.subject}</Link>}
-            <Link className="add-consideration" href={`/contribute?book=${book.slug}`}>
-              + Add a Consideration <span className="hint">(members)</span>
-            </Link>
+            {source && <Link href={source}>Read {subject}</Link>}
+            {!founding && addLink}
           </p>
+
+          {founding && (
+            <>
+              <div className="consider">{founding.consider}</div>
+              <p className="book-links">{addLink}</p>
+            </>
+          )}
+
+          {!loaded && <NotConnected />}
 
           <div className="book-part">
             <Part entries={neutral} />

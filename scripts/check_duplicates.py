@@ -6,7 +6,7 @@ x=zipfile.ZipFile(sys.argv[1] if len(sys.argv) > 1 else r'C:/Users/wynsd/Downloa
 paras=[''.join(re.findall(r'<w:t[^>]*>([^<]*)</w:t>',p)) for p in re.findall(r'<w:p[ >].*?</w:p>',x,re.S)]
 def norm(t):
     t=html.unescape(t)
-    t=re.sub(r'\{[^}]*\}','',t)
+    t=re.sub(r'\{[^{}]{0,60}\}','',t)  # skip short code expressions only
     t=re.sub(r'<[^>]+>',' ',t)
     t=re.sub(r'[^a-z0-9 ]+',' ',t.lower())
     return re.sub(r'\s+',' ',t).strip()
@@ -15,7 +15,7 @@ for p in paras:
     for s in re.split(r'(?<=[.;?!:])\s+',p):
         n=norm(s)
         if len(n)>40: sents.append(n)
-files={f:norm(re.sub(r'\s+',' ',open(f,encoding='utf8').read())) for f in glob.glob('app/**/*.tsx',recursive=True)+glob.glob('components/*.tsx')}
+files={f:norm(re.sub(r'\s+',' ',open(f,encoding='utf8').read())) for f in glob.glob('app/**/*.tsx',recursive=True)+glob.glob('components/*.tsx')+glob.glob('lib/*.tsx')}
 dups=0
 for s in dict.fromkeys(sents):
     where=[(f,t.count(s)) for f,t in files.items() if s in t]
