@@ -506,3 +506,25 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 .add-consideration { font-weight: 700; }
 .card-link { text-decoration: none; color: var(--ink); font-family: var(--serif-display); font-weight: 700; font-size: 1.15rem; }
 .card-link:hover { border-color: var(--gold); color: var(--moss); }
+
+/* ---------- reactions ---------- */
+.reactions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.reaction {
+  display: inline-flex; align-items: center; gap: 4px;
+  min-width: 44px; height: 36px; padding: 0 10px;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: #fff; color: var(--ink); font: inherit; font-size: 1rem;
+  cursor: pointer; text-decoration: none;
+}
+.reaction:hover { border-color: var(--gold); }
+.reaction.on { background: #fdf3dc; border-color: var(--gold); }
+.reaction .icon { filter: grayscale(.35); }
+.reaction.on .icon { filter: none; }
+.reaction .count { font-size: .9rem; color: var(--ink-soft); }
+.reaction .bang {
+  display: inline-grid; place-items: center;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #f3d2b5; color: #fff; font-weight: 700; font-size: .85rem;
+}
+.reaction.trigger.on .bang { background: #e8730c; }
+.feed-more { text-align: center; padding: 16px 0; color: var(--ink-soft); }

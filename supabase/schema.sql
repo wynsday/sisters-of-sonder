@@ -485,3 +485,67 @@ insert into public.index_items (slug, kind, ordinal, label) values
   ('d-testimony', 'definition', 31, 'Testimony'),
   ('d-trauma-informed-behavior', 'definition', 32, 'Trauma informed behavior'),
   ('d-wisdom', 'definition', 33, 'Wisdom');
+
+-- =====================================================================
+-- Reactions on Considerations. One of each kind per member per entry.
+-- Who reacted is private. Heart, wounded heart, gold star and thumbs up
+-- are counted publicly; thumbs down and the trigger flag are counted
+-- for admins only, so they guide review without inviting pile-ons.
+-- =====================================================================
+create table public.reactions (
+  consideration bigint not null references public.considerations(id) on delete cascade,
+  member uuid not null default auth.uid() references public.profiles(id) on delete cascade,
+  kind text not null check (kind in ('heart', 'wounded', 'star', 'up', 'down', 'trigger')),
+  created_at timestamptz not null default now(),
+  primary key (consideration, member, kind)
+);
+create index on public.reactions (consideration, kind);
+
+alter table public.reactions enable row level security;
+create policy "see own reactions" on public.reactions for select
+  using (member = auth.uid());
+create policy "react to published" on public.reactions for insert to authenticated
+  with check (
+    member = auth.uid()
+    and exists (select 1 from public.considerations c where c.id = consideration and c.status = 'published')
+  );
+create policy "take back own reaction" on public.reactions for delete
+  using (member = auth.uid());
+
+-- Counts for a batch of entries. Admins also get thumbs down and trigger.
+create function public.reaction_counts(ids bigint[])
+returns table (consideration bigint, kind text, total bigint)
+language sql stable security definer set search_path = '' as $$
+  select r.consideration, r.kind, count(*)
+  from public.reactions r
+  where r.consideration = any(ids)
+    and (r.kind in ('heart', 'wounded', 'star', 'up') or public.is_admin())
+  group by r.consideration, r.kind;
+$$;
+
+-- Order of entries in one part of a book: the 10 newest first, then the
+-- rest by most positive response (heart + gold star + thumbs up), newest
+-- first among equals. Returns one page of ids.
+create function public.feed_ids(book_slug text, part_name text, skip int, take int)
+returns table (id bigint)
+language sql stable security definer set search_path = '' as $$
+  with entries as (
+    select c.id, c.reviewed_at
+    from public.considerations c
+    where c.status = 'published'
+      and c.part::text = part_name
+      and (c.book = book_slug
+           or c.id in (select cb.consideration from public.consideration_books cb where cb.book = book_slug))
+  ),
+  ranked as (
+    select e.id, e.reviewed_at,
+      row_number() over (order by e.reviewed_at desc, e.id desc) as recency,
+      (select count(*) from public.reactions r
+        where r.consideration = e.id and r.kind in ('heart', 'star', 'up')) as positive
+    from entries e
+  )
+  select ranked.id from ranked
+  order by (recency > 10), case when recency <= 10 then recency end,
+           positive desc, reviewed_at desc, ranked.id desc
+  offset greatest(skip, 0) limit least(greatest(take, 1), 100);
+$$;

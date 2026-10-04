@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { type Consideration, FORMS, indicatorLabels } from "@/lib/books";
 
-function Body({ c }: { c: Consideration }) {
+function Body({ c, children }: { c: Consideration; children?: React.ReactNode }) {
   return (
     <>
       <p className="body">{c.concept}</p>
@@ -15,12 +15,13 @@ function Body({ c }: { c: Consideration }) {
         {FORMS.find((f) => f.value === c.form)?.label} &middot; Offered by {c.profiles?.display_name ?? "a member"} &middot;{" "}
         <Link href={`/c/${c.id}`}>Permanent link</Link>
       </div>
+      {children}
     </>
   );
 }
 
 /** Triggers stay folded until the reader chooses to open them (Tenet VI). */
-export default function ConsiderationEntry({ c }: { c: Consideration }) {
+export default function ConsiderationEntry({ c, children }: { c: Consideration; children?: React.ReactNode }) {
   if (c.part === "trigger") {
     const labels = indicatorLabels(c);
     return (
@@ -37,7 +38,7 @@ export default function ConsiderationEntry({ c }: { c: Consideration }) {
           <div className="open-hint">Folded closed. Open it when and if you choose.</div>
         </summary>
         <div className="trigger-body">
-          <Body c={c} />
+          <Body c={c}>{children}</Body>
         </div>
       </details>
     );
@@ -47,7 +48,7 @@ export default function ConsiderationEntry({ c }: { c: Consideration }) {
       <h3>
         <Link href={`/c/${c.id}`}>{c.title}</Link>
       </h3>
-      <Body c={c} />
+      <Body c={c}>{children}</Body>
     </article>
   );
 }

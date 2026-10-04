@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { type Consideration, CONSIDERATION_FIELDS } from "@/lib/books";
 import { createPublicClient } from "@/lib/supabase/server";
 import { isConfigured } from "@/lib/supabase/env";
-import ConsiderationEntry from "@/components/ConsiderationEntry";
+import Feed from "@/components/Feed";
 
 export const revalidate = 300;
 
@@ -48,7 +48,7 @@ export default async function ConsiderationPage({ params }: PageProps<"/c/[id]">
             )}
           </p>
         )}
-        <ConsiderationEntry c={c} />
+        <Feed initial={[c]} />
       </div>
     </section>
   );

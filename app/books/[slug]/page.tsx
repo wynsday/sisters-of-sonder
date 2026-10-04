@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { type Book, type Consideration, CONSIDERATION_FIELDS, sourceHref } from "@/lib/books";
+import { type Book, sourceHref } from "@/lib/books";
+import { fetchPart } from "@/lib/feed";
 import { createPublicClient } from "@/lib/supabase/server";
 import { isConfigured } from "@/lib/supabase/env";
-import ConsiderationEntry from "@/components/ConsiderationEntry";
+import Feed from "@/components/Feed";
 import NotConnected from "@/components/NotConnected";
 import { FOUNDING } from "@/lib/founding";
 
@@ -16,27 +17,17 @@ export async function generateStaticParams() {
 }
 
 async function loadBook(slug: string) {
-  const supabase = createPublicClient();
-  const { data: book } = await supabase.from("books").select("*").eq("slug", slug).maybeSingle();
+  const { data: book } = await createPublicClient()
+    .from("books")
+    .select("*")
+    .eq("slug", slug)
+    .maybeSingle();
   if (!book) return null;
-
-  // Considerations that live in this book, plus those cross-listed into it.
-  const { data: cross } = await supabase
-    .from("consideration_books")
-    .select("consideration")
-    .eq("book", slug);
-  const crossIds = (cross ?? []).map((r) => r.consideration);
-
-  let query = supabase
-    .from("considerations")
-    .select(CONSIDERATION_FIELDS)
-    .eq("status", "published")
-    .order("reviewed_at", { ascending: true });
-  query = crossIds.length
-    ? query.or(`book.eq.${slug},id.in.(${crossIds.join(",")})`)
-    : query.eq("book", slug);
-  const { data } = await query;
-  return { book: book as Book, entries: (data ?? []) as unknown as Consideration[] };
+  // First page of each part; the rest loads as the reader scrolls.
+  const [neutral, glimmer, trigger] = await Promise.all(
+    (["neutral", "glimmer", "trigger"] as const).map((part) => fetchPart(slug, part, 0)),
+  );
+  return { book: book as Book, parts: { neutral, glimmer, trigger } };
 }
 
 export async function generateMetadata({ params }: PageProps<"/books/[slug]">): Promise<Metadata> {
@@ -44,11 +35,6 @@ export async function generateMetadata({ params }: PageProps<"/books/[slug]">): 
   if (!isConfigured) return { title: FOUNDING[slug]?.title ?? "Book of Considerations" };
   const loaded = await loadBook(slug);
   return { title: loaded?.book.title ?? "Book of Considerations" };
-}
-
-function Part({ entries }: { entries: Consideration[] }) {
-  if (!entries.length) return <p className="empty">Nothing here yet.</p>;
-  return entries.map((c) => <ConsiderationEntry key={c.id} c={c} />);
 }
 
 export default async function BookPage({ params }: PageProps<"/books/[slug]">) {
@@ -68,10 +54,7 @@ export default async function BookPage({ params }: PageProps<"/books/[slug]">) {
   const title = loaded?.book.title ?? founding.title;
   const subject = loaded?.book.subject ?? founding.subject;
   const source = loaded ? sourceHref(loaded.book) : `/#${slug === "less-suffering" ? "suffering" : slug}`;
-  const entries = loaded?.entries ?? [];
-  const neutral = entries.filter((c) => c.part === "neutral");
-  const glimmers = entries.filter((c) => c.part === "glimmer");
-  const triggers = entries.filter((c) => c.part === "trigger");
+  const parts = loaded?.parts;
   const addLink = (
     <Link className="add-consideration" href={`/contribute?book=${slug}`}>
       + Add a Consideration <span className="hint">(members)</span>
@@ -102,29 +85,33 @@ export default async function BookPage({ params }: PageProps<"/books/[slug]">) {
 
           {!loaded && <NotConnected />}
 
-          <div className="book-part">
-            <Part entries={neutral} />
-          </div>
+          {parts && (
+            <>
+            <div className="book-part">
+              <Feed book={slug} part="neutral" initial={parts.neutral.entries} initialHasMore={parts.neutral.hasMore} />
+            </div>
 
-          <div className="book-part">
-            <h2>
-              <span className="part-label glimmer">Glimmers</span>
-            </h2>
-            <Part entries={glimmers} />
-          </div>
+            <div className="book-part">
+              <h2>
+                <span className="part-label glimmer">Glimmers</span>
+              </h2>
+              <Feed book={slug} part="glimmer" initial={parts.glimmer.entries} initialHasMore={parts.glimmer.hasMore} />
+            </div>
 
-          <div className="book-part">
-            <h2>
-              <span className="part-label trigger">Triggers</span>
-            </h2>
-            {triggers.length > 0 && (
-              <p className="hint">
-                Each of these is folded closed and marked with what it contains. You are free to
-                pass.
-              </p>
-            )}
-            <Part entries={triggers} />
-          </div>
+            <div className="book-part">
+              <h2>
+                <span className="part-label trigger">Triggers</span>
+              </h2>
+              {parts.trigger.entries.length > 0 && (
+                <p className="hint">
+                  Each of these is folded closed and marked with what it contains. You are free to
+                  pass.
+                </p>
+              )}
+              <Feed book={slug} part="trigger" initial={parts.trigger.entries} initialHasMore={parts.trigger.hasMore} />
+            </div>
+            </>
+          )}
         </div>
       </section>
     </>

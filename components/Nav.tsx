@@ -10,7 +10,6 @@ const LINKS = [
   { href: "/tenets", label: "Tenets" },
   { href: "/books", label: "Considerations" },
   { href: "/hear-my-voice", label: "Hear My Voice" },
-  { href: "/council", label: "Council" },
   { href: "/account", label: "Account" },
 ];
 

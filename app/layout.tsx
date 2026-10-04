@@ -50,7 +50,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <Link href="/definitions">Definitions</Link> &middot;{" "}
               <Link href="/books">Books of Considerations</Link> &middot;{" "}
               <Link href="/hear-my-voice">Hear My Voice</Link> &middot;{" "}
-              <Link href="/council">Council</Link> &middot; <Link href="/account">Account</Link>
+              <Link href="/account">Account</Link>
             </div>
           </div>
         </footer>
