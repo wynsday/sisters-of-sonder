@@ -85,7 +85,7 @@ insert into public.index_items (slug, kind, ordinal, label) values
   ('g-82', 'glossary', 82, '82. Name calling'),
   ('g-83', 'glossary', 83, '83. Glittering generality'),
   ('g-84', 'glossary', 84, '84. Transfer'),
-  ('g-85', 'glossary', 85, '85. Testimonial'),
+  ('g-85', 'glossary', 85, '85. Trick Testimonial'),
   ('g-86', 'glossary', 86, '86. Plain folks'),
   ('g-87', 'glossary', 87, '87. Card stacking'),
   ('g-88', 'glossary', 88, '88. Euphemism'),

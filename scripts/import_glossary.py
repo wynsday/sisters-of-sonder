@@ -14,7 +14,7 @@ import zipfile
 from pathlib import Path
 
 SRC = sys.argv[1] if len(sys.argv) > 1 else str(
-    Path.home() / "Downloads" / "Glossary_of_Behaviors_to_Avoid(1).docx"
+    Path.home() / "Downloads" / "Glossary_of_Behaviors_to_Avoid.docx"
 )
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -37,12 +37,14 @@ def clean(t):
     return re.sub(r"\s+", " ", t).strip()
 
 
+QUOTES = re.compile(r"[“”‘’\"']+")
+
 paras = []  # (style, bold_text, plain_text) with italics removed
 for p in re.findall(r"<w:p[ >].*?</w:p>", doc, re.S):
     ps = re.search(r'w:pStyle w:val="([^"]+)"', p)
     ps = ps.group(1) if ps else "Normal"
     p_i, p_b = styles.get(ps, (False, False))
-    bold, plain = "", ""
+    runs = []  # (text, italic, bold)
     for r in re.findall(r"<w:r[ >].*?</w:r>", p, re.S):
         t = "".join(re.findall(r"<w:t[^>]*>([^<]*)</w:t>", r))
         if not t:
@@ -52,9 +54,18 @@ for p in re.findall(r"<w:p[ >].*?</w:p>", doc, re.S):
         rs = re.search(r'w:rStyle w:val="([^"]+)"', rpr)
         r_i, r_b = styles.get(rs.group(1), (False, False)) if rs else (False, False)
         italic = (has("i", rpr) or r_i or p_i) and not re.search(r'<w:i w:val="(0|false)"/>', rpr)
-        if italic:
+        runs.append((t, italic, has("b", rpr) or r_b or p_b))
+
+    # A lone italic quotation mark beside regular text is a formatting slip,
+    # not a note, so it is kept with the text it encloses.
+    def wordy(i):
+        return 0 <= i < len(runs) and not runs[i][1] and re.search(r"[A-Za-z0-9]", runs[i][0])
+
+    bold, plain = "", ""
+    for i, (t, italic, is_bold) in enumerate(runs):
+        if italic and not (QUOTES.fullmatch(t.strip()) and (wordy(i - 1) or wordy(i + 1))):
             continue
-        if (has("b", rpr) or r_b or p_b) and not plain.strip():
+        if is_bold and not italic and not plain.strip():
             bold += t
         else:
             plain += t
