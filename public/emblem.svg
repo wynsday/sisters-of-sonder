@@ -16,6 +16,7 @@
 </defs>
 <circle r="96.500" fill="#fbf6ea"/>
 <circle r="96.500" fill="none" stroke="#ffffff" stroke-width="7.000"/>
+<circle r="100.000" fill="none" stroke="#8a4b55" stroke-width="2.100"/>
 <polygon points="0.000,-100.000 95.106,-30.902 58.779,80.902 -58.779,80.902 -95.106,-30.902" fill="none" stroke="#1c1a2e" stroke-width="4.500" stroke-linejoin="miter"/>
 <polygon points="58.779,-80.902 95.106,30.902 0.000,100.000 -95.106,30.902 -58.779,-80.902" fill="none" stroke="#1c1a2e" stroke-width="4.500" stroke-linejoin="miter"/>
 <polygon points="0.000,-70.000 66.574,-21.631 41.145,56.631 -41.145,56.631 -66.574,-21.631" fill="none" stroke="#1c1a2e" stroke-width="4.000" stroke-linejoin="miter"/>

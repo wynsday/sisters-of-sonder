@@ -537,7 +537,7 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 .aspiration .num { font-family: var(--serif-display); color: var(--gold); font-size: 2.6rem; line-height: 1; }
 .aspiration .ordinal { letter-spacing: .14em; text-transform: uppercase; font-size: .8rem; color: var(--ink-soft); }
 .aspiration h3 { font-size: 2rem; margin: 0; }
-.aspiration .aspire { display: block; margin: 0; }
+.aspiration .aspire { display: block; margin: 0; flex: 1; }
 .aspiration .go { color: var(--moss); font-weight: 700; }
 .aspirations .add-consideration { font-size: 1rem; text-align: center; }
 @media (max-width: 860px) { .aspirations { grid-template-columns: 1fr; } .aspiration { min-height: 0; } }

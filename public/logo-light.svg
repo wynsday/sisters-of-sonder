@@ -14,8 +14,8 @@
     <circle r="32.000" fill="url(#streak-ramp)"/>
   </mask>
 </defs>
-<rect x="-58.779" y="80.902" width="117.557" height="190.211" fill="#8a4b55" stroke="#b8893a" stroke-width="4.500"/>
-<rect x="-50.550" y="93.631" width="101.099" height="169.253" fill="none" stroke="#e8cf98" stroke-width="1.260"/>
+<rect x="-58.779" y="80.902" width="117.557" height="190.211" fill="#8a4b55" stroke="#4b3f7a" stroke-width="4.500"/>
+<rect x="-50.550" y="93.631" width="101.099" height="169.253" fill="none" stroke="#b6acd8" stroke-width="1.260"/>
 <circle r="96.500" fill="#fbf6ea"/>
 <circle r="96.500" fill="none" stroke="#ffffff" stroke-width="7.000"/>
 <circle r="100.000" fill="none" stroke="#8a4b55" stroke-width="2.100"/>

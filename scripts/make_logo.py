@@ -56,6 +56,7 @@ BANNER_L = BANNER_W * PHI                # hangs long: a golden rectangle
 
 INK, FIELD, RING = "#1c1a2e", "#fbf6ea", "#ffffff"
 GOLD, GOLD_DARK, ROSE = "#e8cf98", "#b8893a", "#8a4b55"
+PURPLE, PURPLE_LIGHT = "#4b3f7a", "#b6acd8"   # banner edge on light backgrounds
 
 
 def pt(r, deg):
@@ -146,18 +147,20 @@ def ring():
     return [
         f'<circle r="{RING_R:.3f}" fill="{FIELD}"/>',
         f'<circle r="{RING_R:.3f}" fill="none" stroke="{RING}" stroke-width="{RING_W:.3f}"/>',
+        # outline of the disk, in the banner's red
+        f'<circle r="{RING_R + RING_W / 2:.3f}" fill="none" stroke="{ROSE}" stroke-width="{RING_W * 0.3:.3f}"/>',
     ]
 
 
-def banner():
+def banner(edge_colour, line_colour):
     top = BANNER_TOP                      # attached to the pentagon's base
     x0 = -BANNER_W / 2
     inset = BANNER_W * 0.07
     edge = LINE * R                       # border matches the outer wreath line
     return [
-        f'<rect x="{x0:.3f}" y="{top:.3f}" width="{BANNER_W:.3f}" height="{BANNER_L:.3f}" fill="{ROSE}" stroke="{GOLD_DARK}" stroke-width="{edge:.3f}"/>',
+        f'<rect x="{x0:.3f}" y="{top:.3f}" width="{BANNER_W:.3f}" height="{BANNER_L:.3f}" fill="{ROSE}" stroke="{edge_colour}" stroke-width="{edge:.3f}"/>',
         f'<rect x="{x0 + inset:.3f}" y="{top + inset + edge:.3f}" width="{BANNER_W - 2 * inset:.3f}" '
-        f'height="{BANNER_L - 2 * inset - edge:.3f}" fill="none" stroke="{GOLD}" stroke-width="{RING_W * 0.18:.3f}"/>',
+        f'height="{BANNER_L - 2 * inset - edge:.3f}" fill="none" stroke="{line_colour}" stroke-width="{RING_W * 0.18:.3f}"/>',
     ]
 
 
@@ -178,10 +181,12 @@ DEFS = f"""<defs>
 </defs>"""
 
 
-def symbol(with_banner):
+def symbol(with_banner, light_background=False):
     body = []
     if with_banner:
-        body += banner()                  # the banner hangs behind everything
+        # The banner hangs behind everything. Its edge is gold on the dark
+        # purple background and purple on light backgrounds.
+        body += banner(PURPLE, PURPLE_LIGHT) if light_background else banner(GOLD_DARK, GOLD)
     body += ring()
     for r, w in WREATHS:
         lines, width = wreath(r, w)
@@ -199,6 +204,8 @@ def symbol(with_banner):
 
 with open("public/logo.svg", "w", encoding="utf8") as f:
     f.write(symbol(with_banner=True))
+with open("public/logo-light.svg", "w", encoding="utf8") as f:
+    f.write(symbol(with_banner=True, light_background=True))
 with open("public/emblem.svg", "w", encoding="utf8") as f:
     f.write(symbol(with_banner=False))
 print(f"banner {BANNER_W:.1f} x {BANNER_L:.1f}, ring diameter {RING_D:.1f}")
