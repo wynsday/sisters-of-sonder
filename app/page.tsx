@@ -1,6 +1,20 @@
 import Link from "next/link";
 import { ORG } from "@/lib/config";
-import BookLinks from "@/components/BookLinks";
+
+const ASPIRATIONS = [
+  {
+    id: "suffering", slug: "less-suffering", num: "I", ord: "First", name: "Less Suffering",
+    aspire: "To cause less suffering, to enable less suffering, to endure less suffering, to stand up and actively prevent suffering. Harm is not suffering but all suffering is harm.",
+  },
+  {
+    id: "wonder", slug: "wonder", num: "II", ord: "Second", name: "Wonder",
+    aspire: "To delight in the mysteries you encounter, and to encounter more than you have.",
+  },
+  {
+    id: "grace", slug: "grace", num: "III", ord: "Third", name: "Grace",
+    aspire: "To be kind to yourself, be kind to others, and be kind to life wherever you encounter it.",
+  },
+];
 
 export default function Home() {
   return (
@@ -13,7 +27,7 @@ export default function Home() {
             <em>{ORG.motto}</em>
           </p>
           <p className="lede">
-            We are not yet another patriarchal religion. We consolidate the voices of the people
+            We are not another patriarchal religion. We consolidate the voices of the people
             into a quilt of solidarity to reveal the belief structures within us all.
           </p>
           <div className="choices">
@@ -32,27 +46,26 @@ export default function Home() {
       </div>
 
       <section>
-        <div className="wrap read">
+        <div className="wrap">
           <div className="center">
             <h2>The Three Sacred Aspirations</h2>
             <p><em>Aspirations require a purpose, a path, and the desire to walk it.</em></p>
           </div>
-          <div className="part" id="suffering">
-            <h2>The First Aspiration: Less Suffering</h2>
-            <div className="aspire">To cause less suffering, to enable less suffering, to endure less suffering, to stand up and actively prevent suffering. Harm is not suffering but all suffering is harm.</div>
-            <BookLinks slug="less-suffering" title="The First Aspiration: Considerations of Less Suffering" />
-          </div>
-
-          <div className="part" id="wonder">
-            <h2>The Second Aspiration: Wonder</h2>
-            <div className="aspire">To delight in the mysteries you encounter, and to encounter more than you have.</div>
-            <BookLinks slug="wonder" title="The Second Aspiration: Considerations of Wonder" />
-          </div>
-
-          <div className="part" id="grace">
-            <h2>The Third Aspiration: Grace</h2>
-            <div className="aspire">To be kind to yourself, be kind to others, and be kind to life wherever you encounter it.</div>
-            <BookLinks slug="grace" title="The Third Aspiration: Considerations of Grace" />
+          <div className="aspirations">
+            {ASPIRATIONS.map((a) => (
+              <div key={a.slug} id={a.id}>
+                <Link className="aspiration" href={`/books/${a.slug}`}>
+                  <span className="num">{a.num}</span>
+                  <span className="ordinal">The {a.ord} Aspiration</span>
+                  <h3>{a.name}</h3>
+                  <span className="aspire">{a.aspire}</span>
+                  <span className="go">Read its Considerations &rarr;</span>
+                </Link>
+                <Link className="add-consideration" href={`/contribute?book=${a.slug}`}>
+                  + Add a Consideration <span className="hint">(members)</span>
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </section>
