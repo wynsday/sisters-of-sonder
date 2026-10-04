@@ -99,7 +99,7 @@ export default function Home() {
           <div>
             <div className="kicker">Our Symbol</div>
             <h2>The Ring, the Banner, and the Dew Drop</h2>
-            <p>The symbol of the {ORG.name} is a banner and ring with a dew drop held inside three wreaths of double pentagons. The pentagons represent the five elements, and each wreath is one of our Aspirations, braided with the Nine Tenets and the Foundational Understanding. The banner is symbolically left blank for you, as you decide what Considerations you hold dear. If you see rays, we didn&rsquo;t draw them; you did.</p>
+            <p>The symbol of the {ORG.name} is a banner and ring with a dew drop held inside three wreaths of double pentagons. The pentagons represent the five elements, and each wreath is one of our Aspirations, braided with the Nine Tenets and the Foundational Understanding. The banner is symbolically left blank for you, as you decide what Considerations you hold dear. Take a second to look at the dew drop, and let your eyes relax. If you see rays, we didn&rsquo;t draw them; you did.</p>
             <div className="consider">The dew drop is water that doesn&rsquo;t belong to anyone. Water cycles, it rises, falls, gathers, and rises again.<br />The far side of a dew drop holds the world upside down. The light within holds the same world in a different perspective, just like each of us, and with a tiny movement, a rainbow is thrown across a wall, beautiful and undeniable. Imagine, how many potential rainbows exist inside of you?</div>
           </div>
         </div>
