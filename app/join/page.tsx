@@ -29,9 +29,8 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
             <div>
               <h2>What an account is for</h2>
               <p>
-                With an account you can contribute to the Books of Considerations: offer stories
-                from the world&rsquo;s mythologies and the concepts they share. Each one is
-                reviewed before it is placed in its book.
+                With an account you can offer Considerations (a premise, a parable, or stories
+                from different cultures), react to them, and share your story in Hear My Voice.
               </p>
               <h3>Your autonomy</h3>
               <p>
