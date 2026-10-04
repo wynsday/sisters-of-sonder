@@ -75,7 +75,7 @@ export default async function HearMyVoicePage({ searchParams }: PageProps<"/hear
             what they contain.
           </div>
           <p style={{ marginTop: 24 }}>
-            <Link className="btn btn-moss" href="/hear-my-voice/share">
+            <Link className="btn members" href="/hear-my-voice/share" title="Members only">
               Share your story
             </Link>
           </p>

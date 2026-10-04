@@ -32,6 +32,10 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
                 With an account you can offer Considerations (a premise, a parable, or stories
                 from different cultures), react to them, and share your story in Hear My Voice.
               </p>
+              <p className="hint">
+                <span className="members-legend" aria-hidden="true" /> Buttons with a dark purple
+                outline are for members.
+              </p>
               <h3>Your autonomy</h3>
               <p>
                 An account asks nothing of your beliefs, and you may leave whenever you choose.

@@ -3,29 +3,32 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// The books, in the thin red bar under the top bar. The Foundational
-// Understanding's book lives on its own page and the Aspirations share one
-// page (the "A" button), so neither appears here. The nine Tenets share one
-// book for now.
-const BOOKS = [
+// The thin red bar under the top bar: the books, plus every page the top
+// buttons do not reach. The Foundational Understanding's book lives on its
+// own page and the Aspirations share one page (the "A" button), so neither
+// appears here. The nine Tenets share one book for now.
+const PAGES = [
   { href: "/books/tenets", label: "Tenets", title: "Considerations of the Tenets" },
   { href: "/glossary", label: "Glossary", title: "Glossary of Potentially Harmful Behaviors" },
   { href: "/hear-my-voice", label: "Hear My Voice", title: "Hear My Voice" },
-]
+  { href: "/definitions", label: "Definitions", title: "Definitions" },
+  { href: "/report", label: "Report an Issue", title: "Report an issue (members only)", members: true },
+];
 
 export default function BookBar() {
   const pathname = usePathname();
   return (
-    <nav className="book-bar" aria-label="Books">
+    <nav className="book-bar" aria-label="Books and pages">
       <div className="wrap">
-        {BOOKS.map((b) => (
+        {PAGES.map((p) => (
           <Link
-            key={b.href}
-            href={b.href}
-            title={b.title}
-            aria-current={pathname.startsWith(b.href) ? "page" : undefined}
+            key={p.href}
+            href={p.href}
+            title={p.title}
+            className={p.members ? "members" : undefined}
+            aria-current={pathname.startsWith(p.href) ? "page" : undefined}
           >
-            {b.label}
+            {p.label}
           </Link>
         ))}
       </div>

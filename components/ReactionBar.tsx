@@ -29,7 +29,7 @@ export default function ReactionBar({ counts, mine, signedIn, onToggle }: Props)
           <button
             key={r.kind}
             type="button"
-            className={`reaction ${r.kind}${on ? " on" : ""}`}
+            className={`reaction members ${r.kind}${on ? " on" : ""}`}
             aria-pressed={on}
             aria-label={label}
             title={label}
@@ -38,7 +38,7 @@ export default function ReactionBar({ counts, mine, signedIn, onToggle }: Props)
             {content}
           </button>
         ) : (
-          <Link key={r.kind} className={`reaction ${r.kind}`} href="/join?mode=signin" title={`${label}: members only`}>
+          <Link key={r.kind} className={`reaction members ${r.kind}`} href="/join?mode=signin" title={`${label}: members only`}>
             {content}
           </Link>
         );

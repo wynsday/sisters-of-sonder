@@ -581,7 +581,7 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 /* ---------- the red book bar ---------- */
 .book-bar { background: var(--rose); border-bottom: 1px solid #6e3a43; }
 .book-bar .wrap {
-  display: flex; gap: 6px; align-items: center;
+  display: flex; gap: 6px; align-items: center; justify-content: safe center;
   min-height: 38px; padding-top: 5px; padding-bottom: 5px;
   overflow-x: auto; scrollbar-width: none;
 }
@@ -620,3 +620,18 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
   .hero.home-hero h1 { font-size: clamp(2.2rem, 5vw, 3rem); }
   .hero.home-hero .lede { margin-bottom: 14px; }
 }
+
+/* ---------- members only: a dark purple outline ---------- */
+:root { --members: #2e2452; }
+.members {
+  border: 2px solid var(--members) !important;
+  color: var(--members);
+  background: #fff;
+}
+.btn.members:hover, .share-button.members:hover { background: #ece8f6; color: var(--members); }
+.reaction.members { border-width: 2px; }
+.reaction.members.on { background: #fdf3dc; }
+.members-text { text-decoration-color: var(--members); text-decoration-thickness: 2px; }
+.book-bar a.members { background: transparent; color: #fbf6ea; border-color: var(--members) !important; }
+.book-bar a.members[aria-current="page"] { background: #fbf6ea; color: var(--members); }
+.members-legend { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--members); border-radius: 4px; vertical-align: -2px; margin-right: 4px; }

@@ -20,10 +20,10 @@ export default function Glossary() {
       <section>
         <div className="wrap read">
           <p className="top-actions">
-            <Link className="btn btn-moss btn-small" href="/glossary/suggest">
-              + Submit a new item
+            <Link className="btn btn-small members" href="/glossary/suggest" title="Members only">
+              Submit a new item
             </Link>
-            <Link className="btn btn-small btn-outline" href="/report?page=Glossary">
+            <Link className="btn btn-small members" href="/report?page=Glossary" title="Members only">
               Report an issue
             </Link>
           </p>
