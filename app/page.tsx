@@ -45,7 +45,7 @@ export default function Home() {
         </div>
       </div>
 
-      <section className="aspirations-section">
+      <section className="aspirations-section" id="aspirations">
         <div className="wrap">
           <div className="center">
             <h2>The Three Sacred Aspirations</h2>
@@ -77,8 +77,8 @@ export default function Home() {
           <Link className="btn btn-moss" href="/foundation">
             Read the Foundational Understanding
           </Link>
-          <Link className="btn btn-rose" href="/foundation#condemnations">
-            Cult and control tactics we condemn
+          <Link className="btn btn-rose" href="/glossary">
+            Glossary of cult and control tactics
           </Link>
         </div>
       </section>

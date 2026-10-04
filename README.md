@@ -26,6 +26,7 @@ The database enforces these rules (`supabase/schema.sql`), not just the pages.
 ### 1. Supabase
 1. Create a free project at supabase.com.
 2. **SQL Editor → New query**: paste all of `supabase/schema.sql` and run it.
+   Then do the same with `supabase/glossary.sql` (glossary entries people can tag stories with).
 3. **Authentication → URL Configuration**: set *Site URL* to your Vercel address, and add `https://YOUR-SITE/auth/confirm` (and `http://localhost:3000/auth/confirm`) to *Redirect URLs*.
 4. **Project Settings → API**: copy the project URL and the publishable (anon) key.
 
@@ -56,3 +57,13 @@ She then appoints her House's admins from **Account → Chair of …**. Seats ar
 1. Push this folder to a new GitHub repository.
 2. In Vercel: **Add New → Project**, import the repo, and add the two environment variables.
 3. Deploy. Every push to `main` redeploys.
+
+## Updating the glossary
+
+Save the new version of the glossary .docx, then run:
+
+```
+python scripts/import_glossary.py "C:\path	o\Glossary.docx"
+```
+
+Italic text in the document is left out. Re-run `supabase/glossary.sql` in Supabase afterward.

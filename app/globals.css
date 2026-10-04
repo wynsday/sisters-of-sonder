@@ -85,30 +85,19 @@ p { margin: 0 0 1em; }
 }
 .nav a:hover { color: #fff; background: var(--night-2); }
 .nav a[aria-current="page"] { color: var(--night); background: var(--gold-light); }
-.nav-toggle {
-  display: none;
-  background: none;
-  border: 1px solid #4a4568;
-  color: var(--parchment);
-  border-radius: 8px;
-  padding: 6px 12px;
-  font: inherit;
-  font-size: 1rem;
-  cursor: pointer;
+/* letter buttons */
+.nav.letters { display: flex; gap: 6px; flex-wrap: nowrap; margin-left: auto; }
+.nav.letters a {
+  display: inline-grid; place-items: center;
+  width: 40px; height: 40px; padding: 0;
+  border: 1px solid #4a4568; border-radius: 50%;
+  font-family: var(--serif-display); font-weight: 700; font-size: 1.15rem;
 }
-@media (max-width: 960px) {
-  .nav-toggle { display: block; }
-  .nav {
-    display: none;
-    position: absolute;
-    top: 64px; left: 0; right: 0;
-    background: var(--night);
-    flex-direction: column;
-    padding: 8px 16px 16px;
-    border-bottom: 1px solid #3a3657;
-  }
-  .nav.open { display: flex; }
-  .nav a { padding: 10px 12px; }
+.nav.letters a.profile { font-size: 1.1rem; }
+@media (max-width: 480px) {
+  .nav.letters { gap: 4px; }
+  .nav.letters a { width: 34px; height: 34px; font-size: 1rem; }
+  .brand span { display: none; }
 }
 
 /* ---------- hero ---------- */
@@ -575,3 +564,15 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 .share-button:hover { border-color: var(--gold); color: var(--rose); }
 .condemn li { display: flow-root; }
 .condemn .share-button { float: right; margin-left: 12px; }
+
+/* ---------- glossary ---------- */
+.glossary { margin: 0; }
+.glossary > div { padding: 14px 0; border-bottom: 1px dashed var(--line); scroll-margin-top: 80px; display: flow-root; }
+.glossary dt { font-family: var(--serif-display); font-weight: 700; font-size: 1.2rem; }
+.glossary .g-num { color: var(--gold); }
+.glossary dd { margin: 4px 0 0; }
+.glossary dd .share-button { float: right; margin-left: 12px; }
+.glossary-toc ol { columns: 1; }
+.glossary-toc li { margin-bottom: 8px; }
+.glossary-toc li .hint { font-size: .95rem; }
+.aspirations-section { scroll-margin-top: 64px; }

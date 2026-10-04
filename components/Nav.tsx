@@ -2,45 +2,37 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 
+// Letter buttons, right-aligned. The full name shows on hover and is read
+// aloud by screen readers.
 const LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/foundation", label: "Foundation" },
-  { href: "/tenets", label: "Tenets" },
-  { href: "/books", label: "Considerations" },
-  { href: "/hear-my-voice", label: "Hear My Voice" },
-  { href: "/account", label: "Account" },
+  { href: "/foundation", letter: "F", label: "Foundation" },
+  { href: "/#aspirations", letter: "A", label: "Aspirations" },
+  { href: "/books", letter: "C", label: "Considerations" },
+  { href: "/tenets", letter: "T", label: "Tenets" },
+  { href: "/hear-my-voice", letter: "S", label: "Stories: Hear My Voice" },
+  { href: "/account", letter: "👤", label: "Account" },
 ];
 
 export default function Nav() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
   const current = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+    href.startsWith("/#") ? false : pathname.startsWith(href) || (href === "/books" && pathname.startsWith("/c/"));
 
   return (
-    <>
-      <button
-        className="nav-toggle"
-        aria-expanded={open}
-        aria-controls="nav"
-        onClick={() => setOpen(!open)}
-      >
-        Menu
-      </button>
-      <nav className={`nav${open ? " open" : ""}`} id="nav">
-        {LINKS.map((l) => (
-          <Link
-            key={l.href}
-            href={l.href}
-            aria-current={current(l.href) ? "page" : undefined}
-            onClick={() => setOpen(false)}
-          >
-            {l.label}
-          </Link>
-        ))}
-      </nav>
-    </>
+    <nav className="nav letters" aria-label="Main">
+      {LINKS.map((l) => (
+        <Link
+          key={l.href}
+          href={l.href}
+          title={l.label}
+          aria-label={l.label}
+          aria-current={current(l.href) ? "page" : undefined}
+          className={l.label === "Account" ? "profile" : undefined}
+        >
+          {l.letter}
+        </Link>
+      ))}
+    </nav>
   );
 }

@@ -316,7 +316,7 @@ insert into public.indicators (slug, label) values
 -- =====================================================================
 create table public.index_items (
   slug text primary key,
-  kind text not null check (kind in ('foundation', 'aspiration', 'tenet', 'condemnation', 'definition')),
+  kind text not null check (kind in ('foundation', 'aspiration', 'tenet', 'condemnation', 'definition', 'glossary')),
   ordinal int not null,
   label text not null
 );

@@ -1,4 +1,4 @@
-export type IndexKind = "foundation" | "aspiration" | "tenet" | "condemnation" | "definition";
+export type IndexKind = "foundation" | "aspiration" | "tenet" | "condemnation" | "definition" | "glossary";
 
 export type IndexItem = { slug: string; kind: IndexKind; ordinal: number; label: string };
 
@@ -8,6 +8,7 @@ export const INDEX_GROUPS: { kind: IndexKind; label: string }[] = [
   { kind: "tenet", label: "Tenets" },
   { kind: "condemnation", label: "Condemnations" },
   { kind: "definition", label: "Definitions" },
+  { kind: "glossary", label: "Glossary of Potentially Harmful Behaviors" },
 ];
 
 export type Story = {
