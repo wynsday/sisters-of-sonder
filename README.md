@@ -25,8 +25,7 @@ The database enforces these rules (`supabase/schema.sql`), not just the pages.
 
 ### 1. Supabase
 1. Create a free project at supabase.com.
-2. **SQL Editor → New query**: paste all of `supabase/schema.sql` and run it.
-   Then do the same with `supabase/glossary.sql` (glossary entries people can tag stories with).
+2. **SQL Editor → New query**: paste all of `supabase/setup.sql` and run it (it is `schema.sql` and `glossary.sql` together).
 3. **Authentication → URL Configuration**: set *Site URL* to your Vercel address, and add `https://YOUR-SITE/auth/confirm` (and `http://localhost:3000/auth/confirm`) to *Redirect URLs*.
 4. **Project Settings → API**: copy the project URL and the publishable (anon) key.
 
