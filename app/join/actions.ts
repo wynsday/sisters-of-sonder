@@ -18,7 +18,9 @@ export async function signUp(formData: FormData) {
   const displayName = String(formData.get("display_name") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
-  if (!formData.get("read")) back("signup", next, "Please read the Sacred Aspirations first.");
+  if (!formData.get("read")) {
+    back("signup", next, "Please confirm you have read and agree to the Sacred Aspirations, the Foundational Understanding, and the 9 Tenets of Agreement.");
+  }
   if (!displayName) back("signup", next, "Please choose a name to use.");
   if (password.length < 8) back("signup", next, "Passwords need at least 8 characters.");
 
@@ -28,7 +30,7 @@ export async function signUp(formData: FormData) {
     email,
     password,
     options: {
-      data: { display_name: displayName },
+      data: { display_name: displayName, notify_changes: Boolean(formData.get("notify")) },
       emailRedirectTo: `${origin}/auth/confirm?next=${encodeURIComponent(next)}`,
     },
   });

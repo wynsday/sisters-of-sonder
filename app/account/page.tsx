@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { isConfigured } from "@/lib/supabase/env";
 import { getRoles } from "@/lib/auth";
 import { signOut } from "../join/actions";
-import { withdrawStory } from "./actions";
+import { setNotify, withdrawStory } from "./actions";
 
 export const metadata: Metadata = { title: "Your account" };
 // Personal to whoever is signed in; never cached.
@@ -16,7 +16,7 @@ export default async function AccountPage() {
   if (!user) redirect("/join?mode=signin&next=/account");
 
   const [{ data: profile }, { data: mine }, { data: stories }] = await Promise.all([
-    supabase.from("profiles").select("display_name").eq("id", user.id).single(),
+    supabase.from("profiles").select("display_name, notify_changes").eq("id", user.id).single(),
     supabase
       .from("considerations")
       .select("id, title, status, book, created_at, review_note")
@@ -64,6 +64,15 @@ export default async function AccountPage() {
               </button>
             </form>
           </div>
+
+          <form action={setNotify} className="notice" style={{ marginBottom: 32 }}>
+            <label className="check">
+              <input type="checkbox" name="notify" defaultChecked={profile?.notify_changes ?? false} /> If the
+              wording changes significantly or a new item is added, the Sisters have my permission
+              to let me know.
+            </label>
+            <button className="btn btn-moss btn-small" style={{ marginTop: 8 }}>Save</button>
+          </form>
 
           <h2>What you have offered</h2>
           {!mine?.length ? (

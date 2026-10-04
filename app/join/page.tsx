@@ -36,12 +36,6 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
               <h3>Your autonomy</h3>
               <p>
                 An account asks nothing of your beliefs, and you may leave whenever you choose.
-                See <Link href="/tenets#autonomy">the First Tenet</Link>.
-              </p>
-              <h3>Giving and receiving</h3>
-              <p>
-                How giving and receiving work among members is set out in{" "}
-                <Link href="/tenets#reciprocity">the Fourth Tenet</Link>.
               </p>
             </div>
 
@@ -104,8 +98,16 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
                     </div>
                     <div className="field">
                       <label className="check">
-                        <input type="checkbox" name="read" required /> I have read the{" "}
-                        <Link href="/foundation">Foundational Understanding and the Condemnations</Link>, and the <Link href="/tenets">Tenets</Link>.
+                        <input type="checkbox" name="read" required /> I have read and agree to the
+                        Sacred Aspirations, the Foundational Understanding, and the 9 Tenets of
+                        Agreement.
+                      </label>
+                    </div>
+                    <div className="field">
+                      <label className="check">
+                        <input type="checkbox" name="notify" /> If the wording changes
+                        significantly or a new item is added, the Sisters have my permission to
+                        let me know.
                       </label>
                     </div>
                     <button className="btn btn-gold" type="submit" disabled={!isConfigured}>

@@ -17,14 +17,20 @@
 create table public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   display_name text not null default 'Member',
+  -- agreed at sign-up to the Sacred Aspirations, Foundational Understanding, and Tenets
+  agreed_at timestamptz not null default now(),
+  -- may be told when the wording changes significantly or a new item is added
+  notify_changes boolean not null default false,
   created_at timestamptz not null default now()
 );
 
 create function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = '' as $$
 begin
-  insert into public.profiles (id, display_name)
-  values (new.id, coalesce(new.raw_user_meta_data->>'display_name', 'Member'));
+  insert into public.profiles (id, display_name, notify_changes)
+  values (new.id,
+          coalesce(new.raw_user_meta_data->>'display_name', 'Member'),
+          coalesce((new.raw_user_meta_data->>'notify_changes')::boolean, false));
   return new;
 end $$;
 
