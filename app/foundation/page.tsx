@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ORG } from "@/lib/config";
 import BookLinks from "@/components/BookLinks";
+import ShareButton from "@/components/ShareButton";
 
 export const metadata: Metadata = {
   title: "The Foundational Understanding",
@@ -39,16 +40,36 @@ export default function Foundation() {
               </summary>
               <div className="trigger-body">
                 <ul className="condemn">
-                  <li><strong>Crusades.</strong> Forced capitulations to proclaim belief, forced conversion, and the slaying of &ldquo;them&rdquo; over religious belief.</li>
-                  <li><strong>Oppression.</strong> Harsh punishments and unfair restrictions in a bid for dominance and control; demands for submission, self-policing, and personal sacrifice.</li>
-                  <li><strong>Slavery.</strong> Treating people as property or worse.</li>
-                  <li><strong>Exploitation.</strong> Forced or manipulated labors, demands for resources without trade, and sexual controls levied against persons.</li>
-                  <li><strong>Erasure.</strong> Voices and deeds filtered out or replaced based on genetic disposition or non-choice characteristics.</li>
-                  <li><strong>Torture.</strong> Deliberate infliction of grievous harm, including rape, and the failures to prevent it or ensure accountability especially if it delivers lasting trauma.</li>
-                  <li><strong>Knowledge Prevention.</strong> Withholding education, prevention of exposure to societies outside their own, lack of transparency, and knowingly pushing harmful misinformation through top-down indoctrination.</li>
-                  <li><strong>Central Charismatic Cult Leadership.</strong> A single dominant figure or group who demands obedience, devotion, and tribute on threat of heavy or invasive punishment.</li>
-                  <li><strong>Denial of Autonomy.</strong> Corporal punishment, demands of self-harm, requirements of self-sacrifice, prevention of another person from receiving medical care, and thought control.</li>
-                  <li><strong>Religion as Ruling Divinity or Government System.</strong> Forcing religious belief on those who do not choose to participate on pain of significant life impacting enforcement, reduction of rights to force those outside the system to participate or to replace the religious beliefs of others, or claiming divine interpretation that affects the quality of life and wellbeing of the public.</li>
+                  <li><strong>Crusades.</strong> Forced capitulations to proclaim belief, forced conversion, and the slaying of &ldquo;them&rdquo; over religious belief.
+                    <ShareButton about="c-crusades" />
+                  </li>
+                  <li><strong>Oppression.</strong> Harsh punishments and unfair restrictions in a bid for dominance and control; demands for submission, self-policing, and personal sacrifice.
+                    <ShareButton about="c-oppression" />
+                  </li>
+                  <li><strong>Slavery.</strong> Treating people as property or worse.
+                    <ShareButton about="c-slavery" />
+                  </li>
+                  <li><strong>Exploitation.</strong> Forced or manipulated labors, demands for resources without trade, and sexual controls levied against persons.
+                    <ShareButton about="c-exploitation" />
+                  </li>
+                  <li><strong>Erasure.</strong> Voices and deeds filtered out or replaced based on genetic disposition or non-choice characteristics.
+                    <ShareButton about="c-erasure" />
+                  </li>
+                  <li><strong>Torture.</strong> Deliberate infliction of grievous harm, including rape, and the failures to prevent it or ensure accountability especially if it delivers lasting trauma.
+                    <ShareButton about="c-torture" />
+                  </li>
+                  <li><strong>Knowledge Prevention.</strong> Withholding education, prevention of exposure to societies outside their own, lack of transparency, and knowingly pushing harmful misinformation through top-down indoctrination.
+                    <ShareButton about="c-knowledge-prevention" />
+                  </li>
+                  <li><strong>Central Charismatic Cult Leadership.</strong> A single dominant figure or group who demands obedience, devotion, and tribute on threat of heavy or invasive punishment.
+                    <ShareButton about="c-central-charismatic-cult-leadership" />
+                  </li>
+                  <li><strong>Denial of Autonomy.</strong> Corporal punishment, demands of self-harm, requirements of self-sacrifice, prevention of another person from receiving medical care, and thought control.
+                    <ShareButton about="c-denial-of-autonomy" />
+                  </li>
+                  <li><strong>Religion as Ruling Divinity or Government System.</strong> Forcing religious belief on those who do not choose to participate on pain of significant life impacting enforcement, reduction of rights to force those outside the system to participate or to replace the religious beliefs of others, or claiming divine interpretation that affects the quality of life and wellbeing of the public.
+                    <ShareButton about="c-religion-as-ruling-divinity-or-government-system" />
+                  </li>
                 </ul>
               </div>
             </details>

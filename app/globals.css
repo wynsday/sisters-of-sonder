@@ -565,3 +565,13 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 .aspirations-section { padding-top: 28px; }
 .aspirations-section h2 { margin-bottom: .3em; }
 .aspirations > .aspiration { scroll-margin-top: 80px; }
+.share-button {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 6px; padding: 3px 12px;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: #fff; color: var(--moss);
+  font-size: .9rem; text-decoration: none;
+}
+.share-button:hover { border-color: var(--gold); color: var(--rose); }
+.condemn li { display: flow-root; }
+.condemn .share-button { float: right; margin-left: 12px; }

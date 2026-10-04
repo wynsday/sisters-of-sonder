@@ -6,9 +6,9 @@ import { shareStory, type ShareState } from "./actions";
 
 const OPEN_BY_DEFAULT = new Set(["foundation", "aspiration", "tenet"]);
 
-export default function ShareForm({ items }: { items: IndexItem[] }) {
+export default function ShareForm({ items, preselect = [] }: { items: IndexItem[]; preselect?: string[] }) {
   const [state, action, pending] = useActionState<ShareState, FormData>(shareStory, {});
-  const chosen = new Set(state.items ?? []);
+  const chosen = new Set(state.items ?? preselect);
   // Re-mount fields with what was typed whenever the server sends it back.
   const key = JSON.stringify(state);
 

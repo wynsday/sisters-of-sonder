@@ -66,13 +66,19 @@ export default function Home() {
       <section className="alt">
         <div className="wrap read">
           <div className="kicker">Why we exist</div>
-          <h2>A trust and a shield</h2>
+          <h2>A Trust and a Shield</h2>
           <p>
-            What we condemn in religion, why we hold our religious freedom for our members, and
-            the understanding everything else rests on.
+            The United States Constitution protects a religion&rsquo;s right to govern itself, and
+            within that &ldquo;protection&rdquo; is where people&mdash; especially women and
+            children&mdash; find harm that often has no remedy. The {ORG.name} hold our
+            constitutional religious freedoms as a trust and a shield for our members, not our
+            leaders.
           </p>
           <Link className="btn btn-moss" href="/foundation">
             Read the Foundational Understanding
+          </Link>
+          <Link className="btn btn-rose" href="/foundation#condemnations">
+            Cult and control tactics we condemn
           </Link>
         </div>
       </section>

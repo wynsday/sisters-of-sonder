@@ -10,9 +10,13 @@ export const metadata: Metadata = { title: "Share your story" };
 // Personal to whoever is signed in; never cached.
 export const dynamic = "force-dynamic";
 
-export default async function SharePage() {
+export default async function SharePage({ searchParams }: PageProps<"/hear-my-voice/share">) {
   if (!isConfigured) redirect("/join");
-  const { supabase } = await requireUser("/hear-my-voice/share");
+  const about = (await searchParams).about;
+  const preselect = (Array.isArray(about) ? about : about ? [about] : []).map(String);
+  const { supabase } = await requireUser(
+    `/hear-my-voice/share${preselect.length ? `?about=${preselect.join("&about=")}` : ""}`,
+  );
   const { data } = await supabase.from("index_items").select("*").order("ordinal");
 
   return (
@@ -53,7 +57,7 @@ export default async function SharePage() {
             If you are in danger now, contact local emergency services. In the United States, you
             can call or text 988 for crisis support.
           </p>
-          <ShareForm items={(data ?? []) as IndexItem[]} />
+          <ShareForm items={(data ?? []) as IndexItem[]} preselect={preselect} />
           <p style={{ marginTop: 24 }}>
             <Link href="/hear-my-voice">&larr; Back to Hear My Voice</Link>
           </p>
