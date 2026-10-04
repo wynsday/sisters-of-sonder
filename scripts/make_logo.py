@@ -53,10 +53,17 @@ RING_D = 2 * (RING_R + RING_W / 2)
 BANNER_TOP = S * R                       # that base sits at S*R below centre
 BANNER_W = 2 * R * math.sin(math.radians(36))   # as wide as that base
 BANNER_L = BANNER_W * PHI                # hangs long: a golden rectangle
+BANNER_BOTTOM = BANNER_TOP + BANNER_L
+
+OUTLINE = RING_W * 0.9                   # the disk's red outline
+# The banner runs up behind the ring and peeps out above it by three times
+# the width of the dew drop's outline.
+BANNER_UP = -(RING_R + RING_W / 2 + OUTLINE / 2 + 3 * T)
+SEAM_CORNER = 0.09                        # cut-out corner radius, as a fraction of banner width
 
 INK, FIELD, RING = "#1c1a2e", "#fbf6ea", "#ffffff"
 GOLD, GOLD_DARK, ROSE = "#e8cf98", "#b8893a", "#8a4b55"
-PURPLE, PURPLE_LIGHT = "#4b3f7a", "#b6acd8"   # banner edge on light backgrounds
+PURPLE = "#4b3f7a"                      # banner edge on light backgrounds
 
 
 def pt(r, deg):
@@ -83,7 +90,7 @@ STREAKS = [
     ("violet", "#b35ad6"),
 ]
 STREAK_HALF_ANGLE = 4.5                   # degrees either side of the ray
-STREAK_OPACITY = 0.45
+STREAK_OPACITY = 0.12                     # barely discernible over the ombre
 FILL_OPACITY = 0.30                       # ombre between streaks: almost as strong
 FILL_STEP = 2                             # degrees per blended slice
 
@@ -148,19 +155,30 @@ def ring():
         f'<circle r="{RING_R:.3f}" fill="{FIELD}"/>',
         f'<circle r="{RING_R:.3f}" fill="none" stroke="{RING}" stroke-width="{RING_W:.3f}"/>',
         # outline of the disk, in the banner's red
-        f'<circle r="{RING_R + RING_W / 2:.3f}" fill="none" stroke="{ROSE}" stroke-width="{RING_W * 0.3:.3f}"/>',
+        f'<circle r="{RING_R + RING_W / 2:.3f}" fill="none" stroke="{ROSE}" stroke-width="{OUTLINE:.3f}"/>',
     ]
 
 
-def banner(edge_colour, line_colour):
-    top = BANNER_TOP                      # attached to the pentagon's base
-    x0 = -BANNER_W / 2
+def concave_rect(x0, y0, x1, y1, r):
+    """A rectangle whose corners are cut out by quarter circles."""
+    return (
+        f"M{x0 + r:.3f},{y0:.3f} H{x1 - r:.3f} A{r:.3f},{r:.3f} 0 0 0 {x1:.3f},{y0 + r:.3f} "
+        f"V{y1 - r:.3f} A{r:.3f},{r:.3f} 0 0 0 {x1 - r:.3f},{y1:.3f} "
+        f"H{x0 + r:.3f} A{r:.3f},{r:.3f} 0 0 0 {x0:.3f},{y1 - r:.3f} "
+        f"V{y0 + r:.3f} A{r:.3f},{r:.3f} 0 0 0 {x0 + r:.3f},{y0:.3f} Z"
+    )
+
+
+def banner(edge_colour):
+    top, bottom = BANNER_UP, BANNER_BOTTOM
+    x0, x1 = -BANNER_W / 2, BANNER_W / 2
     inset = BANNER_W * 0.07
     edge = LINE * R                       # border matches the outer wreath line
+    seam = concave_rect(x0 + inset, top + inset, x1 - inset, bottom - inset, BANNER_W * SEAM_CORNER)
     return [
-        f'<rect x="{x0:.3f}" y="{top:.3f}" width="{BANNER_W:.3f}" height="{BANNER_L:.3f}" fill="{ROSE}" stroke="{edge_colour}" stroke-width="{edge:.3f}"/>',
-        f'<rect x="{x0 + inset:.3f}" y="{top + inset + edge:.3f}" width="{BANNER_W - 2 * inset:.3f}" '
-        f'height="{BANNER_L - 2 * inset - edge:.3f}" fill="none" stroke="{line_colour}" stroke-width="{RING_W * 0.18:.3f}"/>',
+        f'<rect x="{x0:.3f}" y="{top:.3f}" width="{BANNER_W:.3f}" height="{bottom - top:.3f}" fill="{ROSE}" stroke="{edge_colour}" stroke-width="{edge:.3f}"/>',
+        # the inside seam, white to match the disk, with cut-out corners
+        f'<path d="{seam}" fill="none" stroke="{FIELD}" stroke-width="{RING_W * 0.18:.3f}"/>',
     ]
 
 
@@ -186,16 +204,17 @@ def symbol(with_banner, light_background=False):
     if with_banner:
         # The banner hangs behind everything. Its edge is gold on the dark
         # purple background and purple on light backgrounds.
-        body += banner(PURPLE, PURPLE_LIGHT) if light_background else banner(GOLD_DARK, GOLD)
+        body += banner(PURPLE if light_background else GOLD_DARK)
     body += ring()
     for r, w in WREATHS:
         lines, width = wreath(r, w)
         body += lines
     body += dew_drop()
     pad = RING_W
-    half = RING_R + RING_W / 2 + pad
-    height = (BANNER_TOP + BANNER_L + pad if with_banner else half) + half
-    view = f"{-half:.2f} {-half:.2f} {2 * half:.2f} {height:.2f}"
+    half = RING_R + RING_W / 2 + OUTLINE / 2 + pad
+    top = min(-half, BANNER_UP - LINE * R / 2 - pad) if with_banner else -half
+    bottom = BANNER_BOTTOM + LINE * R / 2 + pad if with_banner else half
+    view = f"{-half:.2f} {top:.2f} {2 * half:.2f} {bottom - top:.2f}"
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{view}" role="img" aria-label="Sisters of Sonder">\n'
         + DEFS + "\n" + "\n".join(body) + "\n</svg>\n"
