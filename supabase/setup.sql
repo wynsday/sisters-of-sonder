@@ -1,5 +1,5 @@
 -- Sisters of Sonder: complete database setup. Paste all of this into Supabase:
--- SQL Editor -> New query -> Run. (Generated from schema.sql + glossary.sql.)
+-- SQL Editor -> New query -> Run. (Generated from schema.sql + glossary.sql + founder.sql.)
 
 -- =====================================================================
 -- Oracle platform schema. Run once in Supabase: SQL Editor -> New query.
@@ -686,3 +686,33 @@ insert into public.index_items (slug, kind, ordinal, label) values
   ('g-95', 'glossary', 95, '95. Overton window'),
   ('g-96', 'glossary', 96, '96. Illusory truth effect')
 on conflict (slug) do update set label = excluded.label, ordinal = excluded.ordinal;
+
+-- =====================================================================
+-- Founding period. While the Sisters are getting started, the founder
+-- holds admin access and may sit in the chairs at the same time. The
+-- exception ends on its own at `until`; after that the usual rules apply
+-- (a Wisdom cannot hold the authority she grants). Delete the row to end
+-- it early.
+-- =====================================================================
+create table if not exists public.founders (
+  member uuid primary key references public.profiles(id) on delete cascade,
+  until timestamptz not null
+);
+alter table public.founders enable row level security;
+drop policy if exists "founders readable" on public.founders;
+create policy "founders readable" on public.founders for select using (true);
+
+create or replace function public.is_founder(uid uuid default auth.uid()) returns boolean
+language sql stable security definer set search_path = '' as $$
+  select exists (select 1 from public.founders f where f.member = uid and f.until > now());
+$$;
+
+create or replace function public.is_admin(uid uuid default auth.uid()) returns boolean
+language sql stable security definer set search_path = '' as $$
+  select public.is_founder(uid) or (not public.is_admin_wisdom(uid) and exists (
+    select 1 from public.appointments a join public.houses h on h.slug = a.house
+    where h.grants_admin and a.member = uid
+      and a.revoked_at is null
+      and a.starts_at <= now() and a.ends_at > now()
+  ));
+$$;
