@@ -5,7 +5,8 @@ export const PAGE_SIZE = 20;
 export type Part = "neutral" | "glimmer" | "trigger";
 
 /** One page of published Considerations in one part of a book (including
- *  cross-listings): the 10 newest first, then by most positive response.
+ *  cross-listings): the 10 newest first, then by most positive response
+ *  (heart, wounded heart, gold star, thumbs up).
  *  The order itself is decided in the database (feed_ids). */
 export async function fetchPart(book: string, part: Part, offset: number, limit = PAGE_SIZE) {
   const supabase = createPublicClient();

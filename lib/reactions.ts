@@ -3,7 +3,7 @@ export type ReactionKind = "heart" | "wounded" | "star" | "up" | "down" | "trigg
 /** In display order. Private ones are counted for admins only. */
 export const REACTIONS: { kind: ReactionKind; icon: string; label: string; private?: boolean }[] = [
   { kind: "heart", icon: "❤️", label: "Heart" },
-  { kind: "wounded", icon: "💔", label: "Wounded heart" },
+  { kind: "wounded", icon: "💔", label: "Wounded heart: it hurts my heart, or I care" },
   { kind: "star", icon: "⭐", label: "Gold star" },
   { kind: "up", icon: "👍", label: "Thumbs up" },
   { kind: "down", icon: "👎", label: "Thumbs down", private: true },

@@ -524,8 +524,8 @@ language sql stable security definer set search_path = '' as $$
 $$;
 
 -- Order of entries in one part of a book: the 10 newest first, then the
--- rest by most positive response (heart + gold star + thumbs up), newest
--- first among equals. Returns one page of ids.
+-- rest by most positive response (heart + wounded heart + gold star +
+-- thumbs up), newest first among equals. Returns one page of ids.
 create function public.feed_ids(book_slug text, part_name text, skip int, take int)
 returns table (id bigint)
 language sql stable security definer set search_path = '' as $$
@@ -541,7 +541,7 @@ language sql stable security definer set search_path = '' as $$
     select e.id, e.reviewed_at,
       row_number() over (order by e.reviewed_at desc, e.id desc) as recency,
       (select count(*) from public.reactions r
-        where r.consideration = e.id and r.kind in ('heart', 'star', 'up')) as positive
+        where r.consideration = e.id and r.kind in ('heart', 'wounded', 'star', 'up')) as positive
     from entries e
   )
   select ranked.id from ranked
