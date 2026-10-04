@@ -469,15 +469,15 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 }
 .choice:hover { background: var(--night-2); color: #fff; }
 .choice-main {
-  min-height: 104px;
+  min-height: 80px;
   background: var(--gold);
   border-color: var(--gold);
-  color: #fff;
+  color: var(--night);
   font-size: 1.25rem;
   box-shadow: 0 0 0 4px rgba(232, 207, 152, .25);
 }
 .choice-main span:first-child { font-size: 1.7rem; font-weight: 700; }
-.choice-main:hover { background: #a2772e; color: #fff; }
+.choice-main:hover { background: #a2772e; color: var(--night); }
 @media (max-width: 640px) {
   .choices { grid-template-columns: 1fr; max-width: 340px; }
   .choice-main { order: -1; }
@@ -545,7 +545,7 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 /* Home: a compact hero (logo scales with screen height) so the
    Aspirations title shows at the bottom of the first screen. */
 .hero.home-hero { padding: 20px 0 28px; }
-.hero.home-hero .logo { width: auto; height: clamp(84px, 17vh, 150px); margin-bottom: 6px; }
+.hero.home-hero .logo { width: auto; height: clamp(110px, 24vh, 210px); margin-bottom: 6px; }
 .hero.home-hero h1 { margin-bottom: .2em; }
 .hero.home-hero .motto { margin: 0 0 10px; }
 .hero.home-hero .lede { margin-bottom: 20px; }
@@ -613,3 +613,10 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 .cards-3 { grid-template-columns: repeat(3, 1fr); }
 .cards-3 .card { padding: 20px; }
 @media (max-width: 700px) { .cards-3 { grid-template-columns: 1fr; } }
+/* Shorter screens (most laptops): keep the Aspirations title in the first view. */
+@media (max-height: 800px) {
+  .hero.home-hero { padding-top: 12px; }
+  .hero.home-hero .logo { height: clamp(96px, 16vh, 140px); }
+  .hero.home-hero h1 { font-size: clamp(2.2rem, 5vw, 3rem); }
+  .hero.home-hero .lede { margin-bottom: 14px; }
+}

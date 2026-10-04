@@ -2,13 +2,14 @@
 
 import { getSession } from "@/lib/auth";
 import { fetchPart, type Part } from "@/lib/feed";
+import { TENET_SLUGS } from "@/lib/tenets";
 import { REACTIONS, type ReactionKind } from "@/lib/reactions";
 
 const PARTS: Part[] = ["neutral", "glimmer", "trigger"];
 
 export async function loadMore(book: string, part: Part, offset: number) {
   if (!PARTS.includes(part) || !/^[a-z-]+$/.test(book)) return { entries: [], hasMore: false };
-  return fetchPart(book, part, Math.max(0, Math.floor(offset)));
+  return fetchPart(book === "tenets" ? TENET_SLUGS : book, part, Math.max(0, Math.floor(offset)));
 }
 
 export type ReactionState = {

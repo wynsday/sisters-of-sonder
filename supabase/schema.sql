@@ -531,8 +531,9 @@ $$;
 
 -- Order of entries in one part of a book: the 10 newest first, then the
 -- rest by most positive response (heart + wounded heart + gold star +
--- thumbs up), newest first among equals. Returns one page of ids.
-create function public.feed_ids(book_slug text, part_name text, skip int, take int)
+-- thumbs up), newest first among equals. Returns one page of ids. Takes a
+-- list of books so several (the nine Tenets, for now) can be read as one.
+create function public.feed_ids(book_slugs text[], part_name text, skip int, take int)
 returns table (id bigint)
 language sql stable security definer set search_path = '' as $$
   with entries as (
@@ -540,8 +541,8 @@ language sql stable security definer set search_path = '' as $$
     from public.considerations c
     where c.status = 'published'
       and c.part::text = part_name
-      and (c.book = book_slug
-           or c.id in (select cb.consideration from public.consideration_books cb where cb.book = book_slug))
+      and (c.book = any(book_slugs)
+           or c.id in (select cb.consideration from public.consideration_books cb where cb.book = any(book_slugs)))
   ),
   ranked as (
     select e.id, e.reviewed_at,

@@ -52,7 +52,7 @@ RING_D = 2 * (RING_R + RING_W / 2)
 # P(R, 0), whose bottom side runs between its 144 and 216 degree vertices.
 BANNER_TOP = S * R                       # that base sits at S*R below centre
 BANNER_W = 2 * R * math.sin(math.radians(36))   # as wide as that base
-BANNER_L = BANNER_W * PHI                # hangs long: a golden rectangle
+BANNER_L = BANNER_W * PHI * 0.9          # hangs long: a golden rectangle, shortened by 10%
 BANNER_BOTTOM = BANNER_TOP + BANNER_L
 
 OUTLINE = RING_W * 0.9                   # the disk's red outline

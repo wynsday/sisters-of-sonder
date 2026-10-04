@@ -8,11 +8,11 @@ export type Part = "neutral" | "glimmer" | "trigger";
  *  cross-listings): the 10 newest first, then by most positive response
  *  (heart, wounded heart, gold star, thumbs up).
  *  The order itself is decided in the database (feed_ids). */
-export async function fetchPart(book: string, part: Part, offset: number, limit = PAGE_SIZE) {
+export async function fetchPart(book: string | string[], part: Part, offset: number, limit = PAGE_SIZE) {
   const supabase = createPublicClient();
   // Ask for one extra id to learn whether more remain.
   const { data: ids } = await supabase.rpc("feed_ids", {
-    book_slug: book,
+    book_slugs: Array.isArray(book) ? book : [book],
     part_name: part,
     skip: offset,
     take: limit + 1,
@@ -28,7 +28,7 @@ export async function fetchPart(book: string, part: Part, offset: number, limit 
 }
 
 /** First page of each part of a book, or null before the database is connected. */
-export async function loadParts(book: string) {
+export async function loadParts(book: string | string[]) {
   const { isConfigured } = await import("./supabase/env");
   if (!isConfigured) return null;
   const [neutral, glimmer, trigger] = await Promise.all(

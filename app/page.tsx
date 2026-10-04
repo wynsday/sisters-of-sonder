@@ -77,9 +77,6 @@ export default function Home() {
           <Link className="btn btn-moss" href="/foundation">
             Read the Foundational Understanding
           </Link>
-          <Link className="btn btn-rose" href="/glossary">
-            Glossary of cult and control tactics
-          </Link>
         </div>
       </section>
 
@@ -90,7 +87,7 @@ export default function Home() {
           <p>
             Why mythology and folklore matter to us is set out in{" "}
             <Link href="/tenets#education">the Eighth Tenet</Link>. Members gather those stories
-            into the <Link href="/books">Books of Considerations</Link>.
+            into the Books of Considerations.
           </p>
           <Link className="btn btn-gold" href="/join">Create an account</Link>
         </div>

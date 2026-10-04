@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { type Consideration, FORMS, indicatorLabels } from "@/lib/books";
+import { tenetOf } from "@/lib/tenets";
 
 function Body({ c, children }: { c: Consideration; children?: React.ReactNode }) {
   return (
@@ -12,6 +13,13 @@ function Body({ c, children }: { c: Consideration; children?: React.ReactNode })
         </>
       )}
       <div className="meta">
+        {tenetOf(c.book) && (
+          <>
+            <Link className="tag" href={`/tenets#${c.book}`}>
+              {tenetOf(c.book)!.num}. {tenetOf(c.book)!.name}
+            </Link>{" "}
+          </>
+        )}
         {FORMS.find((f) => f.value === c.form)?.label} &middot; Offered by {c.profiles?.display_name ?? "a member"} &middot;{" "}
         <Link href={`/c/${c.id}`}>Permanent link</Link>
       </div>

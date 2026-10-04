@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { type Consideration, CONSIDERATION_FIELDS } from "@/lib/books";
 import { createPublicClient } from "@/lib/supabase/server";
@@ -39,7 +38,7 @@ export default async function ConsiderationPage({ params }: PageProps<"/c/[id]">
       <div className="wrap read">
         {c.books && (
           <p>
-            From <Link href={`/books/${c.books.slug}`}>{c.books.title}</Link>
+            From {c.books.title}
             {c.part === "glimmer" && (
               <>
                 {" "}

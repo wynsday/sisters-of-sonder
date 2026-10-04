@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ORG } from "@/lib/config";
-import BookLinks from "@/components/BookLinks";
+import AddConsideration from "@/components/AddConsideration";
 
 export const metadata: Metadata = {
   title: "The Nine Tenets of Agreement",
@@ -27,7 +27,7 @@ function Tenet({ id, children }: { id: string; children: React.ReactNode }) {
         <span className="roman">{t.num}.</span> {t.name}
       </h2>
       {children}
-      <BookLinks slug={t.book} title={`The ${t.ord} Tenet: Considerations of ${t.name}`} />
+      <AddConsideration book={t.book} />
     </div>
   );
 }
