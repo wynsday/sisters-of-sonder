@@ -555,3 +555,14 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 @media (max-width: 860px) { .aspirations { grid-template-columns: 1fr; } .aspiration { min-height: 0; } }
 .tenet h2 .roman, .toc .roman { color: var(--gold); font-variant-numeric: lining-nums; }
 .toc-roman ol { list-style: none; padding-left: 0; }
+
+/* Home: a compact hero (logo scales with screen height) so the
+   Aspirations title shows at the bottom of the first screen. */
+.hero.home-hero { padding: 20px 0 28px; }
+.hero.home-hero .logo { width: auto; height: clamp(84px, 17vh, 150px); margin-bottom: 6px; }
+.hero.home-hero h1 { margin-bottom: .2em; }
+.hero.home-hero .motto { margin: 0 0 10px; }
+.hero.home-hero .lede { margin-bottom: 20px; }
+.aspirations-section { padding-top: 28px; }
+.aspirations-section h2 { margin-bottom: .3em; }
+.aspirations > .aspiration { scroll-margin-top: 80px; }

@@ -3,15 +3,15 @@ import { ORG } from "@/lib/config";
 
 const ASPIRATIONS = [
   {
-    id: "suffering", slug: "less-suffering", num: "I", ord: "First", name: "Less Suffering",
+    id: "suffering", slug: "less-suffering", ord: "First", name: "Less Suffering",
     aspire: "To cause less suffering, to enable less suffering, to endure less suffering, to stand up and actively prevent suffering. Harm is not suffering but all suffering is harm.",
   },
   {
-    id: "wonder", slug: "wonder", num: "II", ord: "Second", name: "Wonder",
+    id: "wonder", slug: "wonder", ord: "Second", name: "Wonder",
     aspire: "To delight in the mysteries you encounter, and to encounter more than you have.",
   },
   {
-    id: "grace", slug: "grace", num: "III", ord: "Third", name: "Grace",
+    id: "grace", slug: "grace", ord: "Third", name: "Grace",
     aspire: "To be kind to yourself, be kind to others, and be kind to life wherever you encounter it.",
   },
 ];
@@ -19,7 +19,7 @@ const ASPIRATIONS = [
 export default function Home() {
   return (
     <>
-      <div className="hero">
+      <div className="hero home-hero">
         <div className="wrap">
           <img className="logo" src="/logo.svg" alt="The Sisters of Sonder emblem" />
           <h1>{ORG.name}</h1>
@@ -45,7 +45,7 @@ export default function Home() {
         </div>
       </div>
 
-      <section>
+      <section className="aspirations-section">
         <div className="wrap">
           <div className="center">
             <h2>The Three Sacred Aspirations</h2>
@@ -53,18 +53,11 @@ export default function Home() {
           </div>
           <div className="aspirations">
             {ASPIRATIONS.map((a) => (
-              <div key={a.slug} id={a.id}>
-                <Link className="aspiration" href={`/books/${a.slug}`}>
-                  <span className="num">{a.num}</span>
-                  <span className="ordinal">The {a.ord} Aspiration</span>
-                  <h3>{a.name}</h3>
-                  <span className="aspire">{a.aspire}</span>
-                  <span className="go">Read its Considerations &rarr;</span>
-                </Link>
-                <Link className="add-consideration" href={`/contribute?book=${a.slug}`}>
-                  + Add a Consideration <span className="hint">(members)</span>
-                </Link>
-              </div>
+              <Link key={a.slug} id={a.id} className="aspiration" href={`/books/${a.slug}`}>
+                <span className="ordinal">The {a.ord} Aspiration</span>
+                <h3>{a.name}</h3>
+                <span className="aspire">{a.aspire}</span>
+              </Link>
             ))}
           </div>
         </div>
