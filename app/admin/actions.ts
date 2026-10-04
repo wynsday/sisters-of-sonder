@@ -134,3 +134,14 @@ export async function reviewStory(formData: FormData) {
   revalidatePath("/hear-my-voice");
   revalidatePath(back);
 }
+
+// ---------- Inbox ----------
+export async function resolveSubmission(formData: FormData) {
+  const supabase = await staff();
+  const { error } = await supabase
+    .from("submissions")
+    .update({ resolved_at: new Date().toISOString() })
+    .eq("id", Number(formData.get("id")));
+  if (error) fail("/admin/inbox", error.message);
+  revalidatePath("/admin/inbox");
+}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import glossary from "@/lib/glossary.json";
+import Link from "next/link";
 import ShareButton from "@/components/ShareButton";
 
 export const metadata: Metadata = {
@@ -18,6 +19,14 @@ export default function Glossary() {
 
       <section>
         <div className="wrap read">
+          <p className="top-actions">
+            <Link className="btn btn-moss btn-small" href="/glossary/suggest">
+              + Submit a new item
+            </Link>
+            <Link className="btn btn-small btn-outline" href="/report?page=Glossary">
+              Report an issue
+            </Link>
+          </p>
           {glossary.preface.map((block) => (
             <div key={block.heading} className="part">
               <h2>{block.heading}</h2>

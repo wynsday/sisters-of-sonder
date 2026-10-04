@@ -58,6 +58,9 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
             <Link className="btn btn-moss btn-small" href="/admin/stories">
               Hear My Voice stories
             </Link>
+            <Link className="btn btn-moss btn-small" href="/admin/inbox">
+              Inbox
+            </Link>
             <Link className="btn btn-moss btn-small" href="/admin/indicators">
               Trigger indicators
             </Link>

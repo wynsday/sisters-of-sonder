@@ -555,3 +555,30 @@ language sql stable security definer set search_path = '' as $$
            positive desc, reviewed_at desc, ranked.id desc
   offset greatest(skip, 0) limit least(greatest(take, 1), 100);
 $$;
+
+-- =====================================================================
+-- Suggestions and reports from members: new glossary items, and issues
+-- (feedback, bug, typo, discrepancy). Admins read and resolve them.
+-- =====================================================================
+create table public.submissions (
+  id bigint generated always as identity primary key,
+  author uuid default auth.uid() references public.profiles(id) on delete set null,
+  kind text not null check (kind in ('glossary_item', 'issue')),
+  issue_type text check (issue_type in ('feedback', 'bug', 'typo', 'discrepancy')),
+  page text check (char_length(page) <= 500),
+  title text not null check (char_length(title) between 1 and 200),
+  body text not null check (char_length(body) between 1 and 20000),
+  section text check (char_length(section) <= 200),
+  sources text check (char_length(sources) <= 10000),
+  resolved_at timestamptz,
+  resolved_by uuid references public.profiles(id),
+  created_at timestamptz not null default now(),
+  check (kind <> 'issue' or issue_type is not null)
+);
+alter table public.submissions enable row level security;
+create policy "members submit" on public.submissions for insert to authenticated
+  with check (author = auth.uid() and resolved_at is null);
+create policy "see own or admin" on public.submissions for select
+  using (author = auth.uid() or public.is_admin());
+create policy "admins resolve" on public.submissions for update
+  using (public.is_admin());

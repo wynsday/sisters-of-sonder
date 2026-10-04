@@ -24,7 +24,7 @@ function Tenet({ id, children }: { id: string; children: React.ReactNode }) {
   return (
     <div className="part tenet" id={t.id}>
       <h2>
-        <span className="roman">{t.num}</span> &mdash; {t.name}
+        <span className="roman">{t.num}.</span> {t.name}
       </h2>
       {children}
       <BookLinks slug={t.book} title={`The ${t.ord} Tenet: Considerations of ${t.name}`} />
@@ -48,7 +48,7 @@ export default function Tenets() {
               {TENETS.map((t) => (
                 <li key={t.id}>
                   <a href={`#${t.id}`}>
-                    <span className="roman">{t.num}</span> &mdash; {t.name}
+                    <span className="roman">{t.num}.</span> {t.name}
                   </a>
                 </li>
               ))}

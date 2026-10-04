@@ -51,7 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <Link href="/glossary">Glossary</Link> &middot;{" "}
               <Link href="/books">Books of Considerations</Link> &middot;{" "}
               <Link href="/hear-my-voice">Hear My Voice</Link> &middot;{" "}
-              <Link href="/account">Account</Link>
+              <Link href="/account">Account</Link> &middot; <Link href="/report">Report an issue</Link>
             </div>
           </div>
         </footer>

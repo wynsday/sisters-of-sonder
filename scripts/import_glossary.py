@@ -62,6 +62,9 @@ for p in re.findall(r"<w:p[ >].*?</w:p>", doc, re.S):
     if bold or plain:
         paras.append((ps, bold, plain))
 
+# Lines left out of the page at the Sisters' request (matched by how they begin).
+SKIP_PREFIXES = ("Every entry", "Items", "Identifying")
+
 SECTION = re.compile(r"^Section (One|Two|Three|Four|Five|Six|Seven)\. (.+?)\.?$")
 ENTRY = re.compile(r"^(\d+)\.\s*(.+?)\.?$")
 
@@ -119,6 +122,8 @@ for style, bold, plain in paras:
             sections[-1]["entries"][-1]["text"] += " " + plain
         continue
     if block is not None:
+        if text.startswith(SKIP_PREFIXES):
+            continue
         (block["list"] if style == "ListParagraph" else block["paragraphs"]).append(text)
 
 # Section intros that only repeat the Contents summary are dropped.
