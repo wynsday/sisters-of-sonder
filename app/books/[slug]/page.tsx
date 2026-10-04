@@ -78,7 +78,9 @@ export default async function BookPage({ params }: PageProps<"/books/[slug]">) {
 
           {founding && (
             <>
-              <div className="consider">{founding.consider}</div>
+              {founding.consider.map((text, i) => (
+                <div key={i} className="consider">{text}</div>
+              ))}
               <p className="book-links">{addLink}</p>
             </>
           )}

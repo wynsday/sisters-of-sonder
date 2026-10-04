@@ -4,11 +4,12 @@ import type { ReactNode } from "react";
  * The Considerations written into the founding document for each Aspiration.
  * They open the Aspiration's Book of Considerations, and appear nowhere else.
  */
-export const FOUNDING: Record<string, { title: string; subject: string; consider: ReactNode }> = {
+export const FOUNDING: Record<string, { title: string; subject: string; consider: ReactNode[] }> = {
   "less-suffering": {
     title: "The First Aspiration: Considerations of Less Suffering",
     subject: "Less Suffering",
-    consider: (
+    consider: [
+      <>Harm is not suffering but all suffering is harm.</>,
       <>
         The natural world is violent, yet peaceful. It is kind, yet harsh. Violence is a continuum
         and a cycle. When violence is necessary to reduce suffering, it should be sharp,
@@ -17,13 +18,13 @@ export const FOUNDING: Record<string, { title: string; subject: string; consider
         itself, as we would not condemn the sheep for assaulting greens, nor condemn the greens
         for draining the earth. We do condemn the horrors associated with these actions when done
         with cruel intentions or as byproducts of negligence.
-      </>
-    ),
+      </>,
+    ],
   },
   wonder: {
     title: "The Second Aspiration: Considerations of Wonder",
     subject: "Wonder",
-    consider: (
+    consider: [
       <>
         The number of molecules in a single breath is larger than the number of breaths in the
         atmosphere, which means you have shared a breath with every deity and every ancestor to
@@ -32,13 +33,13 @@ export const FOUNDING: Record<string, { title: string; subject: string; consider
         ancients, for every atom in us is older than the sun. Yet we see the world first with the
         eyes of a child, delight in the prism rainbows dancing on the wall, and find mystery in
         the mundane.
-      </>
-    ),
+      </>,
+    ],
   },
   grace: {
     title: "The Third Aspiration: Considerations of Grace",
     subject: "Grace",
-    consider: (
+    consider: [
       <>
         Grace overflows; it is there for anyone who would have it, to hold or share from
         abundance, as water from a spring can be drawn by whoever comes. Grace contains neither
@@ -46,7 +47,7 @@ export const FOUNDING: Record<string, { title: string; subject: string; consider
         gratitude; both are elegant kindnesses extended and held freely, never to be earned or
         repaid. &ldquo;A debt of gratitude&rdquo; is not grace; it is self-imposed or becomes
         unkind leverage.
-      </>
-    ),
+      </>,
+    ],
   },
 };

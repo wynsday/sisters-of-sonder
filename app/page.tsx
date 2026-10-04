@@ -4,7 +4,7 @@ import { ORG } from "@/lib/config";
 const ASPIRATIONS = [
   {
     id: "suffering", slug: "less-suffering", ord: "First", name: "Less Suffering",
-    aspire: "To cause less suffering, to enable less suffering, to endure less suffering, to stand up and actively prevent suffering. Harm is not suffering but all suffering is harm.",
+    aspire: "To cause less suffering, to enable less suffering, to endure less suffering, to stand up and actively prevent suffering.",
   },
   {
     id: "wonder", slug: "wonder", ord: "Second", name: "Wonder",
