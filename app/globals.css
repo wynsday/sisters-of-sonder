@@ -553,3 +553,5 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 .aspiration .go { color: var(--moss); font-weight: 700; }
 .aspirations .add-consideration { font-size: 1rem; text-align: center; }
 @media (max-width: 860px) { .aspirations { grid-template-columns: 1fr; } .aspiration { min-height: 0; } }
+.tenet h2 .roman, .toc .roman { color: var(--gold); font-variant-numeric: lining-nums; }
+.toc-roman ol { list-style: none; padding-left: 0; }

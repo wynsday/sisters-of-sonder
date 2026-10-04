@@ -8,15 +8,15 @@ export const metadata: Metadata = {
 };
 
 const TENETS = [
-  { id: "autonomy", ord: "First", name: "Autonomy", book: "autonomy" },
-  { id: "xenia", ord: "Second", name: "Xenia", book: "xenia" },
-  { id: "repair", ord: "Third", name: "Repair and Our Path Forward", book: "repair" },
-  { id: "reciprocity", ord: "Fourth", name: "Reciprocity", book: "reciprocity" },
-  { id: "rocking-chair", ord: "Fifth", name: "The Rocking Chair", book: "rocking-chair" },
-  { id: "trauma-informed", ord: "Sixth", name: "Trauma Informed Behavior", book: "trauma-informed" },
-  { id: "power", ord: "Seventh", name: "Power and Authority", book: "power" },
-  { id: "education", ord: "Eighth", name: "Education", book: "education" },
-  { id: "testimony", ord: "Ninth", name: "Attestation and Testimony", book: "testimony" },
+  { id: "autonomy", num: "I", ord: "First", name: "Autonomy", book: "autonomy" },
+  { id: "xenia", num: "II", ord: "Second", name: "Xenia", book: "xenia" },
+  { id: "repair", num: "III", ord: "Third", name: "Repair and Our Path Forward", book: "repair" },
+  { id: "reciprocity", num: "IV", ord: "Fourth", name: "Reciprocity", book: "reciprocity" },
+  { id: "rocking-chair", num: "V", ord: "Fifth", name: "The Rocking Chair", book: "rocking-chair" },
+  { id: "trauma-informed", num: "VI", ord: "Sixth", name: "Trauma Informed Behavior", book: "trauma-informed" },
+  { id: "power", num: "VII", ord: "Seventh", name: "Power and Authority", book: "power" },
+  { id: "education", num: "VIII", ord: "Eighth", name: "Education", book: "education" },
+  { id: "testimony", num: "IX", ord: "Ninth", name: "Attestation and Testimony", book: "testimony" },
 ];
 
 function Tenet({ id, children }: { id: string; children: React.ReactNode }) {
@@ -24,7 +24,7 @@ function Tenet({ id, children }: { id: string; children: React.ReactNode }) {
   return (
     <div className="part tenet" id={t.id}>
       <h2>
-        The {t.ord} Tenet: {t.name}
+        <span className="roman">{t.num}</span> &mdash; {t.name}
       </h2>
       {children}
       <BookLinks slug={t.book} title={`The ${t.ord} Tenet: Considerations of ${t.name}`} />
@@ -43,11 +43,13 @@ export default function Tenets() {
 
       <section>
         <div className="wrap read">
-          <nav className="toc" aria-label="Contents">
+          <nav className="toc toc-roman" aria-label="Contents">
             <ol>
               {TENETS.map((t) => (
                 <li key={t.id}>
-                  <a href={`#${t.id}`}>The {t.ord} Tenet: {t.name}</a>
+                  <a href={`#${t.id}`}>
+                    <span className="roman">{t.num}</span> &mdash; {t.name}
+                  </a>
                 </li>
               ))}
             </ol>
