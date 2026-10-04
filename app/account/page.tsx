@@ -68,8 +68,9 @@ export default async function AccountPage() {
           <form action={setNotify} className="notice" style={{ marginBottom: 32 }}>
             <label className="check">
               <input type="checkbox" name="notify" defaultChecked={profile?.notify_changes ?? false} /> If the
-              wording changes significantly or a new item is added, the Sisters have my permission
-              to let me know.
+              wording changes significantly within the canon or a new item is added, the Sisters
+              have my permission to let me know. I understand this is a new religion and there may
+              be adjustments to the current canon.
             </label>
             <button className="btn btn-moss btn-small" style={{ marginTop: 8 }}>Save</button>
           </form>

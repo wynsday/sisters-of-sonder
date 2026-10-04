@@ -33,8 +33,7 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
                 from different cultures), react to them, and share your story in Hear My Voice.
               </p>
               <p className="hint">
-                <span className="members-legend" aria-hidden="true" /> Buttons with a dark purple
-                outline are for members.
+                Buttons with a dark purple outline are for members only.
               </p>
               <h3>Your autonomy</h3>
               <p>
@@ -109,8 +108,9 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
                     <div className="field">
                       <label className="check">
                         <input type="checkbox" name="notify" /> If the wording changes
-                        significantly or a new item is added, the Sisters have my permission to
-                        let me know.
+                        significantly within the canon or a new item is added, the Sisters have
+                        my permission to let me know. I understand this is a new religion and
+                        there may be adjustments to the current canon.
                       </label>
                     </div>
                     <button className="btn btn-gold" type="submit" disabled={!isConfigured}>
