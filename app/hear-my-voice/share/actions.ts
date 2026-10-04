@@ -20,7 +20,7 @@ export async function shareStory(_prev: ShareState, formData: FormData): Promise
   if (!items.length) return { ...keep, error: "Choose at least one item your story speaks to." };
   if (!formData.get("public_ok"))
     return { ...keep, error: "Please confirm you understand your story will be public." };
-  if (!formData.get("no_names")) return { ...keep, error: "Please confirm your story names no one." };
+  if (!formData.get("no_names")) return { ...keep, error: "Please confirm your story is a first person account that names no one." };
 
   const supabase = await createClient();
   const { error } = await supabase.rpc("share_story", {

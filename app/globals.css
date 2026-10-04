@@ -642,3 +642,10 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
   border-radius: 999px !important;
   font-size: 1rem !important;
 }
+.hmv-question {
+  font-family: var(--serif-display);
+  font-size: clamp(1.5rem, 3.2vw, 2rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 28px 0 8px;
+}

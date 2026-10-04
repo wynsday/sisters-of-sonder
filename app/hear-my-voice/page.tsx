@@ -51,29 +51,21 @@ export default async function HearMyVoicePage({ searchParams }: PageProps<"/hear
       <div className="page-hero">
         <div className="wrap">
           <h1>Hear My Voice</h1>
-          <p>Stories shared so they are heard.</p>
         </div>
       </div>
 
       <section>
         <div className="wrap read">
           <p>
-            Some harm never needed to happen. Some suffering could have been prevented, or
-            eased, if the people nearby had held to a Tenet, lived an Aspiration, or refused what
-            a Condemnation names.
+            This is a place to share your voice, your story, and be heard. Our Wisdoms review
+            stories, adjust our doctrine to best protect our members within this fourth space,
+            and build a better fifth space (sanctuary). Stories here help see they are not alone.
           </p>
           <p>
-            We ask for those stories. Tell what happened, and what would have been different if
-            someone near you had known and followed what you choose to speak to. These stories
-            show plainly why the Aspirations and Tenets matter, and how they protect. They are
-            heard here, not judged.
+            Stories must be first person accounts that do not use names or they won&rsquo;t be
+            published. Wisdoms will not edit any story content.
           </p>
-          <div className="notice">
-            <strong>These stories are public, for the world to read.</strong> The names of those
-            who share them are never shown, and stories name no people. Each is read before
-            it appears, and stories that may be hard to read stay folded closed, marked with
-            what they contain.
-          </div>
+          <p className="hmv-question">What have you experienced that has lessons learned?</p>
           <p style={{ marginTop: 24 }}>
             <Link className="btn members" href="/hear-my-voice/share" title="Members only">
               Share your story

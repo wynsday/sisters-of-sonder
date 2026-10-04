@@ -91,8 +91,8 @@ export default function ShareForm({ items, preselect = [] }: { items: IndexItem[
 
       <div className="field">
         <label className="check">
-          <input type="checkbox" name="no_names" required /> My story names no one, and nothing in
-          it would identify a person.
+          <input type="checkbox" name="no_names" required /> My story is my own first person
+          account. It names no one, and nothing in it would identify a person.
         </label>
       </div>
 
