@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { type Book, FORMS } from "@/lib/books";
-import { offerConsideration, type OfferState } from "./actions";
+import { offerConsideration, type OfferState } from "./offer-actions";
 
 export default function OfferForm({ books, chosen }: { books: Book[]; chosen: string }) {
   const [state, action, pending] = useActionState<OfferState, FormData>(offerConsideration, {});

@@ -53,7 +53,7 @@ export default function Home() {
           </div>
           <div className="aspirations">
             {ASPIRATIONS.map((a) => (
-              <Link key={a.slug} id={a.id} className="aspiration" href={`/books/${a.slug}`}>
+              <Link key={a.slug} id={a.id} className="aspiration" href={`/aspirations#${a.slug}`}>
                 <span className="ordinal">The {a.ord} Aspiration</span>
                 <h3>{a.name}</h3>
                 <span className="aspire">{a.aspire}</span>

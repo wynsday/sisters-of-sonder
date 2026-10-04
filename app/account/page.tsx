@@ -42,7 +42,7 @@ export default async function AccountPage() {
       <section>
         <div className="wrap read">
           <div className="subnav">
-            <Link className="btn btn-moss btn-small" href="/contribute">
+            <Link className="btn btn-moss btn-small" href="/books#offer">
               Offer a Consideration
             </Link>
             <Link className="btn btn-moss btn-small" href="/hear-my-voice/share">

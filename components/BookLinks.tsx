@@ -6,7 +6,7 @@ export default function BookLinks({ slug, title }: { slug: string; title: string
   return (
     <p className="book-links">
       <Link href={`/books/${slug}`}>Read {title} &rarr;</Link>
-      <Link className="add-consideration" href={`/contribute?book=${slug}`}>
+      <Link className="add-consideration" href={`/books?book=${slug}#offer`}>
         + Add a Consideration <span className="hint">(members)</span>
       </Link>
     </p>

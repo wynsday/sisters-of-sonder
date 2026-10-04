@@ -7,8 +7,8 @@ import { usePathname } from "next/navigation";
 // aloud by screen readers.
 const LINKS = [
   { href: "/foundation", letter: "F", label: "Foundation" },
-  { href: "/#aspirations", letter: "A", label: "Aspirations" },
-  { href: "/books", letter: "C", label: "Considerations" },
+  { href: "/aspirations", letter: "A", label: "Aspirations" },
+  { href: "/books", letter: "C", label: "Quilt of the Considerate" },
   { href: "/tenets", letter: "T", label: "Tenets" },
   { href: "/hear-my-voice", letter: "S", label: "Stories: Hear My Voice" },
   { href: "/account", letter: "👤", label: "Account" },
@@ -16,8 +16,7 @@ const LINKS = [
 
 export default function Nav() {
   const pathname = usePathname();
-  const current = (href: string) =>
-    href.startsWith("/#") ? false : pathname.startsWith(href) || (href === "/books" && pathname.startsWith("/c/"));
+  const current = (href: string) => (href === "/books" ? pathname === "/books" : pathname.startsWith(href));
 
   return (
     <nav className="nav letters" aria-label="Main">

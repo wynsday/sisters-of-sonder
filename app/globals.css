@@ -47,12 +47,10 @@ p { margin: 0 0 1em; }
 .read { max-width: var(--read); margin: 0 auto; }
 
 /* ---------- header ---------- */
+.site-top { position: sticky; top: 0; z-index: 10; }
 .site-header {
   background: var(--night);
   color: var(--parchment);
-  position: sticky;
-  top: 0;
-  z-index: 10;
   border-bottom: 1px solid #3a3657;
 }
 .site-header .wrap {
@@ -579,3 +577,39 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 .top-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
 .btn-outline { border: 1px solid var(--moss); color: var(--moss); background: transparent; }
 .btn-outline:hover { background: var(--moss-light); color: var(--moss); }
+
+/* ---------- the red book bar ---------- */
+.book-bar { background: var(--rose); border-bottom: 1px solid #6e3a43; }
+.book-bar .wrap {
+  display: flex; gap: 6px; align-items: center;
+  min-height: 38px; padding-top: 5px; padding-bottom: 5px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.book-bar .wrap::-webkit-scrollbar { display: none; }
+.book-bar a {
+  flex: none;
+  padding: 3px 11px;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 6px;
+  color: #fbf6ea; text-decoration: none;
+  font-size: .9rem; white-space: nowrap;
+}
+.book-bar a:hover { background: rgba(255, 255, 255, .14); color: #fff; }
+.book-bar a[aria-current="page"] { background: #fbf6ea; color: var(--rose); border-color: #fbf6ea; }
+/* anchors land below both bars */
+.part, .tenet, .aspirations-section, .glossary > div { scroll-margin-top: 120px; }
+
+/* ---------- aspirations: three books side by side ---------- */
+.aspiration-books { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: start; }
+.aspiration-book { scroll-margin-top: 120px; min-width: 0; }
+.aspiration-book .ordinal { letter-spacing: .14em; text-transform: uppercase; font-size: .8rem; color: var(--ink-soft); }
+.aspiration-book h2 { border-bottom: 3px solid var(--moss); padding-bottom: 8px; }
+.aspiration-book h2 a { color: inherit; text-decoration: none; }
+.aspiration-book .consider { font-size: 1rem; }
+.aspiration-book .book-part { margin-top: 28px; }
+.aspiration-book .entry, .aspiration-book details.trigger-entry > summary, .aspiration-book .trigger-body { padding-left: 16px; padding-right: 16px; }
+.aspiration-book .reaction { min-width: 38px; padding: 0 8px; }
+@media (max-width: 960px) { .aspiration-books { grid-template-columns: 1fr; } }
+.cards-3 { grid-template-columns: repeat(3, 1fr); }
+.cards-3 .card { padding: 20px; }
+@media (max-width: 700px) { .cards-3 { grid-template-columns: 1fr; } }

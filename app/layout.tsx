@@ -3,6 +3,7 @@ import Link from "next/link";
 import localFont from "next/font/local";
 import { ORG } from "@/lib/config";
 import Nav from "@/components/Nav";
+import BookBar from "@/components/BookBar";
 import "./globals.css";
 
 // Liberation Serif, SIL Open Font License (see app/fonts/LiberationSerif-LICENSE.txt).
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={liberation.variable}>
       <body>
+        <div className="site-top">
         <header className="site-header">
           <div className="wrap">
             <Link className="brand" href="/">
@@ -36,6 +38,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Nav />
           </div>
         </header>
+        <BookBar />
+        </div>
         <main>{children}</main>
         <footer className="site-footer">
           <div className="wrap">

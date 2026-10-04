@@ -26,3 +26,15 @@ export async function fetchPart(book: string, part: Part, offset: number, limit 
   const entries = page.map((id) => byId.get(id)).filter((c): c is Consideration => Boolean(c));
   return { entries, hasMore: order.length > limit };
 }
+
+/** First page of each part of a book, or null before the database is connected. */
+export async function loadParts(book: string) {
+  const { isConfigured } = await import("./supabase/env");
+  if (!isConfigured) return null;
+  const [neutral, glimmer, trigger] = await Promise.all(
+    (["neutral", "glimmer", "trigger"] as const).map((part) => fetchPart(book, part, 0)),
+  );
+  return { neutral, glimmer, trigger };
+}
+
+export type BookPartsData = NonNullable<Awaited<ReturnType<typeof loadParts>>>;

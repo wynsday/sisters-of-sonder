@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ORG } from "@/lib/config";
-import BookLinks from "@/components/BookLinks";
+import { loadParts } from "@/lib/feed";
+import AddConsideration from "@/components/AddConsideration";
+import BookParts from "@/components/BookParts";
 import ShareButton from "@/components/ShareButton";
 
 export const metadata: Metadata = {
@@ -8,7 +10,10 @@ export const metadata: Metadata = {
   description: "The Condemnations of Cults and Religion and the Foundational Understanding.",
 };
 
-export default function Foundation() {
+export const revalidate = 300;
+
+export default async function Foundation() {
+  const parts = await loadParts("foundation");
   return (
     <>
       <div className="page-hero">
@@ -24,6 +29,7 @@ export default function Foundation() {
             <ol>
               <li><a href="#condemnations">The Condemnations of Cults and Religion</a></li>
               <li><a href="#foundation">The Foundational Understanding</a></li>
+              <li><a href="#book">Considerations of the Foundational Understanding</a></li>
             </ol>
           </nav>
 
@@ -82,9 +88,13 @@ export default function Foundation() {
             <p>All things are exposed to change. Change is what allows us to experience the wonder in our existence; it is what is needed to reduce suffering. At times, change brings friction that requires us to hold grace for ourselves and others. Our lives are cycles upon cycles that can balance when they move; rest and moments of stillness are part of the movement and cycle of life. Holding one position or aspiring in only one direction when we should be cycling is disruptive to health and happiness.</p>
             <div className="consider">Daodejing 76 and 40, Ecclesiastes 3:1&ndash;8</div>
             <p>Considerations can be held as both true and not true; they are able to fall into place, provide inspiration, be dismissed, or spark wonder. Each individual can make their own decisions or non-decisions about considerations.</p>
-            <BookLinks slug="foundation" title="Considerations of the Foundational Understanding" />
           </div>
 
+          <div className="part" id="book">
+            <h2>Considerations of the Foundational Understanding</h2>
+            <AddConsideration book="foundation" />
+            <BookParts slug="foundation" parts={parts} />
+          </div>
         </div>
       </section>
     </>

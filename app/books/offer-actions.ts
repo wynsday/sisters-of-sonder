@@ -9,7 +9,7 @@ export type OfferState = {
 };
 
 export async function offerConsideration(_prev: OfferState, formData: FormData): Promise<OfferState> {
-  const { supabase, user } = await requireUser("/contribute");
+  const { supabase, user } = await requireUser("/books");
   const field = (k: string) => String(formData.get(k) ?? "").trim();
   const values = {
     form: field("form"),

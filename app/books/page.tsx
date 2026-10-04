@@ -1,97 +1,85 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { Book } from "@/lib/books";
-import { createPublicClient } from "@/lib/supabase/server";
 import { isConfigured } from "@/lib/supabase/env";
-import NotConnected from "@/components/NotConnected";
+import { getSession } from "@/lib/auth";
+import { type Book, FORMS } from "@/lib/books";
+import { loadParts } from "@/lib/feed";
+import BookParts from "@/components/BookParts";
+import OfferForm from "./OfferForm";
 
 export const metadata: Metadata = {
-  title: "Books of Considerations",
-  description:
-    "A crowd-sourced library of myths and folklore that share an underlying concept across cultures.",
+  title: "Quilt of the Considerate",
+  description: "Offer a Consideration: a premise, a parable, or stories from different cultures that share an opinion.",
 };
-export const revalidate = 300;
+// Shows the offer form to signed-in members, so it is rendered per visitor.
+export const dynamic = "force-dynamic";
 
-async function loadShelf() {
-  if (!isConfigured) return null;
-  const supabase = createPublicClient();
-  const [{ data: books }, { data: rows }] = await Promise.all([
-    supabase.from("books").select("*").order("ordinal"),
-    supabase.from("considerations").select("book").eq("status", "published"),
+const SHELF_ORDER = { foundation: 0, aspiration: 1, tenet: 2, quilt: 3 };
+
+export default async function QuiltPage({ searchParams }: PageProps<"/books">) {
+  const sp = await searchParams;
+  const chosen = String(sp.book ?? "");
+  const here = `/books${chosen ? `?book=${chosen}` : ""}`;
+  const { supabase, user } = isConfigured ? await getSession() : { supabase: null, user: null };
+  const [{ data }, parts] = await Promise.all([
+    supabase && user ? supabase.from("books").select("*").order("ordinal") : Promise.resolve({ data: [] }),
+    loadParts("quilt"),
   ]);
-  const counts = new Map<string, number>();
-  for (const r of rows ?? []) if (r.book) counts.set(r.book, (counts.get(r.book) ?? 0) + 1);
-  return { books: (books ?? []) as Book[], counts };
-}
+  const books = ((data ?? []) as Book[]).sort((a, b) => SHELF_ORDER[a.kind] - SHELF_ORDER[b.kind]);
 
-function Shelf({ books, counts }: { books: Book[]; counts: Map<string, number> }) {
-  return (
-    <div className="shelf">
-      {books.map((b) => {
-        const n = counts.get(b.slug) ?? 0;
-        return (
-          <Link key={b.slug} href={`/books/${b.slug}`} className={`book-spine ${b.kind}`}>
-            <h3>{b.title}</h3>
-            <div className="count">
-              {n} Consideration{n === 1 ? "" : "s"}
-            </div>
-          </Link>
-        );
-      })}
-    </div>
-  );
-}
-
-export default async function BooksPage() {
-  const shelf = await loadShelf();
   return (
     <>
       <div className="page-hero">
         <div className="wrap">
-          <h1>The Books of Considerations</h1>
-          <p>Written by its people, from the stories humanity already tells.</p>
+          <h1>Quilt of the Considerate</h1>
+          <p>Offer a premise, a parable, or stories that share an opinion.</p>
         </div>
       </div>
 
-      <section>
+      <section className="alt">
         <div className="wrap read">
-          <p>
-            The Foundational Understanding, each Aspiration, and each Tenet has its own Book of
-            Considerations. The Quilt of the
-            Considerate holds all the rest. Members offer premises, parables, and stories from
-            different cultures; see <Link href="/contribute">what a Consideration should contain</Link>.
+          <h2>If you have a Consideration to offer</h2>
+          <p>It should contain one of these:</p>
+          <div className="cards cards-3">
+            {FORMS.map((f, n) => (
+              <div key={f.value} className="card">
+                <div className="num">{n + 1}</div>
+                <h3>{f.label}</h3>
+                <p>{f.describe}</p>
+              </div>
+            ))}
+          </div>
+          <p className="notice" style={{ marginTop: 24 }}>
+            A Wisdom will review submissions and post any that do not violate the spirit of the{" "}
+            <Link href="/aspirations">Aspirations</Link> or <Link href="/tenets">Tenets</Link>.
           </p>
-          <p>
-            How a Consideration may be held is part of{" "}
-            <Link href="/foundation#foundation">the Foundational Understanding</Link>.
-          </p>
-          <p>
-            Every book has three parts. The first is unlabeled. <strong>Glimmers</strong> are
-            marked as such. <strong>Triggers</strong> are marked with indicators of what they
-            contain and stay folded closed until you choose to open them.
-          </p>
-          <Link className="btn btn-moss" href="/contribute">
-            Offer a Consideration
-          </Link>
+        </div>
+      </section>
+
+      <section id="offer" className="part">
+        <div className="wrap read">
+          {user ? (
+            <OfferForm books={books} chosen={chosen} />
+          ) : (
+            <div className="card center">
+              <h2>Members offer Considerations</h2>
+              <p>Join or sign in, and you will come straight back here to write yours.</p>
+              <Link className="btn btn-gold" href={`/join?next=${encodeURIComponent(here)}`}>
+                Join
+              </Link>
+              <Link className="btn btn-moss" href={`/join?mode=signin&next=${encodeURIComponent(here)}`}>
+                Sign in
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
       <section className="alt">
-        <div className="wrap">
-          {shelf ? (
-            <>
-              <h2>The Foundational Understanding</h2>
-              <Shelf books={shelf.books.filter((b) => b.kind === "foundation")} counts={shelf.counts} />
-              <h2 style={{ marginTop: 48 }}>The Aspirations</h2>
-              <Shelf books={shelf.books.filter((b) => b.kind === "aspiration")} counts={shelf.counts} />
-              <h2 style={{ marginTop: 48 }}>The Tenets</h2>
-              <Shelf books={shelf.books.filter((b) => b.kind === "tenet")} counts={shelf.counts} />
-              <h2 style={{ marginTop: 48 }}>The Quilt</h2>
-              <Shelf books={shelf.books.filter((b) => b.kind === "quilt")} counts={shelf.counts} />
-            </>
-          ) : (
-            <NotConnected />
-          )}
+        <div className="wrap read">
+          <h2>The Quilt</h2>
+          <p className="hint">Considerations that belong to no single Aspiration or Tenet.</p>
+          <BookParts slug="quilt" parts={parts} />
         </div>
       </section>
     </>
