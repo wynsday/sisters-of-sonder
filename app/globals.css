@@ -635,3 +635,10 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 .book-bar a.members { background: transparent; color: #fbf6ea; border-color: var(--members) !important; }
 .book-bar a.members[aria-current="page"] { background: #fbf6ea; color: var(--members); }
 .members-legend { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--members); border-radius: 4px; vertical-align: -2px; margin-right: 4px; }
+.top-actions { align-items: center; }
+.glossary-search {
+  flex: 1; min-width: 180px;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  font-size: 1rem !important;
+}

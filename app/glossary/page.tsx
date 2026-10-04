@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import glossary from "@/lib/glossary.json";
-import Link from "next/link";
-import ShareButton from "@/components/ShareButton";
+import GlossaryBrowser from "./GlossaryBrowser";
 
 export const metadata: Metadata = {
   title: glossary.title,
@@ -16,75 +15,9 @@ export default function Glossary() {
           <h1>{glossary.title}</h1>
         </div>
       </div>
-
       <section>
         <div className="wrap read">
-          <p className="top-actions">
-            <Link className="btn btn-small members" href="/glossary/suggest" title="Members only">
-              Submit a new item
-            </Link>
-            <Link className="btn btn-small members" href="/report?page=Glossary" title="Members only">
-              Report an issue
-            </Link>
-          </p>
-          {glossary.preface.map((block) => (
-            <div key={block.heading} className="part">
-              <h2>{block.heading}</h2>
-              {block.paragraphs.map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-              {block.list.length > 0 && (
-                <ul>
-                  {block.list.map((li) => (
-                    <li key={li}>{li}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
-
-          <nav className="toc glossary-toc" aria-label="Sections">
-            <ol>
-              {glossary.sections.map((s) => (
-                <li key={s.id}>
-                  <a href={`#${s.id}`}>{s.title}</a>
-                  <span className="hint"> Entries {s.range}.</span>
-                  <div className="hint">{s.summary}</div>
-                </li>
-              ))}
-            </ol>
-          </nav>
-
-          {glossary.sections.map((s) => (
-            <div key={s.id} id={s.id} className="part">
-              <h2>{s.title}</h2>
-              {s.intro.map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-              <dl className="glossary">
-                {s.entries.map((e) => (
-                  <div key={e.n} id={`g-${e.n}`}>
-                    <dt>
-                      <span className="g-num">{e.n}.</span> {e.term}
-                    </dt>
-                    <dd>
-                      {e.text}
-                      <ShareButton about={`g-${e.n}`} />
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          ))}
-
-          {glossary.closing.map((block) => (
-            <div key={block.heading} className="part">
-              <h2>{block.heading}</h2>
-              {block.paragraphs.map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-            </div>
-          ))}
+          <GlossaryBrowser glossary={glossary} />
         </div>
       </section>
     </>

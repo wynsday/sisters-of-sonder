@@ -6,9 +6,8 @@ import { usePathname } from "next/navigation";
 // The thin red bar under the top bar: the books, plus every page the top
 // buttons do not reach. The Foundational Understanding's book lives on its
 // own page and the Aspirations share one page (the "A" button), so neither
-// appears here. The nine Tenets share one book for now.
+// appears here. The Tenets' book is at the bottom of the Tenets page.
 const PAGES = [
-  { href: "/books/tenets", label: "Tenets", title: "Considerations of the Tenets" },
   { href: "/glossary", label: "Glossary", title: "Glossary of Potentially Harmful Behaviors" },
   { href: "/hear-my-voice", label: "Hear My Voice", title: "Hear My Voice" },
   { href: "/definitions", label: "Definitions", title: "Definitions" },

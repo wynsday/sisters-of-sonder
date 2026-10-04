@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { ORG } from "@/lib/config";
 import AddConsideration from "@/components/AddConsideration";
+import BookParts from "@/components/BookParts";
+import { loadParts } from "@/lib/feed";
+import { TENET_SLUGS } from "@/lib/tenets";
 
 export const metadata: Metadata = {
   title: "The Nine Tenets of Agreement",
@@ -32,7 +35,10 @@ function Tenet({ id, children }: { id: string; children: React.ReactNode }) {
   );
 }
 
-export default function Tenets() {
+export const revalidate = 300;
+
+export default async function Tenets() {
+  const parts = await loadParts(TENET_SLUGS);
   return (
     <>
       <div className="page-hero">
@@ -52,6 +58,9 @@ export default function Tenets() {
                   </a>
                 </li>
               ))}
+              <li>
+                <a href="#book">Considerations of the Tenets</a>
+              </li>
             </ol>
           </nav>
           {/* ===== Tenets ===== */}
@@ -113,6 +122,11 @@ export default function Tenets() {
             <p>Attestation and testimony are not restricted. Freedom of speech, freedom of the press, and freedom of assembly are held dear. Attestations and testimony are encouraged.</p>
           </Tenet>
 
+          <div className="part" id="book">
+            <h2>Considerations of the Tenets</h2>
+            <AddConsideration />
+            <BookParts slug="tenets" parts={parts} />
+          </div>
         </div>
       </section>
     </>
