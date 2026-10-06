@@ -113,6 +113,9 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
                         there may be adjustments to the current canon.
                       </label>
                     </div>
+                    <p className="hint">
+                      What is stored and who can see it: <Link href="/privacy">Privacy</Link>.
+                    </p>
                     <button className="btn btn-gold" type="submit" disabled={!isConfigured}>
                       Create account
                     </button>

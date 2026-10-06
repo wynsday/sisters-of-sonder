@@ -11,6 +11,7 @@ const PAGES = [
   { href: "/hear-my-voice", label: "Hear My Voice", title: "Hear My Voice" },
   { href: "/glossary", label: "Glossary", title: "Glossary of Potentially Harmful Behaviors" },
   { href: "/definitions", label: "Definitions", title: "Definitions" },
+  { href: "/privacy", label: "Privacy", title: "Privacy" },
   { href: "/report", label: "Report an Issue", title: "Report an issue (members only)", members: true },
 ];
 

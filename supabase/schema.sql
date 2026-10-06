@@ -279,23 +279,23 @@ insert into public.books (slug, kind, ordinal, subject, title, canon) values
    'To delight in the mysteries you encounter, and to encounter more than you have.'),
   ('grace', 'aspiration', 3, 'Grace', 'The Third Aspiration: Considerations of Grace',
    'To be kind to yourself, be kind to others, and be kind to life wherever you encounter it.'),
-  ('autonomy', 'tenet', 1, 'Autonomy', 'The First Tenet: Considerations of Autonomy',
+  ('autonomy', 'tenet', 1, 'Autonomy', 'I. Considerations of Autonomy',
    'Non-negotiable. You have the power and responsibility of you. We have the power and responsibility of we.'),
-  ('xenia', 'tenet', 2, 'Xenia', 'The Second Tenet: Considerations of Xenia',
+  ('xenia', 'tenet', 2, 'Xenia', 'II. Considerations of Xenia',
    'Be appropriate in the role you have accepted.'),
-  ('repair', 'tenet', 3, 'Repair and Our Path Forward', 'The Third Tenet: Considerations of Repair and Our Path Forward',
+  ('repair', 'tenet', 3, 'Repair and Our Path Forward', 'III. Considerations of Repair and Our Path Forward',
    'Positive change is repair; an apology is not.'),
-  ('reciprocity', 'tenet', 4, 'Reciprocity', 'The Fourth Tenet: Considerations of Reciprocity',
+  ('reciprocity', 'tenet', 4, 'Reciprocity', 'IV. Considerations of Reciprocity',
    'A person can find what was left for them without reciprocity. Within a Considerate, what is received is received by all and is equal; clear boundaries, a community communications culture, and reciprocity rules govern the node beyond canon and bylaws.'),
-  ('rocking-chair', 'tenet', 5, 'The Rocking Chair', 'The Fifth Tenet: Considerations of the Rocking Chair',
+  ('rocking-chair', 'tenet', 5, 'The Rocking Chair', 'V. Considerations of the Rocking Chair',
    'A single person cannot do everything. Know what you can do and what you can''t. Explore, share, and learn. The chair remains; it was empty before you sat, it will be empty as you get up. The chair moves and when it doesn''t, a new person can fill it and start it rocking again.'),
-  ('trauma-informed', 'tenet', 6, 'Trauma Informed Behavior', 'The Sixth Tenet: Considerations of Trauma Informed Behavior',
+  ('trauma-informed', 'tenet', 6, 'Trauma Informed Behavior', 'VI. Considerations of Trauma Informed Behavior',
    'Awareness and education allow trauma informed behaviors.'),
-  ('power', 'tenet', 7, 'Power and Authority', 'The Seventh Tenet: Considerations of Power and Authority',
+  ('power', 'tenet', 7, 'Power and Authority', 'VII. Considerations of Power and Authority',
    'Power is held to delegate and retract authority. Power is shared and authority limited.'),
-  ('education', 'tenet', 8, 'Education', 'The Eighth Tenet: Considerations of Education',
+  ('education', 'tenet', 8, 'Education', 'VIII. Considerations of Education',
    'Myth is a language for thinking, not an explanation. Education is the best preventative.'),
-  ('testimony', 'tenet', 9, 'Attestation and Testimony', 'The Ninth Tenet: Considerations of Attestation and Testimony',
+  ('testimony', 'tenet', 9, 'Attestation and Testimony', 'IX. Considerations of Attestation and Testimony',
    'Conveying your experience is neither boasting nor invalid; it is your experience. Only a disinterested party can judge a claim of abuse.'),
   ('quilt', 'quilt', 1, 'All Else', 'Quilt of the Considerate', null);
 
@@ -356,6 +356,12 @@ begin
     new.reviewed_by := null;
     new.reviewed_at := null;
     new.review_note := null;
+    return new;
+  end if;
+  -- When an account is deleted, its stories are unlinked from it.
+  if new.author is null and old.author is not null
+     and new.happened = old.happened and new.could_help = old.could_help
+     and new.status = old.status then
     return new;
   end if;
   if not public.is_admin() then

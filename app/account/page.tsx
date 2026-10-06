@@ -4,13 +4,14 @@ import { redirect } from "next/navigation";
 import { isConfigured } from "@/lib/supabase/env";
 import { getRoles } from "@/lib/auth";
 import { signOut } from "../join/actions";
-import { setNotify, withdrawStory } from "./actions";
+import { deleteAccount, setNotify, withdrawStory } from "./actions";
 
 export const metadata: Metadata = { title: "Your account" };
 // Personal to whoever is signed in; never cached.
 export const dynamic = "force-dynamic";
 
-export default async function AccountPage() {
+export default async function AccountPage({ searchParams }: PageProps<"/account">) {
+  const error = (await searchParams).error;
   if (!isConfigured) redirect("/join");
   const { supabase, user, isAdmin, chairs } = await getRoles();
   if (!user) redirect("/join?mode=signin&next=/account");
@@ -139,6 +140,21 @@ export default async function AccountPage() {
               </tbody>
             </table>
           )}
+
+          <div className="danger-zone">
+            <h2>Delete my account</h2>
+            <p>
+              This deletes your email address, profile, Considerations, and reactions, and cannot
+              be undone. Stories you have not withdrawn stay published with no link to you;
+              withdraw them above first if you want them gone. See{" "}
+              <Link href="/privacy">Privacy</Link>.
+            </p>
+            {error && <p className="error">{String(error)}</p>}
+            <form action={deleteAccount} className="actions">
+              <input name="confirm" type="text" placeholder="Type DELETE" aria-label="Type DELETE to confirm" style={{ maxWidth: 200 }} />
+              <button className="btn btn-rose btn-small">Delete my account</button>
+            </form>
+          </div>
         </div>
       </section>
     </>

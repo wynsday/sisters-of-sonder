@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
+import { noticeText, sendEmails } from "@/lib/email";
 
 async function staff() {
   return (await requireAdmin("/admin")).supabase;
@@ -144,4 +145,49 @@ export async function resolveSubmission(formData: FormData) {
     .eq("id", Number(formData.get("id")));
   if (error) fail("/admin/inbox", error.message);
   revalidatePath("/admin/inbox");
+}
+
+// ---------- Change notices (at most one every 30 days; enforced in the database) ----------
+export async function sendNotice(formData: FormData) {
+  const roles = await requireAdmin("/admin/notices");
+  const supabase = roles.supabase;
+  const back = "/admin/notices";
+  const subject = String(formData.get("subject") ?? "").trim();
+  const body = String(formData.get("body") ?? "").trim();
+  if (!subject || !body) fail(back, "Write a subject and a statement.");
+  if (!process.env.RESEND_API_KEY || !process.env.NOTICE_FROM) {
+    fail(back, "Email is not set up yet (RESEND_API_KEY and NOTICE_FROM).");
+  }
+
+  if (formData.get("mode") === "test") {
+    const to = roles.user?.email;
+    if (!to) fail(back, "Your account has no email address.");
+    let problem = "";
+    try {
+      await sendEmails([{ to, subject: `[Test] ${subject}`, text: noticeText("", body) }]);
+    } catch (e) {
+      problem = (e as Error).message;
+    }
+    if (problem) fail(back, problem);
+    redirect(`${back}?tested=1`);
+  }
+
+  const { data, error } = await supabase.rpc("begin_notice", { subject, body });
+  if (error) fail(back, error.message);
+  const rows = (data ?? []) as { notice_id: number; email: string; display_name: string }[];
+  if (!rows.length) fail(back, "No members have given permission for notices yet, so nothing was sent.");
+  const noticeId = rows[0].notice_id;
+  let sent = 0;
+  let problem = "";
+  try {
+    sent = await sendEmails(
+      rows.map((r) => ({ to: r.email, subject, text: noticeText(r.display_name, body) })),
+    );
+  } catch (e) {
+    problem = (e as Error).message;
+  }
+  await supabase.rpc("finish_notice", { notice_id: noticeId, ok: sent > 0, sent });
+  revalidatePath(back);
+  if (!sent) fail(back, `Nothing was sent, and the month was not used up. ${problem}`);
+  redirect(`${back}?sent=${sent}`);
 }

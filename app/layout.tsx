@@ -52,7 +52,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <Link href="/foundation">Foundational Understanding</Link> &middot;{" "}
               <Link href="/tenets">Tenets</Link> &middot;{" "}
               <Link href="/definitions">Definitions</Link> &middot;{" "}
-              <Link href="/account">Account</Link> &middot; <Link className="members-text" href="/report" title="Members only">Report an issue</Link>
+              <Link href="/account">Account</Link> &middot; <Link className="members-text" href="/report" title="Members only">Report an issue</Link> &middot;{" "}
+              <Link href="/privacy">Privacy</Link>
             </div>
           </div>
         </footer>
