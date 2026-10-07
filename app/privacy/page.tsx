@@ -38,7 +38,7 @@ export default function Privacy() {
               link to your account. Once published, it shows the name you chose.
             </li>
             <li>
-              <strong>Reactions:</strong> which reactions you gave to which Considerations.
+              <strong>Reactions:</strong> the reactions attached to Considerations.
             </li>
             <li>
               <strong>Stories in Hear My Voice:</strong> the text, what it speaks to, and a link to
