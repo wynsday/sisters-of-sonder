@@ -111,7 +111,7 @@ export default async function Tenets() {
           </Tenet>
 
           <Tenet id="education">
-            <div className="canon">Myth is a language for thinking, not an explanation. Education is the best preventative.</div>
+            <div className="canon">Myth is a language for thinking, not an explanation. Education is the best preventative of social harm.</div>
             <p>We embrace mythology and folklore as a way to practice and appreciate wonder. It is not a literal belief in monsters and deities (or is it?), but a consideration of the patterns in meaning found in the quilt of mysteries. Go looking for those concepts wherever they are held, in whatever tongue, and appreciate the wonder found in learning on your own terms. Storytelling, skill sharing, and education are important for community health and wellness. We do not ban books. We encourage seeking and honoring the mysteries of our existence.</p>
           </Tenet>
 

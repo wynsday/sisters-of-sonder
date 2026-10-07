@@ -85,7 +85,7 @@ export default async function Foundation() {
           {/* ===== Foundation ===== */}
           <div className="part" id="foundation">
             <h2><em>The Foundational Understanding</em></h2>
-            <p>All things are exposed to change. Change is what allows us to experience the wonder in our existence; it is what is needed to reduce suffering. At times, change brings friction that requires us to hold grace for ourselves and others. Our lives are cycles upon cycles that can balance when they move; rest and moments of stillness are part of the movement and cycle of life. Holding one position or aspiring in only one direction when we should be cycling is disruptive to health and happiness.</p>
+            <p>All things are exposed to change. Change is what allows us to experience the wonder in our existence; it is what is needed to reduce suffering. At times, change brings friction that requires us to hold grace for ourselves and others. Our lives are cycles upon cycles that can balance when they move through their phases. Rest and moments of stillness are important phases in the cycle of life. Holding on to a single phase when we should be cycling is disruptive to health and happiness.</p>
             <div className="consider">Daodejing 76 and 40, Ecclesiastes 3:1&ndash;8</div>
             <p>Considerations can be held as both true and not true; they are able to fall into place, provide inspiration, be dismissed, or spark wonder. Each individual can make their own decisions or non-decisions about considerations.</p>
           </div>
