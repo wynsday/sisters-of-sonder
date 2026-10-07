@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 // Keep this page true to how the site actually works. Update it whenever
 // what is stored, who can see it, or which services are used changes.
-const UPDATED = "October 6, 2026";
+const UPDATED = "October 7, 2026";
 
 export default function Privacy() {
   return (
@@ -82,8 +82,7 @@ export default function Privacy() {
             <li>
               <strong>Whoever manages the database and hosting accounts:</strong> everything
               stored, including email addresses and which account wrote each story. They can read
-              it directly in the database. It is not hidden or encrypted from them. During the
-              founding period this is one person, the founder.
+              it directly in the database. It is not hidden or encrypted from them.
             </li>
             <li>
               <strong>Service providers:</strong> Supabase (database and sign-in), Vercel (hosting),
@@ -93,7 +92,9 @@ export default function Privacy() {
             </li>
             <li>
               <strong>Legal demands:</strong> anything stored here, or by these providers, could be
-              disclosed if the law requires it. Nothing here is end-to-end encrypted.
+              disclosed if the law requires it. Nothing here is end-to-end encrypted. Your records
+              here help show your religious dedication to the {ORG.name}, and we are happy to
+              provide them on your behalf if requested by a lawyer.
             </li>
           </ul>
 
