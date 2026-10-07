@@ -17,7 +17,7 @@ export default function Privacy() {
       <div className="page-hero">
         <div className="wrap">
           <h1>Privacy</h1>
-          <p>What this site stores, who can see it, and what it cannot promise.</p>
+          <p>We care, be aware</p>
         </div>
       </div>
 
