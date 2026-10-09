@@ -9,8 +9,8 @@ const LINKS = [
   { href: "/foundation", letter: "F", label: "Foundation" },
   { href: "/aspirations", letter: "A", label: "Aspirations" },
   { href: "/books", letter: "C", label: "Quilt of the Considerate" },
+  { href: "/hear-my-voice", letter: "E", label: "Experiences: Hear My Voice" },
   { href: "/tenets", letter: "T", label: "Tenets" },
-  { href: "/hear-my-voice", letter: "S", label: "Stories: Hear My Voice" },
   { href: "/account", letter: "👤", label: "Account" },
 ];
 

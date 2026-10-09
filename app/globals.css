@@ -652,3 +652,4 @@ a.tag:hover, .tag.on { background: var(--moss); color: #fff; }
 .privacy li { margin-bottom: 10px; }
 .privacy h2 { margin-top: 1.6em; }
 .danger-zone { border: 1px solid #e6c9ce; border-radius: var(--radius); padding: 18px 20px; margin-top: 48px; }
+.page-hero .hero-sub-purple { color: #c9b8f0; font-size: 1.2rem; font-style: italic; }

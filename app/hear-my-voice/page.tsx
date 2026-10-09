@@ -51,6 +51,7 @@ export default async function HearMyVoicePage({ searchParams }: PageProps<"/hear
       <div className="page-hero">
         <div className="wrap">
           <h1>Hear My Voice</h1>
+          <p className="hero-sub-purple">Experiences shared as stories</p>
         </div>
       </div>
 
