@@ -32,9 +32,18 @@ styles = {
 }
 
 
+# Wording changes the Sisters asked for on the site (document text -> site text).
+REWORDS = {
+    "Knowing these words": "Knowing these items",
+    "Knowing these terms": "Knowing these items",
+}
+
 def clean(t):
     t = t.replace("�", "'").replace(" ", " ")
-    return re.sub(r"\s+", " ", t).strip()
+    t = re.sub(r"\s+", " ", t).strip()
+    for old, new in REWORDS.items():
+        t = t.replace(old, new)
+    return t
 
 
 QUOTES = re.compile(r"[“”‘’\"']+")
