@@ -36,6 +36,11 @@ styles = {
 REWORDS = {
     "Knowing these words": "Knowing these items",
     "Knowing these terms": "Knowing these items",
+    "Naming is not proving, it simply begins a conversation. It is neither verdict nor closure.":
+        "Identifying or naming an item can start a conversation. Everything on this list could be "
+        "done unintentionally. For example, you or someone else might unintentionally gaslight "
+        "yourself or others due to cognitive dissonance. Aspire to have grace for yourself and others.",
+    "to inflict harm as cruelty": "to inflict harm or cruelty",
 }
 
 def clean(t):
@@ -83,7 +88,7 @@ for p in re.findall(r"<w:p[ >].*?</w:p>", doc, re.S):
         paras.append((ps, bold, plain))
 
 # Lines left out of the page at the Sisters' request (matched by how they begin).
-SKIP_PREFIXES = ("Every entry", "Items", "Identifying")
+SKIP_PREFIXES = ("Every entry", "Items", "Identifying a behavior")
 
 SECTION = re.compile(r"^Section (One|Two|Three|Four|Five|Six|Seven)\. (.+?)\.?$")
 ENTRY = re.compile(r"^(\d+)\.\s*(.+?)\.?$")
