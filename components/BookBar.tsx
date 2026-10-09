@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 // own page and the Aspirations share one page (the "A" button), so neither
 // appears here. The Tenets' book is at the bottom of the Tenets page.
 const PAGES = [
-  { href: "/hear-my-voice", label: "Hear My Voice", title: "Hear My Voice" },
   { href: "/glossary", label: "Glossary", title: "Glossary of Potentially Harmful Behaviors" },
   { href: "/definitions", label: "Definitions", title: "Definitions" },
   { href: "/privacy", label: "Privacy", title: "Privacy" },
