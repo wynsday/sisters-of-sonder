@@ -94,13 +94,6 @@ export default function Privacy() {
             addresses.
           </p>
 
-          <h2>Email</h2>
-          <p>
-            You are emailed to confirm your account and to reset your password. If you gave
-            permission, you may also get a notice when the canon changes, no more than once every
-            30 days. You can turn these off on your <Link href="/account">account page</Link>.
-          </p>
-
           <h2>How long it is kept</h2>
           <p>Until you delete it, or an admin removes it.</p>
 

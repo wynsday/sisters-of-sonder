@@ -146,7 +146,14 @@ export default async function AccountPage({ searchParams }: PageProps<"/account"
             </table>
           )}
 
-          <h2 style={{ marginTop: 48 }}>Your choices</h2>
+          <h2 style={{ marginTop: 48 }}>Email</h2>
+          <p>
+            You are emailed to confirm your account and to reset your password. If you gave
+            permission, you may also get a notice when the canon changes, no more than once every
+            30 days. You can turn these off with the permission checkbox at the top of this page.
+          </p>
+
+          <h2 style={{ marginTop: 32 }}>Your choices</h2>
           <ul>
             <li>
               <strong>Withdraw a story</strong> at any time from Your stories above. It is
