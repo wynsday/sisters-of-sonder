@@ -23,7 +23,7 @@ const DEFINITIONS: [string, React.ReactNode][] = [
     </>,
   ],
   ["Complaint", "Report of a harm, incident, issue, or demand for remedy."],
-  ["Conclave", "The 3 to 27 people that choose a Wisdom’s successor."],
+  ["Conclave", "A private meeting used to elect or appoint persons into key positions."],
   ["Consideration", "An offered thought that may be held as true, not true, or both, which each person decides for themselves."],
   ["Considerate", "A congregation."],
   ["Council of Wisdoms", `The Wisdoms together, who hold the power of the ${ORG.name} solely to delegate and retract authority and manage canon.`],
