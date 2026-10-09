@@ -191,3 +191,41 @@ export async function sendNotice(formData: FormData) {
   if (!sent) fail(back, `Nothing was sent, and the month was not used up. ${problem}`);
   redirect(`${back}?sent=${sent}`);
 }
+
+// ---------- Dashboard: to-dos and change log ----------
+export async function addTodo(formData: FormData) {
+  const supabase = await staff();
+  const text = String(formData.get("text") ?? "").trim();
+  if (text) await supabase.from("admin_todos").insert({ text });
+  revalidatePath("/admin/dashboard");
+}
+
+export async function toggleTodo(formData: FormData) {
+  const supabase = await staff();
+  const done = formData.get("done") === "1";
+  await supabase
+    .from("admin_todos")
+    .update({ done_at: done ? new Date().toISOString() : null })
+    .eq("id", Number(formData.get("id")));
+  revalidatePath("/admin/dashboard");
+}
+
+export async function deleteTodo(formData: FormData) {
+  const supabase = await staff();
+  await supabase.from("admin_todos").delete().eq("id", Number(formData.get("id")));
+  revalidatePath("/admin/dashboard");
+}
+
+export async function addChange(formData: FormData) {
+  const supabase = await staff();
+  const title = String(formData.get("title") ?? "").trim();
+  const details = String(formData.get("details") ?? "").trim() || null;
+  if (title) await supabase.from("change_log").insert({ title, details });
+  revalidatePath("/admin/dashboard");
+}
+
+export async function deleteChange(formData: FormData) {
+  const supabase = await staff();
+  await supabase.from("change_log").delete().eq("id", Number(formData.get("id")));
+  revalidatePath("/admin/dashboard");
+}

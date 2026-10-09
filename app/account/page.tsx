@@ -50,9 +50,14 @@ export default async function AccountPage({ searchParams }: PageProps<"/account"
               Share your story
             </Link>
             {isAdmin && (
-              <Link className="btn btn-gold btn-small" href="/admin">
-                Keepers&rsquo; Desk
-              </Link>
+              <>
+                <Link className="btn btn-gold btn-small" href="/admin/dashboard">
+                  Admin Dashboard
+                </Link>
+                <Link className="btn btn-gold btn-small" href="/admin">
+                  Keepers&rsquo; Desk
+                </Link>
+              </>
             )}
             {chairs.map((c) => (
               <Link key={c.house} className="btn btn-gold btn-small" href={`/chair/${c.house}`}>

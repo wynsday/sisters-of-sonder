@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { ORG } from "@/lib/config";
 import Nav from "@/components/Nav";
 import BookBar from "@/components/BookBar";
+import VisitBeacon from "@/components/VisitBeacon";
 import "./globals.css";
 
 // Liberation Serif, SIL Open Font License (see app/fonts/LiberationSerif-LICENSE.txt).
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <BookBar />
         </div>
         <main>{children}</main>
+        <VisitBeacon />
         <footer className="site-footer">
           <div className="wrap">
             <div>

@@ -60,7 +60,7 @@ export default function Privacy() {
 
           <h2>What is not done</h2>
           <ul>
-            <li>No advertising, analytics, or tracking scripts. No outside fonts or scripts load.</li>
+            <li>No advertising. No outside fonts or scripts load.</li>
             <li>Nothing is sold or shared for marketing.</li>
             <li>
               The only cookie is the sign-in cookie, set when you sign in so you stay signed in.

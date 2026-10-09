@@ -1,0 +1,238 @@
+[
+ {
+  "date": "2026-10-09",
+  "title": "Definitions: Conclave"
+ },
+ {
+  "date": "2026-10-09",
+  "title": "Glossary: new naming bullet; 'harm or cruelty'"
+ },
+ {
+  "date": "2026-10-09",
+  "title": "Glossary: 'Knowing these items' (saved as a site rewording)"
+ },
+ {
+  "date": "2026-10-09",
+  "title": "Red bar: Hear My Voice is reached by E on the top bar"
+ },
+ {
+  "date": "2026-10-09",
+  "title": "Forward the Sisters' other domains to sosonder.org"
+ },
+ {
+  "date": "2026-10-09",
+  "title": "Top bar: E for Experiences between C and T; Hear My Voice subtitle"
+ },
+ {
+  "date": "2026-10-07",
+  "title": "Hide Glimmers and Triggers when empty"
+ },
+ {
+  "date": "2026-10-07",
+  "title": "Sync with Sacred Aspirations of Oct 6: Glimmer and Trigger definitions, Considerate, Foundational Understanding phases, Eighth Tenet"
+ },
+ {
+  "date": "2026-10-07",
+  "title": "Privacy: remove founding-period line; records on a member's behalf"
+ },
+ {
+  "date": "2026-10-07",
+  "title": "Privacy: reactions wording"
+ },
+ {
+  "date": "2026-10-07",
+  "title": "Privacy: 'We care, be aware'"
+ },
+ {
+  "date": "2026-10-06",
+  "title": "Privacy page (actual practices), delete my account, admin change notices via Resend (max 1 per 30 days), Roman numeral book titles"
+ },
+ {
+  "date": "2026-10-04",
+  "title": "Symbol section: invite readers to look at the dew drop"
+ },
+ {
+  "date": "2026-10-04",
+  "title": "Include .env.example"
+ },
+ {
+  "date": "2026-10-04",
+  "title": "Founding period as a profile column (no new table, so no RLS prompt); guarded; tested"
+ },
+ {
+  "date": "2026-10-04",
+  "title": "Founding period: time-limited founder access (admin + both chairs) until 2027-04-04; tested"
+ },
+ {
+  "date": "2026-10-04",
+  "title": "Fix setup SQL (stray row in story tags); one-paste setup.sql; tested in Postgres"
+ },
+ {
+  "date": "2026-10-04",
+  "title": "Join: members-only wording without the sample box; canon wording on the change-notice permission"
+ },
+ {
+  "date": "2026-10-04",
+  "title": "Hear My Voice: new introduction and question; first on the red bar; first-person confirmation"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Glossary search; Tenets book moves to the bottom of the Tenets page"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Submit a Consideration buttons; dark purple outline marks members-only items; centered red bar with Definitions and Report an Issue"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Glossary: import the updated document (11 entries revised, 85 renamed Trick Testimonial)"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "One Tenets book (entries keep their Tenet); no book links on pages; shorter purple-text Join; shorter banner, larger logo"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Red book bar; Aspirations page with three books side by side; Foundation book on its page; Quilt of the Considerate replaces the books list and offer page"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Symbol: heavier red outline, faint streaks, banner peeps above the ring, white cut-corner seam"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Symbol section wording; equal Aspire fields; disk outline and light-background banner edge"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Dotted tenet numerals; glossary trims; submit-item and report-issue forms with admin inbox"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Letter-button navigation; Glossary of Potentially Harmful Behaviors page with share buttons"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Why We Exist: new statement, tactics link; share-your-story button on each condemnation"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Shorter aspiration blocks; 'Harm is not suffering' becomes a Consideration"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Home: compact hero so the Aspirations title shows on arrival; blocks link straight to their books"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Tenets: Roman numeral headings as in the document"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Home: three aspiration blocks linking to their books; drop 'yet'"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Join: describe what an account is for"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Join: agreement and change-notice checkboxes; remove doctrine links and Giving section"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Bandaged heart label: My heart aches for you, or I care"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Use the mending (bandaged) heart for the wounded heart reaction"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Wounded heart counts as a caring, positive response"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Reactions and scrolling feeds; newest-10-then-most-positive order; remove Council page"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Contribute guidance visible before the database is connected"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Contribute: what a Consideration should contain; Wisdom review notice; public guidance"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Move each Aspiration's founding Consideration to its book page"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Add a Consideration links under every doctrine section; remove repeated document text"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Split doctrine pages: Foundation, Tenets, Definitions; aspirations on home; white ring"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Symbol: heavier inner wreaths, larger middle wreath"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Symbol: ombre between the streaks colours the whole dew drop"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Symbol: ten single-colour streaks where the rays cross the dew drop"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Symbol: prism throw in the dew drop; banner hangs from the pentagon base"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Symbol: larger dew drop with rainbow, inner wreath fitted to it"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Symbol: clear dew drop, heavier wreaths, ring under the outer points"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Symbol: three wreaths, each two braided pentagons"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Rebuild SOS symbol from its construction; add symbol section"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Liberation Serif font; new home page layout with three choices"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Sisters of Sonder emblem; remove OHT name from site; neutral member wording"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Hear My Voice: public anonymous stories indexed by doctrine"
+ },
+ {
+  "date": "2026-10-03",
+  "title": "Sync doctrine with finished Sacred Aspirations; Sisters of Sonder"
+ },
+ {
+  "date": "2026-10-02",
+  "title": "Equal admin access for House of Nisaba and Oracle of the Hallowed Tree"
+ },
+ {
+  "date": "2026-10-02",
+  "title": "Oracle platform: books of Considerations, member accounts, House of Nisaba review"
+ },
+ {
+  "date": "2026-10-02",
+  "title": "Initial commit from Create Next App"
+ }
+]
