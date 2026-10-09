@@ -104,23 +104,6 @@ export default function Privacy() {
           <h2>How long it is kept</h2>
           <p>Until you delete it, or an admin removes it.</p>
 
-          <h2>Your choices</h2>
-          <ul>
-            <li>
-              <strong>Withdraw a story</strong> at any time from your account page. It is deleted
-              completely.
-            </li>
-            <li>
-              <strong>Delete your account</strong> from your account page. This deletes your email
-              address, profile, Considerations, and reactions. Stories you have not withdrawn stay
-              published, with no link to you.
-            </li>
-          </ul>
-
-          <h2>Questions</h2>
-          <p>
-            Members can ask through <Link href="/report">Report an Issue</Link>.
-          </p>
         </div>
       </section>
     </>
