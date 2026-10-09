@@ -35,7 +35,7 @@ export default function Privacy() {
             </li>
             <li>
               <strong>Considerations you submit:</strong> the text, the book it belongs in, and a
-              link to your account. Once published, it shows the name you chose.
+              link to your account.
             </li>
             <li>
               <strong>Reactions:</strong> the reactions attached to Considerations. No one can see
@@ -83,7 +83,7 @@ export default function Privacy() {
             <li>
               <strong>Legal demands:</strong> anything stored here could be disclosed if the law
               requires it. Your records here help show your religious dedication to the{" "}
-              {ORG.name}, and we are happy to provide them on your behalf if requested by a lawyer.
+              {ORG.name}, and we are happy to provide them on your behalf if requested by you or your lawyer.
             </li>
           </ul>
 
